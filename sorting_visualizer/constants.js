@@ -1,0 +1,10 @@
+const MAX_BAR_VALUE = 150;
+const DISORDER_RATE = 0.05;
+
+
+
+
+
+
+
+export {MAX_BAR_VALUE, DISORDER_RATE}

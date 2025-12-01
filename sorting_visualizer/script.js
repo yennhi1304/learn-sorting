@@ -1,4 +1,4 @@
-import { toggleMainArea } from "./UIcontroller.js";
+import { toggleMainArea, generateAscending, generateDescending, generateNearlySorted } from "./UIcontroller.js";
 
 const compareToggle = document.getElementById("compareMode");
 
@@ -8,3 +8,5 @@ const dualBoard = document.getElementById("dual-board");
 compareToggle.addEventListener("change", () => {
     toggleMainArea(compareToggle, monoBoard, dualBoard)
 });
+
+let arr = generateNearlySorted(10);
