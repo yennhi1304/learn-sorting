@@ -70,6 +70,16 @@ async function playAnimation(event, barDivs, board) {
             bar.classList.remove("smallest");
             break;
         }
+        case "get_i": {
+            const bar = barDivs[event.i];
+            bar.classList.add("i");
+            break;
+        }
+        case "remove_i": {
+            const bar = barDivs[event.i];
+            bar.classList.remove("i");
+            break;
+        }
         default:
             break;
     }
