@@ -79,6 +79,14 @@ input, select {
     background: #72c8ff;
 }
 
+/* disabled buttons */
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #777 !important;
+    color: #333 !important;
+}
 /* Wrapper */
 .switch {
     position: relative;

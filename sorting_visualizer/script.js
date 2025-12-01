@@ -1,5 +1,6 @@
-import { toggleMainArea, renderBoard } from "./js/UIcontroller.js";
+import { toggleMainArea, renderBoard, lockUI, unlockUI } from "./js/UIcontroller.js";
 import { arrayGenerators } from "./js/arrayGenerators.js";
+import { state } from "./js/state.js";
 
 
 // DOM
@@ -7,7 +8,7 @@ import { arrayGenerators } from "./js/arrayGenerators.js";
 // buttons
 const compareToggle = document.getElementById("compareMode");
 const generateBtn = document.getElementById("generateBtn");
-
+const sortBtn = document.getElementById("sortBtn");
 
 // selections
 const arraySelection = document.getElementById("generate");
@@ -29,15 +30,17 @@ generateBtn.addEventListener("click", () => {
     // preparation
     const type = arraySelection.value;
     const arraySize = parseInt(arraySizeInput.value);
-    const mode = compareToggle.checked ? "comparison" : "single";
     // make an array
     const arr = arrayGenerators[type](arraySize);
     // render bar
-    if(mode === "comparison") {
+    if(state.mode == "dual") {
         renderBoard(arr, boardA);
         renderBoard(arr, boardB);
         
     } else {
         renderBoard(arr, monoBoard);
     }
+})
+sortBtn.addEventListener("click", () => {
+    lockUI(generateBtn, sortBtn);
 })
