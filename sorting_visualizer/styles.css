@@ -210,3 +210,30 @@ input, select {
     gap: 2px;
     overflow: hidden;
 }
+
+
+.bar {
+    width: 8px;
+    background: steelblue;
+    border-radius: 2px;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.bar.smallest { background: magenta; }
+.bar.sorted {background: green;}
+.bar.key { background: goldenrod; }
+
+.bar.write {background: violet;}
+.bar.range {
+    background: rgba(255, 255, 0, 0.2);
+}
+
+.left {
+    background: pink !important;     /* blue-ish */
+}
+
+.right {
+    background: rgba(255, 120, 120, 0.6) !important;    /* red-ish */
+}
+
+.bar.active { background: yellow !important;}

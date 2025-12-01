@@ -1,16 +1,5 @@
 import { MAX_BAR_VALUE, DISORDER_RATE } from "./constants.js";
-function toggleMainArea(toggle, monoBoard, dualBoard) {
-    console.log(monoBoard);
-    console.log(dualBoard);
-    if(toggle.checked) {
-        monoBoard.style.display = "none";
-        dualBoard.style.display = "flex";
-    } else {
-        monoBoard.style.display = "flex";
-        dualBoard.style.display = "none";
-    }
-}
-
+// array generation
 function generateRandom(size) {
     const arr = [];
     for (let i = 0; i < size; i++) {
@@ -20,7 +9,7 @@ function generateRandom(size) {
     return arr;
 }
 
-function generateAscending (size) {
+function generateAscending(size) {
     const arr = [];
 
 
@@ -34,7 +23,7 @@ function generateAscending (size) {
 }
 
 
-function generateDescending (size) {
+function generateDescending(size) {
     const arr = [];
 
 
@@ -55,17 +44,21 @@ function generateNearlySorted(size) {
     for (let i = 0; i < swaps; i++) {
         const a = Math.floor(Math.random() * size);
         const b = Math.floor(Math.random() * size);
-        [arr[a]. arr[b]] = [arr[b], arr[a]];
+        [arr[a], arr[b]] = [arr[b], arr[a]];
     }
 
 
     return arr;
 }
 
-export {
-    toggleMainArea,
-    generateAscending,
-    generateDescending,
-    generateNearlySorted,
-    generateRandom,
+
+const arrayGenerators = {
+    random: generateRandom,
+    ascending: generateAscending,
+    descending: generateDescending,
+    nearly: generateNearlySorted,
 }
+
+
+
+export { arrayGenerators, generateAscending, generateDescending, generateRandom, generateNearlySorted };
