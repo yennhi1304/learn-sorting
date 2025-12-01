@@ -155,7 +155,7 @@ input, select {
 }
 
 /* Normal single board mode */
-#visual-board {
+#mono-board {
     width: 100%;
     height: calc(100vh - 20px - 20px - 40px); 
     /* 100vh - top padding - bottom padding - title bar height */
@@ -172,7 +172,7 @@ input, select {
 
 /* --- COMPARISON MODE SECTION (fits entire screen) --- */
 
-#comparison-wrapper {
+#dual-board {
     flex: 1;
     display: none;
     flex-direction: column;

@@ -1,14 +1,10 @@
+import { toggleMainArea } from "./UIcontroller.js";
+
 const compareToggle = document.getElementById("compareMode");
 
-const visualBoard = document.getElementById("visual-board");
-const comparisonWrapper = document.getElementById("comparison-wrapper");
+const monoBoard = document.getElementById("mono-board");
+const dualBoard = document.getElementById("dual-board");
 
 compareToggle.addEventListener("change", () => {
-    if (compareToggle.checked) {
-        visualBoard.style.display = "none";
-        comparisonWrapper.style.display = "flex";
-    } else {
-        visualBoard.style.display = "flex";
-        comparisonWrapper.style.display = "none";
-    }
+    toggleMainArea(compareToggle, monoBoard, dualBoard)
 });
