@@ -2,41 +2,115 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sorting Visualizer</title>
-
-  <link rel="stylesheet" href="style.css">
-  <script src="index.js" type="module" defer></script>
+    <meta charset="UTF-8">
+    <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <div class="container">
+
+    <!-- SIDEBAR (unchanged) -->
     <div class="sidebar">
-      <select id="selectAlgorithm" class="select-algorithm">
-        <option value="bubbleSort" selected>Bubble Sort</option>
-        <option value="selectionSort">Selection Sort</option>
-        <option value="quickSort">Quick Sort</option>
-      </select>
+        <h2>Controls</h2>
 
-      <div class="generate-new">
-        <p>Generate New Array</p>
-        <input type="number" id="numbersBars" min="1" max="500" value="50">
-        <button id="generateBtn">New</button>
-      </div>
+        <div class="control-group">
+            <label for="algo">Algorithm:</label>
+            <select id="algo">
+                <option value="bubble">Bubble Sort</option>
+                <option value="insertion">Insertion Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="merge">Merge Sort</option>
+                <option value="quick">Quick Sort</option>
+            </select>
+        </div>
 
-      <div class="buttons">
-        <button id="solveBtn">Solve</button>
-      </div>
+        <div class="control-group">
+            <label for="size">Array Size:</label>
+            <input type="number" id="size" min="5" max="200" value="50">
+        </div>
 
-      <div class="speed-box">
-        <p>Speed</p>
-        <input type="range" id="speedSlider" min="1" max="200" value="80">
-      </div>
+        <div class="control-group">
+            <label for="speed">Speed:</label>
+            <input type="range" id="speed" min="1" max="100" value="50">
+        </div>
+
+        <div class="control-group">
+            <label for="generate">Generate Array:</label>
+
+            <div class="generate-row">
+                <select id="generate">
+                    <option value="random">Random</option>
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                </select>
+
+                <button id="generateBtn" class="generate-btn">Generate</button>
+            </div>
+        </div>
+
+
+        <div class="control-group toggle-container">
+            <label>Comparison Mode</label>
+            <label class="switch">
+                <input type="checkbox" id="compareMode">
+                <span class="switch-slider"></span>
+            </label>
+        </div>
+
+        <button id="sortBtn" class="sort-btn">Sort</button>
     </div>
 
-    <div class="stage" id="stage"></div>
-  </div>
+
+
+    <!-- MAIN AREA -->
+    <div class="main">
+
+
+        <!-- NORMAL SINGLE BOARD -->
+        <div id="visual-board"></div>
+
+        <!-- COMPARISON MODE LAYOUT -->
+        <div id="comparison-wrapper">
+
+            <!-- BOARD A SECTION -->
+            <div class="board-section">
+                <div class="board-controls">
+                    <label>Algorithm A:</label>
+                    <select id="algoA">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="insertion">Insertion Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="quick">Quick Sort</option>
+                    </select>
+                    <button id="sortA">Sort A</button>
+                </div>
+
+                <div class="board" id="boardA"></div>
+            </div>
+
+            <!-- BOARD B SECTION -->
+            <div class="board-section">
+                <div class="board-controls">
+                    <label>Algorithm B:</label>
+                    <select id="algoB">
+                        <option value="bubble">Bubble Sort</option>
+                        <option value="insertion">Insertion Sort Sort</option>
+                        <option value="selection">Selection Sort</option>
+                        <option value="merge">Merge Sort</option>
+                        <option value="quick">Quick Sort</option>
+                    </select>
+                    <button id="sortB">Sort B</button>
+                </div>
+
+                <div class="board" id="boardB"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>

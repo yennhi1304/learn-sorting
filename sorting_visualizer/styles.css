@@ -1,0 +1,212 @@
+/* Prevent scrolling globally */
+html,
+body {
+    margin: 0;
+    padding: 0;
+    background: #111;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    /* <--- prevents page scroll */
+    height: 100vh;
+    width: 100vw;
+
+    display: flex;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    background: #1b1b1b;
+    height: 100vh;
+    padding: 20px;
+    border-right: 2px solid #333;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    left: 0;
+    top: 0;
+}
+
+/* Generate button */
+
+.generate-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.generate-btn {
+    padding: 6px 14px;
+    background: #4ea8de;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #111;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.generate-btn:hover {
+    background: #72c8ff;
+}
+
+/* selection bar */
+
+input, select {
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid #444;
+    background: #222;
+    color: #eee;
+}
+
+/* sort btn */
+
+.sort-btn {
+    padding: 10px 20px;
+    background: #4ea8de;
+    border: none;
+    border-radius: 6px;
+    color: #111;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.sort-btn:hover {
+    background: #72c8ff;
+}
+
+/* Wrapper */
+.switch {
+    position: relative;
+    display: inline-block;     /* IMPORTANT */
+    width: 42px;
+    height: 22px;
+}
+
+/* Hide the default checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* Track */
+.switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0;
+    right: 0; bottom: 0;
+
+    background-color: #555;
+    transition: 0.3s;
+    border-radius: 34px;
+    display: block;          /* IMPORTANT */
+}
+
+/* Knob */
+.switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+/* Checked state */
+.switch input:checked + .switch-slider {
+    background-color: #4ea8de;
+}
+
+.switch input:checked + .switch-slider:before {
+    transform: translateX(20px);
+}
+
+
+
+
+/* MAIN AREA: fixed height, no scroll */
+.main {
+    width: calc(100vw - 260px);
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    padding: 20px;              /* ← added */
+    box-sizing: border-box;     /* ← important so padding fits */
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #4ea8de;
+    flex: 0 0 auto;
+}
+
+/* Normal single board mode */
+#visual-board {
+    width: 100%;
+    height: calc(100vh - 20px - 20px - 40px); 
+    /* 100vh - top padding - bottom padding - title bar height */
+
+    background: #222;
+    border-radius: 8px;
+
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    overflow: hidden;
+}
+
+
+/* --- COMPARISON MODE SECTION (fits entire screen) --- */
+
+#comparison-wrapper {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+
+    gap: 20px;              /* ← spacing between boards */
+}
+
+/* board-section uses half screen each */
+.board-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 5px 0;
+}
+
+/* Board controls become a small fixed bar */
+.board-controls {
+    flex: 0 0 40px;
+    /* small bar at top */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 10px;
+}
+
+/* Each board fits remaining height */
+.board {
+    flex: 1;
+    background: #222;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    overflow: hidden;
+}
