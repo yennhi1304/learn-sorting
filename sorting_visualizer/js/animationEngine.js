@@ -2,6 +2,7 @@ import { sleep } from "./untils.js";
 
 
 async function playAnimation(event, ms, barDivs, board) {
+    // console.log(event);
     switch (event.type) {
         case "comparison":
             {
@@ -34,7 +35,7 @@ async function playAnimation(event, ms, barDivs, board) {
                 barA.style.transform = `translateX(${distance}px)`;
                 barB.style.transform = `translateX(${-distance}px)`;
 
-                await sleep();
+                await sleep(ms);
 
                 barA.style.transform = "";
                 barB.style.transform = "";
@@ -51,10 +52,23 @@ async function playAnimation(event, ms, barDivs, board) {
                 barDivs.forEach((bar) => board.appendChild(bar));
                 break;
             }
+        case "sorted": {
+            const bar = barDivs[event.i];
+            bar.classList.add("sorted");
+            await sleep(ms);
+            bar.classList.remove("sorted");
+            break;
+        }
+        case "permanent_sorted": {
+            const bar = barDivs[event.i];
+            bar.classList.add("sorted");
+            await sleep(ms);
+            break;
+        }
         default:
             break;
     }
 }
 
 
-export {playAnimation};
+export { playAnimation };

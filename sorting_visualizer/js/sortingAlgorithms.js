@@ -70,10 +70,3 @@ export {
     bubbleSort,
     selectionSort,
 }
-
-let arr = [1, 9, 20, 8, 7];
-
-
-
-console.log(selectionSort(arr));
-console.log(arr);

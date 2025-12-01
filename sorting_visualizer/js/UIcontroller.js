@@ -42,9 +42,11 @@ function unlockUI (generateBtn, sortBtn) {
 }
 
 
+
+
 export {
     toggleMainArea,
     renderBoard,
     lockUI,
-    unlockUI
+    unlockUI,
 }
