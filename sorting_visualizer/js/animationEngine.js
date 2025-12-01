@@ -1,10 +1,10 @@
 import { sleep } from "./untils.js";
+import { state } from "./state.js";
 
 
-async function playAnimation(event, ms, barDivs, board) {
-    // console.log(event);
+async function playAnimation(event, barDivs, board) {
     switch (event.type) {
-        case "comparison":
+        case "compare":
             {
                 const barA = barDivs[event.i];
                 const barB = barDivs[event.j];
@@ -12,7 +12,7 @@ async function playAnimation(event, ms, barDivs, board) {
                 barA.classList.add("active");
                 barB.classList.add("active");
 
-                await sleep(ms);
+                await sleep(state.delay);
 
                 barA.classList.remove("active");
                 barB.classList.remove("active");
@@ -28,20 +28,15 @@ async function playAnimation(event, ms, barDivs, board) {
 
                 const distance = rectB.left - rectA.left;
 
-                barA.classList.add("active");
-                barB.classList.add("active");
+                barA.classList.add("swap");
+                barB.classList.add("swap");
 
-                // for show
-                barA.style.transform = `translateX(${distance}px)`;
-                barB.style.transform = `translateX(${-distance}px)`;
 
-                await sleep(ms);
+                await sleep(state.delay);
 
-                barA.style.transform = "";
-                barB.style.transform = "";
 
-                barA.classList.remove("active");
-                barB.classList.remove("active");
+                barA.classList.remove("swap");
+                barB.classList.remove("swap");
                 // for show
 
 
@@ -55,14 +50,24 @@ async function playAnimation(event, ms, barDivs, board) {
         case "sorted": {
             const bar = barDivs[event.i];
             bar.classList.add("sorted");
-            await sleep(ms);
+            await sleep(state.delay);
             bar.classList.remove("sorted");
             break;
         }
         case "permanent_sorted": {
             const bar = barDivs[event.i];
             bar.classList.add("sorted");
-            await sleep(ms);
+            await sleep(state.delay);
+            break;
+        }
+        case "get_smallest": {
+            const bar = barDivs[event.i];
+            bar.classList.add("smallest");
+            break;
+        }
+        case "remove_smallest": {
+            const bar = barDivs[event.i];
+            bar.classList.remove("smallest");
             break;
         }
         default:

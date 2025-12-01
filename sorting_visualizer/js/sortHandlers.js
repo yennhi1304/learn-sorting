@@ -4,7 +4,8 @@ import { playAnimation } from "./animationEngine.js";
 import { renderBoard } from "./UIcontroller.js";
 
 
-async function runSingleSort(monoboard, sortType, ms) {
+
+async function runSingleSort(monoboard, sortType) {
     // copy from the base array
     let arr = [...state.baseArray];
     // rerender board
@@ -16,7 +17,7 @@ async function runSingleSort(monoboard, sortType, ms) {
     
     // play animation
     for (const event of events) {
-        await playAnimation(event, ms, barDivs, monoboard);
+        await playAnimation(event, barDivs, monoboard);
     }
 
 }

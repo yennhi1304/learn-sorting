@@ -12,4 +12,6 @@ export const state = {
     },
 
     isSorting: false,
+
+    delay: 300,
 };

@@ -1,10 +1,11 @@
 const MAX_BAR_VALUE = 150;
 const DISORDER_RATE = 0.05;
+const MAX_DELAY = 600;
+const MIN_DELAY = 0;
 
 
 
 
 
 
-
-export {MAX_BAR_VALUE, DISORDER_RATE}
+export {MAX_BAR_VALUE, DISORDER_RATE, MAX_DELAY, MIN_DELAY}

@@ -46,6 +46,7 @@ function selectionSort(arr) {
             [arr[smallest_i], arr[i]] = [arr[i], arr[smallest_i]];
             events.push({type: "swap", i: smallest_i, j: i});
         }
+        events.push({type: "remove_smallest", i: i});
         events.push({type: "sorted", i: i});
     }
 
