@@ -55,7 +55,7 @@ body {
 
 /* selection bar */
 
-input, select {
+input:not([type="range"]), select {
     padding: 5px 10px;
     border-radius: 6px;
     border: 1px solid #444;
@@ -115,6 +115,8 @@ button:disabled {
     display: block;          /* IMPORTANT */
 }
 
+
+
 /* Knob */
 .switch-slider:before {
     position: absolute;
@@ -129,6 +131,16 @@ button:disabled {
     transition: 0.3s;
 }
 
+.switch input:disabled + .slider {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.switch input:disabled + .slider:before {
+    cursor: not-allowed;
+    background-color: #aaa;
+}
+
 /* Checked state */
 .switch input:checked + .switch-slider {
     background-color: #4ea8de;
@@ -137,6 +149,8 @@ button:disabled {
 .switch input:checked + .switch-slider:before {
     transform: translateX(20px);
 }
+
+
 
 
 
@@ -224,12 +238,13 @@ button:disabled {
     width: 8px;
     background: steelblue;
     border-radius: 2px;
-    transition: transform 0.25s ease, background 0.25s ease;
+    transition: background 0.25s ease;
 }
 
-.bar.smallest { background: magenta; }
+
 .bar.sorted {background: green;}
 .bar.key { background: goldenrod; }
+
 
 .bar.write {background: violet;}
 .bar.range {
@@ -237,11 +252,14 @@ button:disabled {
 }
 
 .left {
-    background: pink !important;     /* blue-ish */
+    background: pink;     /* blue-ish */
 }
 
 .right {
-    background: rgba(255, 120, 120, 0.6) !important;    /* red-ish */
+    background: rgba(255, 120, 120, 0.6);    /* red-ish */
 }
 
-.bar.active { background: yellow !important;}
+.bar.i{background: pink;}
+.bar.active { background: yellow;}
+.bar.smallest { background: yellow; }
+.bar.swap{background: orange;}

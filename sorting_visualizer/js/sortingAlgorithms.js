@@ -68,13 +68,16 @@ function insertionSort(arr) {
             } else {
                 break;
             }
-            
+
         }
 
         events.push({ type: "remove_key", i: key_index });
         events.push({ type: "permanent_sorted", i: j + 1 });
-        if ((i === 1 && j + 1 === 0) || (i === 1 && j === 0)) {
-            events.push({ type: "permanent_sorted", i: i });
+        if ((i === 1 && j + 1 === 0)) {
+            events.push({ type: "permanent_sorted", i: 1 });
+        }
+        if (i === 1 && j === 0) {
+            events.push({ type: "permanent_sorted", i: 0 });
         }
     }
 
