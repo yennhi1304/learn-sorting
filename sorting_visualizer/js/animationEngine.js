@@ -28,15 +28,15 @@ async function playAnimation(event, barDivs, board) {
 
                 const distance = rectB.left - rectA.left;
 
-                barA.classList.add("swap");
-                barB.classList.add("swap");
+                barA.classList.add("active");
+                barB.classList.add("active");
 
 
                 await sleep(state.delay);
 
 
-                barA.classList.remove("swap");
-                barB.classList.remove("swap");
+                barA.classList.remove("active");
+                barB.classList.remove("active");
                 // for show
 
 
@@ -57,7 +57,6 @@ async function playAnimation(event, barDivs, board) {
         case "permanent_sorted": {
             const bar = barDivs[event.i];
             bar.classList.add("sorted");
-            await sleep(state.delay);
             break;
         }
         case "get_smallest": {
@@ -78,6 +77,41 @@ async function playAnimation(event, barDivs, board) {
         case "remove_i": {
             const bar = barDivs[event.i];
             bar.classList.remove("i");
+            break;
+        }
+        case "get_key": {
+            const bar = barDivs[event.i];
+            bar.classList.add("key");
+            await sleep(state.delay);
+            break;
+        }
+
+        case "remove_key": {
+            const bar = barDivs[event.i];
+            bar.classList.remove("key");
+            break;
+        }
+        case "shift_left": {
+            const targetBar = barDivs[event.source];
+            const sourceBar = barDivs[event.target];
+
+            targetBar.classList.add("active");
+            // barB.classList.add("active");
+
+
+            await sleep(state.delay);
+
+
+            targetBar.classList.remove("active");
+            // barB.classList.remove("active");
+            // for show
+
+
+            // actual swap
+            [barDivs[event.source], barDivs[event.target]] =
+                [barDivs[event.target], barDivs[event.source]];
+            board.innerHTML = "";
+            barDivs.forEach((bar) => board.appendChild(bar));
             break;
         }
         default:

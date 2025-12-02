@@ -30,15 +30,16 @@ function renderBoard (arr, board) {
     })
 }
 
-function lockUI(generateBtn, sortBtn) {
-    console.log("Locking");
+function lockUI(generateBtn, sortBtn, compareToggle) {
     generateBtn.disabled = true;
     sortBtn.disabled = true;
+    compareToggle.disabled = true;
 }
 
-function unlockUI (generateBtn, sortBtn) {
+function unlockUI (generateBtn, sortBtn, compareToggle) {
     generateBtn.disabled = false;
     sortBtn.disabled = false;
+    compareToggle.disabled = false;
 }
 
 

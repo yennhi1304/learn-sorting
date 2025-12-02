@@ -15,16 +15,13 @@ function bubbleSort(arr) {
                 events.push({ type: "swap", i: j, j: j + 1 });
             }
         }
-        if (!swapped) {
-            break;
-        }
+        // if (!swapped) {
+        //     break;
+        // }
         // sorted element
-        events.push({ type: "sorted", i: arr.length - i - 1 });
+        events.push({ type: "permanent_sorted", i: arr.length - i - 1 });
     }
-    // sorted list
-    for (let i = 0; i < arr.length; i++) {
-        events.push({ type: "permanent_sorted", i: i });
-    }
+    events.push({ type: "permanent_sorted", i: 0 });
     return events;
 }
 
@@ -33,7 +30,6 @@ function selectionSort(arr) {
     const events = [];
     for (let i = 0; i < arr.length - 1; i++) {
         let smallest_i = i;
-        events.push({ type: "get_i", i: i });
         for (let j = i + 1; j < arr.length; j++) {
             events.push({ type: "compare", i: smallest_i, j: j });
             if (arr[j] < arr[smallest_i]) {
@@ -43,16 +39,43 @@ function selectionSort(arr) {
         if (smallest_i !== i) {
             [arr[smallest_i], arr[i]] = [arr[i], arr[smallest_i]];
             events.push({ type: "swap", i: smallest_i, j: i });
-            events.push({ type: "remove_i", i: smallest_i });
-
-        } else {
-            events.push({ type: "remove_i", i: i });
         }
-        events.push({ type: "sorted", i: i });
+        events.push({ type: "permanent_sorted", i: i });
     }
 
-    for (let i = 0; i < arr.length; i++) {
-        events.push({ type: "permanent_sorted", i: i });
+    events.push({ type: "permanent_sorted", i: arr.length - 1 });
+
+
+    return events;
+}
+
+
+function insertionSort(arr) {
+    let events = [];
+
+    for (let i = 1; i < arr.length; i++) {
+        let key_index = i;
+        events.push({ type: "get_key", i: key_index })
+        // mark the boundary
+        let j = i - 1;
+        while (j >= 0) {
+            // events.push({type: "compare", i: key_index, j: j});
+            if (arr[key_index] < arr[j]) {
+                [arr[j], arr[key_index]] = [arr[key_index], arr[j]];
+                events.push({ type: "shift_left", source: key_index, target: j });
+                key_index = j;
+                j--;
+            } else {
+                break;
+            }
+            
+        }
+
+        events.push({ type: "remove_key", i: key_index });
+        events.push({ type: "permanent_sorted", i: j + 1 });
+        if ((i === 1 && j + 1 === 0) || (i === 1 && j === 0)) {
+            events.push({ type: "permanent_sorted", i: i });
+        }
     }
 
     return events;
@@ -63,6 +86,7 @@ function selectionSort(arr) {
 const algorithmMap = {
     bubble: bubbleSort,
     selection: selectionSort,
+    insertion: insertionSort,
 }
 
 
@@ -71,4 +95,5 @@ export {
     algorithmMap,
     bubbleSort,
     selectionSort,
+    insertionSort
 }
