@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <button id="modeToggle">🌙 Dark Mode</button>
+        <a class="nav-item" href="#settings">Settings</a>
+        <a class="nav-item" href="#learn-sorting">Learn Sorting</a>
+        <a class="nav-item" href="#sorting-visualizer">Sorting Visualizer</a>
+        <a class="nav-item" href="#code-checker">Code Checker Practice</a>
+        <a class="nav-item" href="#games">Games</a>
+    </div>
+    <div class="container">
+        <div class="sorting">
+            <div class="circle">
+                <svg viewBox="0 0 100 100">
+
+                    <!--    M x y (move command) Draw an arc
+                        L x y (line command)
+                        A rx ry x-axis-rotation large-arc-flag sweep-flag x y - arc along circle
+                    (Arc radius                      clockwise or not  arc-end point)
+                        Z
+                
+                -->
+                    <g id="slice-layer">
+                        <!-- Slice 1 -->
+                        <g data-id="0" class="slice">
+                            <path d="M50 50 L50 0 A50 50 0 0 1 97.55 34.55 Z" stroke="white" stroke-width="0.5"
+                                fill="#75abd4">
+                            </path>
+                            <text id="sliceText" x="65" y="20" font-size="5" font-weight="bold">Slice 1</text>
+                        </g>
+
+                        <!-- Slice 2 -->
+                        <g data-id="1" class="slice">
+                            <path d="M50 50 L97.55 34.55 A50 50 0 0 1 79.39 90.45 Z" stroke="white" stroke-width="0.5"
+                                fill="#b9e3aa"></path>
+                            <text id="sliceText" x="82" y="60" font-size="5" font-weight="bold">Slice 2</text>
+                        </g>
+
+                        <!-- Slice 3 -->
+                        <g data-id="2" class="slice">
+                            <path d="M50 50 L79.39 90.45 A50 50 0 0 1 20.61 90.45 Z" stroke="white" stroke-width="0.5"
+                                fill="#f9767f"></path>
+                            <text id="sliceText" x="50" y="82" font-size="5" font-weight="bold">Slice 3</text>
+                        </g>
+
+                        <!-- Slice 4 -->
+                        <g data-id="3" class="slice">
+
+                            <path d="M50 50 L20.61 90.45 A50 50 0 0 1 2.45 34.55 Z" stroke="white" stroke-width="0.5"
+                                fill="#f8a1c0"></path>
+                            <text id="sliceText" x="18" y="60" font-size="5" font-weight="bold">Slice 4</text>
+                        </g>
+
+
+                        <!-- Slice 5 -->
+                        <g data-id="4" class="slice">
+                            <path d="M50 50 L2.45 34.55 A50 50 0 0 1 50 0 Z" stroke="white" stroke-width="0.5"
+                                fill="#c0d3e7">
+                            </path>
+                            <text id="sliceText" x="32" y="20" font-size="5" font-weight="bold">Slice 5</text>
+
+                        </g>
+                    </g>
+
+                    <g>
+                        <!-- Center white circle -->
+                        <circle cx="50" cy="50" r="22" fill="white"></circle>
+
+                        <!-- Center dashed circle and text -->
+                        <circle cx="50" cy="50" r="20" fill="white" stroke="black" stroke-width="0.2"
+                            stroke-dasharray="1 1">
+                        </circle>
+                        <text id="text" x="50" y="46" font-size="6" font-weight="bold" fill="black">Learning</text>
+                        <text id="text" x="50" y="54" font-size="4" fill="black">Basic Sorting</text>
+                    </g>
+                </svg>
+            </div>
+
+        </div>
+        <div class="theory-container">
+            <div id="contentBox"></div>
+        </div>
+    </div>
+</body>
+<script src="script.js"></script>
+
+
+</html>
