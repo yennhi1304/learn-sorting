@@ -2,135 +2,6 @@ import { sleep } from "./untils.js";
 import { state } from "./state.js";
 
 
-// async function playAnimation(event, barDivs, board) {
-//     switch (event.type) {
-//         case "compare":
-//             {
-//                 const barA = barDivs[event.i];
-//                 const barB = barDivs[event.j];
-
-//                 barA.classList.add("active");
-//                 barB.classList.add("active");
-
-//                 await sleep(state.delay);
-
-//                 barA.classList.remove("active");
-//                 barB.classList.remove("active");
-//                 break;
-//             }
-//         case "swap":
-//             {
-//                 const barA = barDivs[event.i];
-//                 const barB = barDivs[event.j];
-
-//                 const rectA = barA.getBoundingClientRect();
-//                 const rectB = barB.getBoundingClientRect();
-
-//                 const distance = rectB.left - rectA.left;
-
-//                 barA.classList.add("swap");
-//                 barB.classList.add("swap");
-
-//                 barA.style.transform = `translateX(${distance}px)`;
-//                 barB.style.transform = `translateX(${-distance}px)`;
-
-
-//                 await sleep(state.delay);
-
-//                 barA.style.transform = "";
-//                 barB.style.transform = "";
-
-
-//                 barA.classList.remove("swap");
-//                 barB.classList.remove("swap");
-//                 // for show
-
-
-//                 // actual swap
-//                 [barDivs[event.i], barDivs[event.j]] =
-//                     [barDivs[event.j], barDivs[event.i]];
-//                 board.innerHTML = "";
-//                 barDivs.forEach((bar) => board.appendChild(bar));
-//                 break;
-//             }
-//         case "permanent_sorted": {
-//             const bar = barDivs[event.i];
-//             bar.classList.add("sorted");
-//             await sleep(state.delay);
-//             break;
-//         }
-//         case "sorted": {
-//             const bar = barDivs[event.i];
-//             bar.classList.add("sorted");
-//             break;
-//         }
-//         case "get_smallest": {
-//             const bar = barDivs[event.i];
-//             bar.classList.add("smallest");
-//             break;
-//         }
-//         case "remove_smallest": {
-//             const bar = barDivs[event.i];
-//             bar.classList.remove("smallest");
-//             break;
-//         }
-//         case "get_key": {
-//             const bar = barDivs[event.i];
-//             bar.classList.add("active");
-//             await sleep(state.delay);
-//             bar.classList.remove("active");
-//             break;
-//         }
-
-//         case "remove_key": {
-//             const bar = barDivs[event.i];
-//             bar.classList.remove("key");
-//             break;
-//         }
-//         case "shift_right": {
-//             const bar = barDivs[event.source];
-
-//             // bar.classList.add("shift");
-//             // await sleep(state.delay);
-//             // bar.classList.remove("shift");
-
-//             // SHIFT (not swap!)
-//             barDivs.splice(event.source, 1);      // remove original
-//             barDivs.splice(event.target, 0, bar); // insert at right spot
-
-//             // re-render
-//             board.innerHTML = "";
-//             barDivs.forEach(b => board.appendChild(b));
-
-//             break;
-//         }
-//         case "insert_key": {
-//             const bar = barDivs[event.i];
-//             bar.classList.add("active");
-//             await sleep(state.delay);
-//             bar.classList.remove("active");
-//             break;
-//         }
-//         case "flash": {
-//             const bar = barDivs[event.i];
-//             bar.classList.add("flash");
-//             await sleep(state.delay);
-//             bar.classList.remove("flash");
-//             break;
-//         }
-//         case "mark_all_sorted": {
-//             for (let idx of event.indices) {
-//                 const bar = barDivs[idx];
-//                 bar.classList.add("sorted");
-//                 await sleep(state.delay * 0.3); // optional effect
-//             }
-//             break;
-//         }
-//         default:
-//             break;
-//     }
-// }
-
 async function playAnimation(event, barDivs, board) {
     switch (event.type) {
 
@@ -311,7 +182,7 @@ async function playAnimationAuto(event, barDivs, board) {
             break;
         }
 
-        case "shift_right": {
+        case "shift": {
             const bar = barDivs[event.source];
 
             // move bars instantly without colors
@@ -343,8 +214,6 @@ async function playAnimationAuto(event, barDivs, board) {
             }
             break;
         }
-
-        // ignore compare, key, smallest, flash, insert, etc.
     }
 }
 
@@ -352,7 +221,6 @@ async function playAnimationAuto(event, barDivs, board) {
 
 
 function playAnimationInstant(event, barDivs, board) {
-    console.log(event);
     switch (event.type) {
 
         case "compare": {
@@ -372,7 +240,7 @@ function playAnimationInstant(event, barDivs, board) {
             break;
         }
 
-        case "shift_right": {
+        case "shift": {
             const bar = barDivs[event.source];
             bar.classList.add("shift");
 
@@ -385,7 +253,7 @@ function playAnimationInstant(event, barDivs, board) {
         }
 
         case "insert_key": {
-            barDivs[event.i].classList.add("insert");
+            barDivs[event.i].classList.add("key");
             break;
         }
 
@@ -414,14 +282,8 @@ function playAnimationInstant(event, barDivs, board) {
             break;
         }
 
-        case "sorted":
-        case "permanent_sorted": {
+        case "sorted": {
             barDivs[event.i].classList.add("sorted");
-            break;
-        }
-
-        case "flash": {
-            barDivs[event.i].classList.add("flash");
             break;
         }
 
