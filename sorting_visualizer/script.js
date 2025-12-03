@@ -1,7 +1,7 @@
-import { toggleMainArea, renderBoard, lockUI, unlockUI} from "./js/UIcontroller.js";
+import { toggleMainArea, renderBoard, lockUI, unlockUI } from "./js/UIcontroller.js";
 import { arrayGenerators } from "./js/arrayGenerators.js";
 import { state } from "./js/state.js";
-import { runSingleSort } from "./js/sortHandlers.js";
+import { runDualSort, runSingleSort } from "./js/sortHandlers.js";
 import { MAX_DELAY, MIN_DELAY } from "./js/constants.js";
 
 
@@ -17,6 +17,8 @@ const arraySelection = document.getElementById("generate");
 const arraySizeInput = document.getElementById("size");
 const sortTypeInput = document.getElementById("algo");
 const speedSlider = document.getElementById("speed");
+const sortTypeAInput = document.getElementById("algoA");
+const sortTypeBInput = document.getElementById("algoB");
 // boards
 const monoBoard = document.getElementById("mono-board");
 const dualBoard = document.getElementById("dual-board");
@@ -49,7 +51,6 @@ generateBtn.addEventListener("click", () => {
 })
 sortBtn.addEventListener("click", async () => {
 
-    const sortType = sortTypeInput.value;
     // guard rail
     if (state.isSorting) return;
 
@@ -60,9 +61,17 @@ sortBtn.addEventListener("click", async () => {
 
     state.isSorting = true;
     lockUI(generateBtn, sortBtn, compareToggle);
-    
 
-    await runSingleSort(monoBoard, sortType);
+
+    if (state.mode == "mono") {
+        const sortType = sortTypeInput.value;
+        await runSingleSort(monoBoard, sortType);
+    }
+    else {
+        const sortTypeA = sortTypeAInput.value;
+        const sortTypeB = sortTypeBInput.value;
+        await runDualSort(boardA, boardB, sortTypeA, sortTypeB);
+    }
 
 
     // remove guard rail

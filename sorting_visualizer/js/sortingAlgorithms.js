@@ -1,5 +1,11 @@
 
 
+function markedAllSort(arr, events) {
+    for (let i = 0; i < arr.length; i++) {
+        events.push({ type: "sorted", i: i });
+    }
+}
+
 
 
 function bubbleSort(arr) {
@@ -15,13 +21,13 @@ function bubbleSort(arr) {
                 events.push({ type: "swap", i: j, j: j + 1 });
             }
         }
-        // if (!swapped) {
-        //     break;
-        // }
+        if (!swapped) {
+            break;
+        }
         // sorted element
-        events.push({ type: "permanent_sorted", i: arr.length - i - 1 });
+        events.push({ type: "sorted", i: arr.length - i - 1 });
     }
-    events.push({ type: "permanent_sorted", i: 0 });
+    markedAllSort(arr, events);
     return events;
 }
 
@@ -40,47 +46,98 @@ function selectionSort(arr) {
             [arr[smallest_i], arr[i]] = [arr[i], arr[smallest_i]];
             events.push({ type: "swap", i: smallest_i, j: i });
         }
-        events.push({ type: "permanent_sorted", i: i });
+        events.push({ type: "sorted", i: i });
     }
-
-    events.push({ type: "permanent_sorted", i: arr.length - 1 });
-
-
+    markedAllSort(arr, events);
     return events;
 }
 
+
+// function insertionSort(arr) {
+//     let events = [];
+
+//     for (let i = 1; i < arr.length; i++) {
+//         let key_index = i;
+//         events.push({ type: "get_key", i: key_index })
+//         // mark the boundary
+//         let j = i - 1;
+//         while (j >= 0) {
+//             events.push({type: "compare", i: key_index, j: j});
+//             if (arr[key_index] < arr[j]) {
+//                 [arr[j], arr[key_index]] = [arr[key_index], arr[j]];
+//                 events.push({ type: "shift_left", source: key_index, target: j });
+//                 key_index = j;
+//                 j--;
+//             } else {
+//                 break;
+//             }
+
+//         }
+
+//         events.push({ type: "remove_key", i: key_index });
+//         events.push({ type: "sorted", i: j + 1 });
+//         if ((i === 1 && j + 1 === 0)) {
+//             events.push({ type: "sorted", i: 1 });
+//         }
+//         if (i === 1 && j === 0) {
+//             events.push({ type: "sorted", i: 0 });
+//         }
+//     }
+
+//     return events;
+// }
 
 function insertionSort(arr) {
     let events = [];
 
     for (let i = 1; i < arr.length; i++) {
-        let key_index = i;
-        events.push({ type: "get_key", i: key_index })
-        // mark the boundary
+
+        let keyValue = arr[i];
         let j = i - 1;
-        while (j >= 0) {
-            // events.push({type: "compare", i: key_index, j: j});
-            if (arr[key_index] < arr[j]) {
-                [arr[j], arr[key_index]] = [arr[key_index], arr[j]];
-                events.push({ type: "shift_left", source: key_index, target: j });
-                key_index = j;
-                j--;
-            } else {
-                break;
-            }
 
+        // highlight key bar
+        events.push({ type: "get_key", i });
+
+        // SHIFT PHASE
+        while (j >= 0 && arr[j] > keyValue) {
+
+            events.push({
+                type: "compare",
+                i: j,
+                j: j + 1
+            });
+
+            arr[j + 1] = arr[j];  // shift right
+
+            events.push({
+                type: "shift_right",
+                source: j,
+                target: j + 1
+            });
+
+            j--;
         }
 
-        events.push({ type: "remove_key", i: key_index });
-        events.push({ type: "permanent_sorted", i: j + 1 });
-        if ((i === 1 && j + 1 === 0)) {
-            events.push({ type: "permanent_sorted", i: 1 });
-        }
-        if (i === 1 && j === 0) {
-            events.push({ type: "permanent_sorted", i: 0 });
+        // INSERT KEY
+        arr[j + 1] = keyValue;
+
+        events.push({
+            type: "insert_key",
+            index: j + 1
+        });
+
+        events.push({
+            type: "sorted",
+            i: j + 1
+        });
+        if (j === i - 1) {
+            events.push({
+                type: "sorted",
+                i: i - 1
+            });
         }
     }
-
+    markedAllSort(arr, events);
     return events;
 }
 

@@ -31,6 +31,7 @@ function renderBoard (arr, board) {
 }
 
 function lockUI(generateBtn, sortBtn, compareToggle) {
+    console.log("UI is locked");
     generateBtn.disabled = true;
     sortBtn.disabled = true;
     compareToggle.disabled = true;
@@ -40,6 +41,7 @@ function unlockUI (generateBtn, sortBtn, compareToggle) {
     generateBtn.disabled = false;
     sortBtn.disabled = false;
     compareToggle.disabled = false;
+    console.log("UI is unlocked");
 }
 
 

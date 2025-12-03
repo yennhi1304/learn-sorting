@@ -47,14 +47,13 @@ async function playAnimation(event, barDivs, board) {
                 barDivs.forEach((bar) => board.appendChild(bar));
                 break;
             }
-        case "sorted": {
+        case "permanent_sorted": {
             const bar = barDivs[event.i];
             bar.classList.add("sorted");
             await sleep(state.delay);
-            bar.classList.remove("sorted");
             break;
         }
-        case "permanent_sorted": {
+        case "sorted": {
             const bar = barDivs[event.i];
             bar.classList.add("sorted");
             break;
@@ -81,8 +80,7 @@ async function playAnimation(event, barDivs, board) {
         }
         case "get_key": {
             const bar = barDivs[event.i];
-            bar.classList.add("key");
-            await sleep(state.delay);
+            bar.classList.add("active");
             break;
         }
 
@@ -91,27 +89,35 @@ async function playAnimation(event, barDivs, board) {
             bar.classList.remove("key");
             break;
         }
-        case "shift_left": {
-            const targetBar = barDivs[event.source];
-            const sourceBar = barDivs[event.target];
+        case "shift_right": {
+            const bar = barDivs[event.source];
 
-            targetBar.classList.add("active");
-            // barB.classList.add("active");
-
-
+            bar.classList.add("active");
             await sleep(state.delay);
+            bar.classList.remove("active");
 
+            // SHIFT (not swap!)
+            barDivs.splice(event.source, 1);      // remove original
+            barDivs.splice(event.target, 0, bar); // insert at right spot
 
-            targetBar.classList.remove("active");
-            // barB.classList.remove("active");
-            // for show
-
-
-            // actual swap
-            [barDivs[event.source], barDivs[event.target]] =
-                [barDivs[event.target], barDivs[event.source]];
+            // re-render
             board.innerHTML = "";
-            barDivs.forEach((bar) => board.appendChild(bar));
+            barDivs.forEach(b => board.appendChild(b));
+
+            break;
+        }
+        case "insert_key": {
+            const bar = barDivs[event.index];
+            bar.classList.add("active");
+            await sleep(state.delay);
+            bar.classList.remove("active");
+            break;
+        }
+        case "flash": {
+            const bar = barDivs[event.i];
+            bar.classList.add("flash");
+            await sleep(state.delay);
+            bar.classList.remove("flash");
             break;
         }
         default:

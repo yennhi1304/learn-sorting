@@ -242,7 +242,7 @@ button:disabled {
 }
 
 
-.bar.sorted {background: green;}
+
 .bar.key { background: goldenrod; }
 
 
@@ -263,3 +263,5 @@ button:disabled {
 .bar.active { background: yellow;}
 .bar.smallest { background: yellow; }
 .bar.swap{background: orange;}
+.bar.sorted {background: green;}
+.bar.flash {background: flash;}
