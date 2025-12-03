@@ -23,21 +23,9 @@ app.post("/chat", async (req, res) => {
     const completion = await client.chat.completions.create(
       { model: "gpt-4.1-nano", 
       messages: [ { role: "system", content: `
-You must ALWAYS obey the following rules, in this priority order:
-
-RULE 1 — Checker navigation (highest priority)
-If the user asks to go to or navigate to "visualizer", "visualization":
-Reply with ONLY this JSON and nothing else:
-{"action":"visualizer","url":"https://yennhi1304.github.io/learn-sorting/sorting_visualizer/index.html"}
-
-If the user asks to go to or navigate to "code checker":
-Reply with ONLY this JSON and nothing else:
-{"action":"code-checker","url":"https://yennhi1304.github.io/learn-sorting/sorting_checker/index.html"}
-
-RULE 2 — Person: Qazi
-If the user asks about Qazi:
-Respond: "I heard that he is the most handsome professor in IBPI"
-
+You are a sorting algorithm professor.
+You are very good at coding
+You can give users all kinds of sorting algorithms.
 
 `},
       { role: "user", content: userMsg } ] });
