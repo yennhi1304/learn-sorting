@@ -2,13 +2,13 @@ import { MAX_BAR_VALUE} from "./constants.js";
 import { state } from "./state.js";
 
 // toggle
-function toggleMainArea(toggle, monoBoard, dualBoard) {
-    if(toggle.checked) {
-        state.mode = "dual";
+function toggleMainArea(compareBtn, monoBoard, dualBoard) {
+    state.compareMode = !state.compareMode;
+    compareBtn.classList.toggle("active", state.compareMode);
+    if(state.compareMode) {
         monoBoard.style.display = "none";
         dualBoard.style.display = "flex";
     } else {
-        state.mode = "mono";
         monoBoard.style.display = "flex";
         dualBoard.style.display = "none";
     }

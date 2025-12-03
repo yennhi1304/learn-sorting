@@ -1,5 +1,5 @@
 export const state = {
-    mode: "mono",
+    compareMode: false,
     baseArray: [],
 
     mono: {
