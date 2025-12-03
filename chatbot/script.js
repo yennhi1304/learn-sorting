@@ -54,57 +54,45 @@ async function sendMessage() {
   if (!text) return;
 
   // Show user message
-  messages.innerHTML += `
-    <div class="user">${escapeHtml(text)}</div>
-  `;
+  messages.innerHTML += `<div class="user">${escapeHtml(text)}</div>`;
   input.value = "";
   messages.scrollTop = messages.scrollHeight;
 
-  // Save user message in history
+  // Save user message
   chatHistory.push({ sender: "user", text });
   saveChat();
 
-
-  // Send to backend
+  // ---- SEND TO BACKEND ----
   const API_URL = "https://learn-sorting.onrender.com/chat";
 
-async function sendMessage(text) {
   const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
   });
 
-  const data = await res.json();
-  return data.reply;
-}
+  const data = await res.json();   // ✔ NOW res EXISTS
 
-
-  const data = await res.json();
-
-  // Try detecting navigation JSON
+  // Try navigation
   try {
     const action = JSON.parse(data.reply);
-
     if (action.action && action.url) {
-      console.log("NAVIGATION TRIGGERED:", action);
-      // Go to URL
       window.location.href = action.url;
-      return; // stop normal handling
+      return;
     }
-  } catch (e) {
-    // reply is not JSON → continue
-  }
+  } catch (e) {}
 
-  // Normal bot reply
+  // ---- SHOW BOT REPLY ----
   messages.innerHTML += `
     <div class="bot">${formatMessage(data.reply)}</div>
   `;
   messages.scrollTop = messages.scrollHeight;
 
-  chatHistory.push({ sender: "bot", text: data.reply })
+  // Save bot reply
+  chatHistory.push({ sender: "bot", text: data.reply });
   saveChat();
 }
+
 
 
 function formatMessage(text) {
