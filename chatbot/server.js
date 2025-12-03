@@ -39,5 +39,5 @@ You can give users all kinds of sorting algorithms.
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running on port " + PORT));
 
-
-
+const cors = require("cors");
+app.use(cors());

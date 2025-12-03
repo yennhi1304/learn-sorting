@@ -66,11 +66,19 @@ async function sendMessage() {
 
 
   // Send to backend
-  const res = await fetch("https://learn-sorting.onrender.com/chat", {
+  const API_URL = "https://learn-sorting.onrender.com/chat";
+
+async function sendMessage(text) {
+  const res = await fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message: text })
   });
+
+  const data = await res.json();
+  return data.reply;
+}
+
 
   const data = await res.json();
 
