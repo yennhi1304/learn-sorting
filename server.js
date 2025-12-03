@@ -38,9 +38,9 @@ RULE 3 — Sorting questions or code questions
 If the user asks any questions related to sorting algorithms or any types of sorting algorithm:
 Respond normally
 
-RULE 4 - Questions are not about sorting
-If the user asks any questions that are not about sorting algorithm
-Respond: "I just can answer questions related to this website"
+RULE 4 - Questions are not about sorting and coding
+If the user asks any questions that are not about sorting algorithm and coding
+Respond: "I just can answer questions related to sorting algorithm"
 `},
       { role: "user", content: userMsg } ] });
     res.json({ reply: completion.choices[0].message.content });
