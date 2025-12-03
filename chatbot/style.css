@@ -169,7 +169,7 @@ body {
 }
 
 .chat-input {
-  
+  box-sizing: unset;
   display: grid;
   grid-template-columns: 95fr 5fr;
   border: solid #d2ede4;
