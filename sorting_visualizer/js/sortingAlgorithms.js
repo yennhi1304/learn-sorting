@@ -123,8 +123,12 @@ function insertionSort(arr) {
 
         events.push({
             type: "insert_key",
-            index: j + 1
+            i: j + 1
         });
+        events.push({
+            type: "remove_key",
+            i: j + 1
+        })
 
         events.push({
             type: "sorted",
