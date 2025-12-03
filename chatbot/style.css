@@ -77,18 +77,18 @@ body {
 }
 
 .right button { 
-  padding: 2px 2px;
-  border: none;
-  color: var(--black-green);
+  padding: 2px 2px ;
+  border: none ;
+  color: var(--black-green) ;
   width: 20px;
-  background-color: transparent;
-  height: 80%;
-  transition: transform ease;
+  background-color: transparent ;
+  height: 80% ;
+  transition: transform ease ;
 }
 
 .right button:hover {
-  transform: scale(1.1);
-  cursor: pointer;
+  transform: scale(1.1) ;
+  cursor: pointer ;
 }
 
 #clearChat {
@@ -190,14 +190,14 @@ body {
 }
 
 .chat-input button { 
-  border: none;
-  display: block;
-  margin-right: 3px; 
-  background-color: #d2ede4;
-  height: 30px;
-  width: 30px;
-  border-radius: 50%;
-  color: #00767a;
+  border: none ;
+  display: block ;
+  margin-right: 3px ; 
+  background-color: #d2ede4 ;
+  height: 30px ;
+  width: 30px ;
+  border-radius: 50% ;
+  color: #00767a ;
 }
 
 
