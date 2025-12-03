@@ -6,6 +6,8 @@ import cors from "cors";
 import OpenAI from "openai";
 
 const app = express();
+
+// Apply middleware ONCE
 app.use(cors());
 app.use(express.json());
 
@@ -20,25 +22,29 @@ app.post("/chat", async (req, res) => {
   try {
     const userMsg = req.body.message;
 
-    const completion = await client.chat.completions.create(
-      { model: "gpt-4.1-nano", 
-      messages: [ { role: "system", content: `
+    const completion = await client.chat.completions.create({
+      model: "gpt-4.1-nano",
+      messages: [
+        {
+          role: "system",
+          content: `
 You are a sorting algorithm professor.
-You are very good at coding
+You are very good at coding.
 You can give users all kinds of sorting algorithms.
+`
+        },
+        { role: "user", content: userMsg }
+      ]
+    });
 
-`},
-      { role: "user", content: userMsg } ] });
     res.json({ reply: completion.choices[0].message.content });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ reply: "Error: " + err.message });
   }
 });
 
+// Render uses PORT automatically
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running on port " + PORT));
-
-import cors from "cors";
-app.use(cors());
-
