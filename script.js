@@ -11,7 +11,7 @@ const images = [
 
 const links = [
     "./sorting_visualizer/index.html",
-    "./sorting_visualizer/index.html",
+    "./sorting_checker/index.html",
     "./sorting_visualizer/index.html",
     "./sorting_visualizer/index.html",
     "./theory/index.html",
