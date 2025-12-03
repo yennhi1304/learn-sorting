@@ -31,8 +31,14 @@ async function playAnimation(event, barDivs, board) {
                 barA.classList.add("swap");
                 barB.classList.add("swap");
 
+                barA.style.transform = `translateX(${distance}px)`;
+                barB.style.transform = `translateX(${-distance}px)`;
+
 
                 await sleep(state.delay);
+
+                barA.style.transform = "";
+                barB.style.transform = "";
 
 
                 barA.classList.remove("swap");
@@ -70,7 +76,9 @@ async function playAnimation(event, barDivs, board) {
         }
         case "get_key": {
             const bar = barDivs[event.i];
-            bar.classList.add("key");
+            bar.classList.add("active");
+            await sleep(state.delay);
+            bar.classList.remove("active");
             break;
         }
 
@@ -82,9 +90,9 @@ async function playAnimation(event, barDivs, board) {
         case "shift_right": {
             const bar = barDivs[event.source];
 
-            bar.classList.add("active");
-            await sleep(state.delay);
-            bar.classList.remove("active");
+            // bar.classList.add("shift");
+            // await sleep(state.delay);
+            // bar.classList.remove("shift");
 
             // SHIFT (not swap!)
             barDivs.splice(event.source, 1);      // remove original

@@ -125,10 +125,10 @@ function insertionSort(arr) {
             type: "insert_key",
             i: j + 1
         });
-        events.push({
-            type: "remove_key",
-            i: j + 1
-        })
+        // events.push({
+        //     type: "remove_key",
+        //     i: j + 1
+        // })
 
         events.push({
             type: "sorted",
@@ -139,6 +139,12 @@ function insertionSort(arr) {
                 type: "sorted",
                 i: i - 1
             });
+        }
+        if (i === 1 && j === -1) {
+            events.push({
+                type: "sorted",
+                i: 1,
+            })
         }
     }
     markedAllSort(arr, events);

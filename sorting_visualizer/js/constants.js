@@ -1,7 +1,7 @@
 const MAX_BAR_VALUE = 150;
 const DISORDER_RATE = 0.05;
 const MAX_DELAY = 600;
-const MIN_DELAY = 10;
+const MIN_DELAY = 5;
 
 
 

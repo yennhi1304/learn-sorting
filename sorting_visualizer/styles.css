@@ -258,8 +258,9 @@ button:disabled {
     background: rgba(255, 120, 120, 0.6);    /* red-ish */
 }
 
-.bar.key { background: yellow; }
+.bar.key { background: goldenrod; }
 .bar.smallest { background: yellow; }
 .bar.active { background: yellow;}
-.bar.swap{background: orange;}
 .bar.sorted {background: green;}
+.bar.swap{background: orange;}
+.bar.shift{background: orange;}
