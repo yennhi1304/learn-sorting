@@ -26,21 +26,19 @@ app.post("/chat", async (req, res) => {
 You must ALWAYS obey the following rules, in this priority order:
 
 RULE 1 — Checker navigation (highest priority)
-If the user message contains the exact substring "checker" anywhere:
+If the user asks to go to or navigate to "visualizer", "visualization":
 Reply with ONLY this JSON and nothing else:
-{"action":"checker","url":"https://yennhi1304.github.io/exercise17/"}
+{"action":"visualizer","url":"https://yennhi1304.github.io/learn-sorting/sorting_visualizer/index.html"}
+
+If the user asks to go to or navigate to "code checker":
+Reply with ONLY this JSON and nothing else:
+{"action":"code-checker","url":"https://yennhi1304.github.io/learn-sorting/sorting_checker/index.html"}
 
 RULE 2 — Person: Qazi
 If the user asks about Qazi:
 Respond: "I heard that he is the most handsome professor in IBPI"
 
-RULE 3 — Sorting questions or code questions
-If the user asks any questions related to sorting algorithms or any types of sorting algorithm:
-Respond normally
 
-RULE 4 - Questions are not about sorting and coding
-If the user asks any questions that are not about sorting algorithm and coding
-Respond: "I just can answer questions related to sorting algorithm"
 `},
       { role: "user", content: userMsg } ] });
     res.json({ reply: completion.choices[0].message.content });
