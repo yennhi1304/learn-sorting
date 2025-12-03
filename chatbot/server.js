@@ -20,14 +20,29 @@ app.post("/chat", async (req, res) => {
   try {
     const userMsg = req.body.message;
 
-    const completion = await client.chat.completions.create({
-      model: "gpt-4.1-nano",
-      messages: [
-        { role: "system", content: "your answer cannot be over 2 sentences. You will answer the questions related to sorting algorithm. Otherwise, answer 'I don't know and shut the fuck up'. When I ask about a person named 'Huy Ha', answer, 'he has a lot of crushes at YZU'. Also, when asked about a person named Qazi, you should answer 'I heard that he is the most handsome professor in IBPI'" },
-        { role: "user", content: userMsg }
-      ]
-    });
+    const completion = await client.chat.completions.create(
+      { model: "gpt-4.1-nano", 
+      messages: [ { role: "system", content: `
+You must ALWAYS obey the following rules, in this priority order:
 
+RULE 1 — Checker navigation (highest priority)
+If the user message contains the exact substring "checker" anywhere:
+Reply with ONLY this JSON and nothing else:
+{"action":"checker","url":"https://yennhi1304.github.io/exercise17/"}
+
+RULE 2 — Person: Qazi
+If the user asks about Qazi:
+Respond: "I heard that he is the most handsome professor in IBPI"
+
+RULE 3 — Sorting questions or code questions
+If the user asks any questions related to sorting algorithms or any types of sorting algorithm:
+Respond normally
+
+RULE 4 - Questions are not about sorting and coding
+If the user asks any questions that are not about sorting algorithm and coding
+Respond: "I just can answer questions related to sorting algorithm"
+`},
+      { role: "user", content: userMsg } ] });
     res.json({ reply: completion.choices[0].message.content });
   } catch (err) {
     console.error(err);
@@ -35,6 +50,8 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log("Server running on port " + PORT));
+
+
+

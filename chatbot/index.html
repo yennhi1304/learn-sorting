@@ -1,52 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Simple Chatbot</title>
-  <style>
-    body { font-family: Arial; background:#f3f3f3; padding:20px; }
-    #messages { 
-      background:white; padding:20px; height:400px; overflow-y:auto; 
-      border-radius:8px; margin-bottom:20px; 
-    }
-    .user { color:blue; margin:8px 0; }
-    .bot { color:green; margin:8px 0; }
-    #input { width:80%; padding:10px; }
-    #send { padding:10px 15px; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <h2>ChatGPT Chatbot</h2>
+  <div id="chatBubble"><img src="images/chatbot.gif"></div>
 
-  <div id="messages"></div>
+  <!-- Chat Window -->
+  <div id="chatWindow">
+    <div class="chat-header">
+      <div class="left">Tony</div>
+      <div class="right">
+        <button id="clearChat">&#8634;</button>
+        <button id="expandBtn" class="expand-icon">⛶</button>
+      </div>
+    </div>
+    <div><img class="Tony" src="images/hichatbot.gif"></div>
 
-  <input id="input" placeholder="Type a message...">
-  <button id="send">Send</button>
 
-  <script>
-    const messages = document.getElementById("messages");
-    const input = document.getElementById("input");
-    const send = document.getElementById("send");
+    <div id="messages"></div>
+    
+    <div class="input-container">
+      <div class="chat-input">
+        <input id="input" placeholder="Type a message...">
+        <button id="send">➤</button>
+      </div>
+    </div>
 
-    send.addEventListener("click", async () => {
-      const text = input.value.trim();
-      if (!text) return;
+  </div>
 
-      messages.innerHTML += `<div class="user"><b>You:</b> ${text}</div>`;
-      input.value = "";
 
-      const res = await fetch("http://localhost:3000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
-
-      const data = await res.json();
-      messages.innerHTML += `<div class="bot"><b>Bot:</b> ${data.reply}</div>`;
-      messages.scrollTop = messages.scrollHeight;
-    });
-  </script>
+  <script src="script.js"></script>
 
 </body>
+
 </html>
