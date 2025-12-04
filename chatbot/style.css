@@ -141,6 +141,7 @@ body {
 }
 
 .user {
+  color: black;
   align-self: flex-end;
   background: var(--green);
   padding: 6px 10px;
@@ -150,6 +151,7 @@ body {
 }
 
 .bot {
+  color: black;
   align-self: flex-start;
   background: #f6f6f6;
   padding: 6px 10px;
@@ -161,6 +163,8 @@ body {
 
 /* Input Area */
 .input-container {
+  background: white;
+  color: black;
   border: none;
   height: 15%;
   display: flex;
@@ -169,6 +173,8 @@ body {
 }
 
 .chat-input {
+  background: white;
+  color: black;
   box-sizing: unset;
   display: grid;
   grid-template-columns: 95fr 5fr;
@@ -184,6 +190,7 @@ body {
 }
 
 .chat-input input {
+  
   outline: none;
   border: none;
   background-color: transparent;
