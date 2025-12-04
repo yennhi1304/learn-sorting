@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="../chatbot/style.css">
     <link rel="stylesheet" href="styles.css">
+    
 </head>
 
 <body>
@@ -31,7 +33,7 @@
 
         <div class="control-group">
             <label for="speed">Speed:</label>
-            <input type="range" id="speed" min="0" max="1000" value="500">
+            <input class="input" type="range" id="speed" min="0" max="1000" value="500">
         </div>
 
         <div class="control-group">
@@ -108,9 +110,34 @@
         </div>
 
     </div>
-`<div id="chatbot-container"></div>
-    <script type="module" src="script.js"></script>
-    <script src="../chatbot/load-chatbot.js"></script>
+    `
+
+    <div id="chatBubble"><img src="/chatbot/images/chatbot.gif"></div>
+    <!-- Chat Window -->
+    <div id="chatWindow">
+        <div class="chat-header">
+            <div class="left">Tony</div>
+            <div class="right">
+                <button id="clearChat">&#8634;</button>
+                <button id="expandBtn" class="expand-icon">⛶</button>
+            </div>
+        </div>
+        <div><img class="Tony" src="/chatbot/images/hichatbot.gif"></div>
+
+
+        <div id="messages"></div>
+
+        <div class="input-container">
+            <div class="chat-input">
+                <input id="input" placeholder="Type a message...">
+                <button id="send">➤</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script src="../chatbot/script.js"></script>
 </body>
 
 </html>
