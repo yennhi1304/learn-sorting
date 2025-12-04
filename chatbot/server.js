@@ -6,6 +6,8 @@ import cors from "cors";
 import OpenAI from "openai";
 
 const app = express();
+
+// Apply middleware ONCE
 app.use(cors());
 app.use(express.json());
 
@@ -20,38 +22,29 @@ app.post("/chat", async (req, res) => {
   try {
     const userMsg = req.body.message;
 
-    const completion = await client.chat.completions.create(
-      { model: "gpt-4.1-nano", 
-      messages: [ { role: "system", content: `
-You must ALWAYS obey the following rules, in this priority order:
+    const completion = await client.chat.completions.create({
+      model: "gpt-4.1-nano",
+      messages: [
+        {
+          role: "system",
+          content: `
+You are a sorting algorithm professor.
+You are very good at coding.
+You can give users all kinds of sorting algorithms.
+`
+        },
+        { role: "user", content: userMsg }
+      ]
+    });
 
-RULE 1 — Checker navigation (highest priority)
-If the user message contains the exact substring "checker" anywhere:
-Reply with ONLY this JSON and nothing else:
-{"action":"checker","url":"https://yennhi1304.github.io/exercise17/"}
-
-RULE 2 — Person: Qazi
-If the user asks about Qazi:
-Respond: "I heard that he is the most handsome professor in IBPI"
-
-RULE 3 — Sorting questions or code questions
-If the user asks any questions related to sorting algorithms or any types of sorting algorithm:
-Respond normally
-
-RULE 4 - Questions are not about sorting and coding
-If the user asks any questions that are not about sorting algorithm and coding
-Respond: "I just can answer questions related to sorting algorithm"
-`},
-      { role: "user", content: userMsg } ] });
     res.json({ reply: completion.choices[0].message.content });
+
   } catch (err) {
     console.error(err);
     res.status(500).json({ reply: "Error: " + err.message });
   }
 });
 
+// Render uses PORT automatically
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log("Server running on port " + PORT));
-
-
-
