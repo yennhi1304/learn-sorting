@@ -2,11 +2,11 @@ const box = document.getElementById("imageBox");
 const link = document.getElementById("imageLink");
 
 const images = [
-    "images/sorting-visualization.gif",
-    "images/code-checker.gif",
-    "images/games.gif",
-    "images/chatbot.gif",
-    "images/learning.gif"
+    "images/visualizer.png",
+    "images/code-checker.png",
+    "images/games.png",
+    "images/chatbot.png",
+    "images/learning.png"
 ];
 
 const links = [
