@@ -64,6 +64,7 @@ function runSingleSort(monoboard, sortType) {
 
 
 async function runDualSort(boardA, boardB, sortTypeA, sortTypeB) {
+    console.log("running dual sort");
     let arrA = [...state.baseArray];
     let arrB = [...state.baseArray];
 

@@ -191,7 +191,7 @@ function merge(left, mid, right, events, array, temp) {
         temp[k++] = array[j++];
     }
 
-    events.push({type: "clear_lr", l: left, r: right});
+    events.push({type: "writing", left: left, right: right});
     // 👇 Now finally write all merged values back to `array`
     // and push write events **in order**
     for (let x = left; x <= right; x++) {
@@ -202,6 +202,7 @@ function merge(left, mid, right, events, array, temp) {
         });
         array[x] = temp[x];
     }
+    events.push({type: "end_write", left: left, right: right});
 }
 
 
@@ -210,8 +211,9 @@ function mergeSortRec(left, right, events, array, temp) {
 
     // Indicate start of processing a range
     // events.push({ type: "range_start", l: left, r: right });
-
+    
     const mid = Math.floor((left + right) / 2);
+    events.push({type: "divide_lr", left: left, right: right, mid: mid});
 
 
     mergeSortRec(left, mid, events, array, temp);
@@ -225,7 +227,6 @@ function mergeSortRec(left, right, events, array, temp) {
     merge(left, mid, right, events, array, temp);
 
     // Remove highlight colors after merging
-    events.push({ type: "clear_lr", l: left, r: right});
 
     // Mark end of processing this range
     // events.push({ type: "range_end", l: left, r: right });
@@ -244,89 +245,72 @@ function mergeSort(array) {
 }
 
 
-function quickSort(array) {
-    let events = [];
-    let n = array.length;
+function quickSort(arr) {
+    const events = [];
+    quickSortRec(arr, 0, arr.length - 1, events);
 
-    quickSortRec(array, 0, n - 1, events);
-
-    // Final permanent sorted highlight
-    for (let i = 0; i < n; i++) {
-        events.push({ type: "permanent_sort", index: i });
+    // Final global sorted highlight
+    for (let i = 0; i < arr.length; i++) {
+        events.push({ type: "sorted", i });
     }
 
     return events;
 }
 
 
+
 function quickSortRec(arr, left, right, events) {
     if (left >= right) return;
 
-    // Start highlighting this range
-    events.push({ type: "range_start", l: left, r: right });
-
     let pivotIndex = partition(arr, left, right, events);
 
-    // Highlight left half
-    events.push({ type: "left_range", l: left, r: pivotIndex - 1 });
+    // Mark pivot sorted (since it's now in correct position)
+    events.push({ type: "sorted", i: pivotIndex });
+
     quickSortRec(arr, left, pivotIndex - 1, events);
-    events.push({ type: "clear_lr", l: left, r: pivotIndex - 1 });
-
-    // Highlight right half
-    events.push({ type: "right_range", l: pivotIndex + 1, r: right });
     quickSortRec(arr, pivotIndex + 1, right, events);
-    events.push({ type: "clear_lr", l: pivotIndex + 1, r: right });
-
-    // End highlighting this range
-    events.push({ type: "range_end", l: left, r: right });
 }
 
 
+
 function partition(arr, left, right, events) {
-    let pivot = arr[right];    // pick rightmost pivot
+    let pivot = arr[right];
+
+    // highlight pivot
+    events.push({ type: "get_key", i: right });
+
     let i = left - 1;
 
-    // highlight pivot explicitly
-    events.push({ type: "right_range", l: right, r: right });
-
     for (let j = left; j < right; j++) {
-        // comparison event
-        events.push({ type: "compare", indices: [j, right] });
+        events.push({ type: "compare", i: j, j: right });
 
         if (arr[j] < pivot) {
             i++;
 
             if (i !== j) {
-                // logical swap
-                let temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+                // Logical swap
+                [arr[i], arr[j]] = [arr[j], arr[i]];
 
-                // convert the swap to two writes
-                events.push({ type: "write", index: i, newValue: arr[i] });
-                events.push({ type: "write", index: j, newValue: arr[j] });
+                // Animation swap
+                events.push({ type: "swap", i, j });
             }
         }
     }
 
-    // swap pivot into correct place
+    // Move pivot to final spot
     let pivotPos = i + 1;
 
     if (pivotPos !== right) {
-        let temp = arr[pivotPos];
-        arr[pivotPos] = arr[right];
-        arr[right] = temp;
-
-        // pivot swap becomes two writes
-        events.push({ type: "write", index: pivotPos, newValue: arr[pivotPos] });
-        events.push({ type: "write", index: right, newValue: arr[right] });
+        [arr[pivotPos], arr[right]] = [arr[right], arr[pivotPos]];
+        events.push({ type: "swap", i: pivotPos, j: right });
     }
 
     // remove pivot highlight
-    events.push({ type: "clear_lr", l: right, r: right });
+    events.push({ type: "remove_key", i: pivotPos });
 
     return pivotPos;
 }
+
 
 
 
@@ -355,9 +339,3 @@ export {
     mergeSort,
     quickSort
 }
-
-let array = [1, 3, 2, 19, 5];
-
-console.log(array);
-console.log(mergeSort(array));
-console.log(array);

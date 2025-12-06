@@ -1,7 +1,6 @@
 import { sleep } from "./untils.js";
 import { state } from "./state.js";
 import { MAX_BAR_VALUE } from "./constants.js";
-import { mergeSort } from "./sortingAlgorithms.js";
 
 
 async function playAnimation(event, barDivs, board) {
@@ -269,6 +268,56 @@ async function playAnimationAuto(event, barDivs, board) {
             break;
         }
 
+        case "divide_lr": {
+            for (const bar of barDivs) {
+                bar.classList.remove("left");
+                bar.classList.remove("right");
+            }
+
+            for (let i = event.left; i <= event.mid; i++) {
+                barDivs[i].classList.add("left");
+            }
+            for (let i = event.mid + 1; i <= event.right; i++) {
+                barDivs[i].classList.add("right");
+            }
+            await sleep(state.delay);
+            break;
+        }
+
+        case "merge_end": {
+            const { l, r } = event;
+            for (let i = l; i <= r; i++) {
+                barDivs[i].classList.remove("left");
+                barDivs[i].classList.remove("right");
+                barDivs[i].classList.add("sorted");
+            }
+            await sleep(state.delay);
+
+            for (let i = l; i <= r; i++) {
+                barDivs[i].classList.remove("sorted");
+            }
+            break;
+        }
+
+        case "writing": {
+            for (const bar of barDivs) {
+                bar.classList.remove("left");
+                bar.classList.remove("right");
+            }
+            const { left, right } = event;
+            for (let i = left; i <= right; i++) {
+                barDivs[i].classList.add("writing");
+            }
+            break;
+        }
+        case "end_write": {
+            const { left, right } = event;
+            for (let i = left; i <= right; i++) {
+                barDivs[i].classList.remove("writing");
+            }
+            break;
+        }
+
     }
 }
 
@@ -276,15 +325,15 @@ async function playAnimationAuto(event, barDivs, board) {
 
 
 
-function playAnimationInstant(event, barDivs, board) {
+async function playAnimationInstant(event, barDivs, board) {
     console.log(event);
     switch (event.type) {
 
-        // case "compare": {
-        //     barDivs[event.i].classList.add("active");
-        //     barDivs[event.j].classList.add("active");
-        //     break;
-        // }
+        case "compare": {
+            barDivs[event.i].classList.add("active");
+            barDivs[event.j].classList.add("active");
+            break;
+        }
 
         case "get_key": {
             barDivs[event.i].classList.add("key");
@@ -380,6 +429,11 @@ function playAnimationInstant(event, barDivs, board) {
             break;
         }
         case "left_range": {
+            for (const bar of barDivs) {
+                bar.classList.remove("left");
+                bar.classList.remove("right");
+            }
+            // await sleep(state.delay);
             for (let i = event.l; i <= event.r; i++) {
                 barDivs[i].classList.add("left");
             }
@@ -399,6 +453,53 @@ function playAnimationInstant(event, barDivs, board) {
             for (let i = event.l; i <= event.r; i++) {
                 barDivs[i].classList.remove("left");
                 barDivs[i].classList.remove("right");
+            }
+            break;
+        }
+        case "divide_lr": {
+            for (const bar of barDivs) {
+                bar.classList.remove("left");
+                bar.classList.remove("right");
+            }
+
+            for (let i = event.left; i <= event.mid; i++) {
+                barDivs[i].classList.add("left");
+            }
+            for (let i = event.mid + 1; i <= event.right; i++) {
+                barDivs[i].classList.add("right");
+            }
+            break;
+        }
+        case "merge_end": {
+            const { l, r } = event;
+            for (let i = l; i <= r; i++) {
+                barDivs[i].classList.remove("left");
+                barDivs[i].classList.remove("right");
+                barDivs[i].classList.add("sorted");
+            }
+            await sleep(state.delay);
+
+            for (let i = l; i <= r; i++) {
+                barDivs[i].classList.remove("sorted");
+            }
+            break;
+        }
+
+        case "writing": {
+            for (const bar of barDivs) {
+                bar.classList.remove("left");
+                bar.classList.remove("right");
+            }
+            const { left, right } = event;
+            for (let i = left; i <= right; i++) {
+                barDivs[i].classList.add("writing");
+            }
+            break;
+        }
+        case "end_write": {
+            const { left, right } = event;
+            for (let i = left; i <= right; i++) {
+                barDivs[i].classList.remove("writing");
             }
             break;
         }

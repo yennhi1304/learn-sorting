@@ -285,10 +285,10 @@ button:disabled {
 }
 
 /* Merge Sort Colors */
-.bar.write {
-    background: violet;
+.bar.writing {
+    background: rgba(255, 255, 0, 0.25);
 }
 
-.bar.range {
-    background: rgba(255, 255, 0, 0.25);
+.bar.write {
+    background: violet;
 }

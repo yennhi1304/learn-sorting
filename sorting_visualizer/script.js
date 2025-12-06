@@ -68,13 +68,16 @@ generateBtn.addEventListener("click", () => {
     state.maxValue = Math.max(...arr);
     state.baseArray = arr;
 
-    if (state.compareMode) {
+    console.log(state.mode);
+
+    if (state.mode == "mono") {
+        renderBoard(arr, monoBoard);
+
+    } else {
         state.dual.arrayA = arr;
         state.dual.arrayB = arr;
         renderBoard(arr, boardA);
         renderBoard(arr, boardB);
-    } else {
-        renderBoard(arr, monoBoard);
     }
 
     resetStepUI();
@@ -114,7 +117,7 @@ sortBtn.addEventListener("click", async () => {
         state.isSorting = true;
         lockUI(generateBtn, sortBtn, compareBtn);
 
-        if (!state.compareMode) {
+        if (state.mode == "mono") {
             const sortType = sortTypeInput.value;
             const result = runSingleSort(monoBoard, sortType);
 
