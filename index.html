@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Quick Sort – Cute Partition Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page">
+    <h1 class="title">🔍 Quick Sort – Cute Partition Game 🍭</h1>
+
+    <!-- Global array display -->
+    <div id="arrayView" class="array-view"></div>
+
+    <div class="card">
+      <div class="pivot-row">
+        <span id="roundLabel" class="round-label"></span>
+        <span id="pivotLabel" class="pivot-label"></span>
+      </div>
+
+      <div class="waiting-wrapper">
+        <div class="waiting-title">Waiting line</div>
+        <div id="waitingList" class="waiting-list"></div>
+      </div>
+
+      <div class="buckets-wrapper">
+        <div class="bucket-labels">
+          <div>Left (&lt; pivot)</div>
+          <div>Right (&ge; pivot)</div>
+        </div>
+
+        <!-- Visual boxes for left/right -->
+        <div class="buckets-row">
+          <div id="leftBucketBox" class="bucket-box"></div>
+          <div id="rightBucketBox" class="bucket-box"></div>
+        </div>
+
+        <!-- Physics area overlays the two buckets -->
+        <div id="physicsArea"></div>
+      </div>
+
+      <div class="controls-row">
+        <button id="leftBtn" class="btn btn-left">← Left</button>
+        <button id="undoBtn" class="btn btn-undo">Undo</button>
+        <button id="rightBtn" class="btn btn-right">Right →</button>
+      </div>
+
+      <div id="hintText" class="hint">
+        Send each number to the correct side.
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal (instructions + results) -->
+  <div id="modalOverlay" class="modal-overlay">
+    <div class="modal">
+      <h2 id="modalTitle"></h2>
+      <p id="modalMessage"></p>
+      <button id="modalButton" class="btn btn-primary">I understand!</button>
+    </div>
+  </div>
+
+  <!-- Matter.js -->
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
