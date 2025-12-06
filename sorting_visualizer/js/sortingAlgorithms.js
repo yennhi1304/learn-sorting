@@ -191,7 +191,7 @@ function merge(left, mid, right, events, array, temp) {
         temp[k++] = array[j++];
     }
 
-    events.push({type: "writing", left: left, right: right});
+    events.push({ type: "writing", left: left, right: right });
     // 👇 Now finally write all merged values back to `array`
     // and push write events **in order**
     for (let x = left; x <= right; x++) {
@@ -202,7 +202,7 @@ function merge(left, mid, right, events, array, temp) {
         });
         array[x] = temp[x];
     }
-    events.push({type: "end_write", left: left, right: right});
+    events.push({ type: "end_write", left: left, right: right });
 }
 
 
@@ -211,9 +211,9 @@ function mergeSortRec(left, right, events, array, temp) {
 
     // Indicate start of processing a range
     // events.push({ type: "range_start", l: left, r: right });
-    
+
     const mid = Math.floor((left + right) / 2);
-    events.push({type: "divide_lr", left: left, right: right, mid: mid});
+    events.push({ type: "divide_lr", left: left, right: right, mid: mid });
 
 
     mergeSortRec(left, mid, events, array, temp);
@@ -249,7 +249,7 @@ function quickSort(arr) {
     const events = [];
     quickSortRec(arr, 0, arr.length - 1, events);
 
-    // Final global sorted highlight
+    // Mark everything sorted at the end
     for (let i = 0; i < arr.length; i++) {
         events.push({ type: "sorted", i });
     }
@@ -257,26 +257,35 @@ function quickSort(arr) {
     return events;
 }
 
-
-
 function quickSortRec(arr, left, right, events) {
     if (left >= right) return;
 
+    // 🔥 Highlight current recursive partitioned segment
+    events.push({ type: "partition_range", left, right });
+
     let pivotIndex = partition(arr, left, right, events);
 
-    // Mark pivot sorted (since it's now in correct position)
+    // Pivot is now correctly placed
     events.push({ type: "sorted", i: pivotIndex });
 
-    quickSortRec(arr, left, pivotIndex - 1, events);
-    quickSortRec(arr, pivotIndex + 1, right, events);
+    // Clear highlight before going deeper
+    events.push({ type: "clear_partition_range", left, right });
+
+    // Recursively sort left half
+    if (left < pivotIndex - 1) {
+        quickSortRec(arr, left, pivotIndex - 1, events);
+    }
+
+    // Recursively sort right half
+    if (pivotIndex + 1 < right) {
+        quickSortRec(arr, pivotIndex + 1, right, events);
+    }
 }
-
-
 
 function partition(arr, left, right, events) {
     let pivot = arr[right];
 
-    // highlight pivot
+    // 🔥 Highlight pivot
     events.push({ type: "get_key", i: right });
 
     let i = left - 1;
@@ -288,32 +297,24 @@ function partition(arr, left, right, events) {
             i++;
 
             if (i !== j) {
-                // Logical swap
                 [arr[i], arr[j]] = [arr[j], arr[i]];
-
-                // Animation swap
                 events.push({ type: "swap", i, j });
             }
         }
     }
 
-    // Move pivot to final spot
+    // Move pivot into correct position
     let pivotPos = i + 1;
-
     if (pivotPos !== right) {
         [arr[pivotPos], arr[right]] = [arr[right], arr[pivotPos]];
         events.push({ type: "swap", i: pivotPos, j: right });
     }
 
-    // remove pivot highlight
+    // Remove pivot highlight
     events.push({ type: "remove_key", i: pivotPos });
 
     return pivotPos;
 }
-
-
-
-
 
 
 
@@ -339,3 +340,8 @@ export {
     mergeSort,
     quickSort
 }
+
+let arr = [1, 2, 5, 6, 4];
+console.log(arr);
+console.log(quickSort(arr));
+console.log(arr);

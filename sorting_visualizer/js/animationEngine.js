@@ -318,6 +318,22 @@ async function playAnimationAuto(event, barDivs, board) {
             break;
         }
 
+        case "partition_range": {
+            for (let i = event.left; i <= event.right; i++) {
+                barDivs[i].classList.add("partition");
+            }
+            await sleep(state.delay * 0.5);
+            break;
+        }
+
+        case "clear_partition_range": {
+            for (let i = event.left; i <= event.right; i++) {
+                barDivs[i].classList.remove("partition");
+            }
+            break;
+        }
+
+
     }
 }
 
@@ -500,6 +516,21 @@ async function playAnimationInstant(event, barDivs, board) {
             const { left, right } = event;
             for (let i = left; i <= right; i++) {
                 barDivs[i].classList.remove("writing");
+            }
+            break;
+        }
+
+        case "partition_range": {
+            for (let i = event.left; i <= event.right; i++) {
+                barDivs[i].classList.add("partition");
+            }
+            await sleep(state.delay * 0.5);
+            break;
+        }
+
+        case "clear_partition_range": {
+            for (let i = event.left; i <= event.right; i++) {
+                barDivs[i].classList.remove("partition");
             }
             break;
         }

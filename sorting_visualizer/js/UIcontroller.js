@@ -2,13 +2,13 @@ import { MAX_BAR_VALUE} from "./constants.js";
 import { state } from "./state.js";
 
 // toggle
-function toggleMainArea(toggle, monoBoard, dualBoard) {
+function toggleMainArea(toggle, monoBoard, dualBoard, autoBtn) {
     if(toggle.checked) {
-        state.mode = "dual";
+        state.compareMode = "dual";
         monoBoard.style.display = "none";
-        dualBoard.style.display = "flex";
+        dualBoard.style.display = "flex"; 
     } else {
-        state.mode = "mono";
+        state.compareMode = "mono";
         monoBoard.style.display = "flex";
         dualBoard.style.display = "none";
     }
@@ -30,16 +30,18 @@ function renderBoard (arr, board) {
     })
 }
 
-function lockUI(generateBtn, sortBtn, compareToggle) {
+function lockUI(generateBtn, sortBtn, compareToggle, autoBtn) {
     generateBtn.disabled = true;
     sortBtn.disabled = true;
     compareToggle.disabled = true;
+    autoBtn.disabled = true;
 }
 
 function unlockUI (generateBtn, sortBtn, compareToggle) {
     generateBtn.disabled = false;
     sortBtn.disabled = false;
     compareToggle.disabled = false;
+    autoBtn.disabled = false;
 }
 
 
