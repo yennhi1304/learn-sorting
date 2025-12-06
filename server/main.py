@@ -5,14 +5,20 @@ from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI()
+origins = [
+    "*",  # allow all (easy mode)
+    # or explicitly:
+    # "https://sorting-checker-frontend.onrender.com"
+]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 class Request(BaseModel):
     code: str
