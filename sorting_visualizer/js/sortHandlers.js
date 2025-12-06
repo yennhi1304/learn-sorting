@@ -1,6 +1,6 @@
 import { state } from "./state.js";
 import { algorithmMap } from "./sortingAlgorithms.js";
-import { playAnimation } from "./animationEngine.js";
+import { playAnimation, playAnimationAuto } from "./animationEngine.js";
 import { renderBoard } from "./UIcontroller.js";
 
 
@@ -52,6 +52,7 @@ function runSingleSort(monoboard, sortType) {
     let events = algorithmMap[sortType](arr);
 
     events = collapseSortedEvents(events);
+    console.log(events);
 
     // return without autoplay!!
     return {
@@ -77,14 +78,14 @@ async function runDualSort(boardA, boardB, sortTypeA, sortTypeB) {
 
     async function animateA() {
         for (const event of eventsA) { 
-            await playAnimation(event, barDivsA, boardA)
+            await playAnimationAuto(event, barDivsA, boardA)
         }
         
     }
 
    async function animateB() {
         for (const event of eventsB) {
-            await playAnimation(event, barDivsB, boardB)
+            await playAnimationAuto(event, barDivsB, boardB)
         }
             
     }

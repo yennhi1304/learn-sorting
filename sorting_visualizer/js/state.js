@@ -14,4 +14,5 @@ export const state = {
     isSorting: false,
 
     delay: 300,
+    maxValue: -1,
 };

@@ -1,5 +1,7 @@
 import { sleep } from "./untils.js";
 import { state } from "./state.js";
+import { MAX_BAR_VALUE } from "./constants.js";
+import { mergeSort } from "./sortingAlgorithms.js";
 
 
 async function playAnimation(event, barDivs, board) {
@@ -140,6 +142,10 @@ async function playAnimation(event, barDivs, board) {
 
 async function playAnimationAuto(event, barDivs, board) {
     switch (event.type) {
+
+        // ===========================
+        // COMPARE
+        // ===========================
         case "compare": {
             const a = barDivs[event.i];
             const b = barDivs[event.j];
@@ -152,6 +158,9 @@ async function playAnimationAuto(event, barDivs, board) {
             break;
         }
 
+        // ===========================
+        // SWAP (Bubble, Selection)
+        // ===========================
         case "swap": {
             const A = barDivs[event.i];
             const B = barDivs[event.j];
@@ -182,10 +191,11 @@ async function playAnimationAuto(event, barDivs, board) {
             break;
         }
 
+        // ===========================
+        // SHIFT (Insertion sort)
+        // ===========================
         case "shift": {
             const bar = barDivs[event.source];
-
-            // move bars instantly without colors
             barDivs.splice(event.source, 1);
             barDivs.splice(event.target, 0, bar);
 
@@ -194,9 +204,12 @@ async function playAnimationAuto(event, barDivs, board) {
             break;
         }
 
+        // ===========================
+        // SORT MARKERS
+        // ===========================
         case "sorted":
         case "permanent_sorted": {
-            barDivs[event.i].classList.add("sorted");
+            barDivs[event.i ?? event.index].classList.add("sorted");
             break;
         }
 
@@ -214,20 +227,64 @@ async function playAnimationAuto(event, barDivs, board) {
             }
             break;
         }
+
+        // ===========================
+        // MERGE SORT: WRITE
+        // ===========================
+        case "write": {
+            const bar = barDivs[event.index];
+            bar.classList.add("write");
+
+            // const maxValue = state.maxValue;  // or board.dataset.maxValue
+            // const percentage = event.newValue / MAX_BAR_VALUE;
+
+            bar.style.height = `${event.newValue / MAX_BAR_VALUE * 100}%`;
+            bar.dataset.value = event.newValue;
+
+            await sleep(state.delay);
+            bar.classList.remove("write");
+            break;
+        }
+        case "left_range": {
+            for (let i = event.l; i <= event.r; i++) {
+                barDivs[i].classList.add("left");
+            }
+            break;
+        }
+
+        // ===========================
+        // RIGHT HALF
+        // ===========================
+        case "right_range": {
+            for (let i = event.l; i <= event.r; i++) {
+                barDivs[i].classList.add("right");
+            }
+            break;
+        }
+        case "clear_lr": {
+            for (let i = event.l; i <= event.r; i++) {
+                barDivs[i].classList.remove("left");
+                barDivs[i].classList.remove("right");
+            }
+            break;
+        }
+
     }
 }
 
 
 
 
+
 function playAnimationInstant(event, barDivs, board) {
+    console.log(event);
     switch (event.type) {
 
-        case "compare": {
-            barDivs[event.i].classList.add("active");
-            barDivs[event.j].classList.add("active");
-            break;
-        }
+        // case "compare": {
+        //     barDivs[event.i].classList.add("active");
+        //     barDivs[event.j].classList.add("active");
+        //     break;
+        // }
 
         case "get_key": {
             barDivs[event.i].classList.add("key");
@@ -310,6 +367,41 @@ function playAnimationInstant(event, barDivs, board) {
             barDivs[event.new].classList.add("smallest");
             break;
         }
+        case "write": {
+            const bar = barDivs[event.index];
+            bar.classList.add("write");
+
+            // const maxValue = state.maxValue;  // or board.dataset.maxValue
+            // const percentage = event.newValue / MAX_BAR_VALUE;
+
+            bar.style.height = `${event.newValue / MAX_BAR_VALUE * 100}%`;
+            bar.dataset.value = event.newValue;
+
+            break;
+        }
+        case "left_range": {
+            for (let i = event.l; i <= event.r; i++) {
+                barDivs[i].classList.add("left");
+            }
+            break;
+        }
+
+        // ===========================
+        // RIGHT HALF
+        // ===========================
+        case "right_range": {
+            for (let i = event.l; i <= event.r; i++) {
+                barDivs[i].classList.add("right");
+            }
+            break;
+        }
+        case "clear_lr": {
+            for (let i = event.l; i <= event.r; i++) {
+                barDivs[i].classList.remove("left");
+                barDivs[i].classList.remove("right");
+            }
+            break;
+        }
     }
 }
 
@@ -318,3 +410,5 @@ function playAnimationInstant(event, barDivs, board) {
 
 
 export { playAnimation, playAnimationInstant, playAnimationAuto };
+
+

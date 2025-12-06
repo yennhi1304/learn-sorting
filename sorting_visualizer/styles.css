@@ -1,4 +1,6 @@
-/* Prevent scrolling globally */
+/* ============================
+   GLOBAL PAGE LAYOUT
+   ============================ */
 html,
 body {
     margin: 0;
@@ -6,31 +8,38 @@ body {
     background: #111;
     color: #eee;
     font-family: Arial, sans-serif;
-    overflow: hidden;
-    /* <--- prevents page scroll */
+
     height: 100vh;
     width: 100vw;
 
+    overflow: hidden;
+    /* prevent page scroll */
     display: flex;
+    /* sidebar + main area */
 }
 
-/* SIDEBAR */
+
+/* ============================
+   SIDEBAR
+   ============================ */
 .sidebar {
     width: 260px;
     background: #1b1b1b;
     height: 100vh;
+
     padding: 20px;
+    box-sizing: border-box;
+
     border-right: 2px solid #333;
 
     display: flex;
     flex-direction: column;
     gap: 20px;
 
-    left: 0;
-    top: 0;
+    flex-shrink: 0;
 }
 
-/* Generate button */
+/* Buttons + Inputs */
 
 .generate-row {
     display: flex;
@@ -53,9 +62,8 @@ body {
     background: #72c8ff;
 }
 
-/* selection bar */
-
-input:not([type="range"]), select {
+input:not([type="range"]),
+select {
     padding: 5px 10px;
     border-radius: 6px;
     border: 1px solid #444;
@@ -63,8 +71,7 @@ input:not([type="range"]), select {
     color: #eee;
 }
 
-/* sort btn */
-
+/* Sort button */
 .sort-btn {
     padding: 10px 20px;
     background: #4ea8de;
@@ -79,45 +86,44 @@ input:not([type="range"]), select {
     background: #72c8ff;
 }
 
-/* disabled buttons */
-
+/* Disabled buttons */
 button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background: #777 !important;
     color: #333 !important;
 }
-/* Wrapper */
+
+
+/* ============================
+   TOGGLE SWITCH
+   ============================ */
 .switch {
     position: relative;
-    display: inline-block;     /* IMPORTANT */
+    display: inline-block;
     width: 42px;
     height: 22px;
 }
 
-/* Hide the default checkbox */
 .switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-/* Track */
 .switch-slider {
     position: absolute;
     cursor: pointer;
-    top: 0; left: 0;
-    right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
     background-color: #555;
-    transition: 0.3s;
     border-radius: 34px;
-    display: block;          /* IMPORTANT */
+    transition: 0.3s;
 }
 
-
-
-/* Knob */
 .switch-slider:before {
     position: absolute;
     content: "";
@@ -131,56 +137,58 @@ button:disabled {
     transition: 0.3s;
 }
 
-.switch input:disabled + .slider {
+.switch input:disabled+.switch-slider {
     cursor: not-allowed;
     opacity: 0.5;
 }
 
-.switch input:disabled + .slider:before {
-    cursor: not-allowed;
+.switch input:disabled+.switch-slider:before {
     background-color: #aaa;
 }
 
-/* Checked state */
-.switch input:checked + .switch-slider {
+.switch input:checked+.switch-slider {
     background-color: #4ea8de;
 }
 
-.switch input:checked + .switch-slider:before {
+.switch input:checked+.switch-slider:before {
     transform: translateX(20px);
 }
 
 
-
-
-
-
-/* MAIN AREA: fixed height, no scroll */
+/* ============================
+   MAIN AREA
+   ============================ */
 .main {
-    width: calc(100vw - 260px);
+    flex: 1;
     height: 100vh;
 
     display: flex;
     flex-direction: column;
 
-    overflow: hidden;
+    padding: 20px;
+    box-sizing: border-box;
 
-    padding: 20px;              /* ← added */
-    box-sizing: border-box;     /* ← important so padding fits */
+    overflow: hidden;
 }
 
 .title {
     text-align: center;
     margin-bottom: 10px;
     color: #4ea8de;
-    flex: 0 0 auto;
+
+    flex-shrink: 0;
 }
 
-/* Normal single board mode */
+
+/* ============================
+   SINGLE-BOARD MODE
+   ============================ */
 #mono-board {
+    flex: 1;
+    /* fill remaining vertical space */
     width: 100%;
-    height: calc(100vh - 20px - 20px - 40px); 
-    /* 100vh - top padding - bottom padding - title bar height */
+    min-height: 0;
+    /* IMPORTANT: prevents overflow in flexbox */
 
     background: #222;
     border-radius: 8px;
@@ -192,48 +200,50 @@ button:disabled {
 }
 
 
-/* --- COMPARISON MODE SECTION (fits entire screen) --- */
-
+/* ============================
+   DUAL-BOARD MODE
+   ============================ */
 #dual-board {
     flex: 1;
     display: none;
-    flex-direction: column;
-    overflow: hidden;
 
-    gap: 20px;              /* ← spacing between boards */
+    flex-direction: column;
+    gap: 20px;
+    overflow: hidden;
 }
 
-/* board-section uses half screen each */
 .board-section {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    padding: 5px 0;
 }
 
-/* Board controls become a small fixed bar */
 .board-controls {
     flex: 0 0 40px;
-    /* small bar at top */
     display: flex;
     align-items: center;
     gap: 12px;
     padding-left: 10px;
 }
 
-/* Each board fits remaining height */
 .board {
     flex: 1;
     background: #222;
     border-radius: 8px;
+
     display: flex;
     align-items: flex-end;
     gap: 2px;
+
     overflow: hidden;
+    min-height: 0;
 }
 
 
+/* ============================
+   BAR STYLES
+   ============================ */
 .bar {
     width: 8px;
     background: steelblue;
@@ -241,26 +251,44 @@ button:disabled {
     transition: background 0.25s ease;
 }
 
+/* Sorting state colors */
+.bar.left {
+    background: lightblue;
+}
 
+.bar.right {
+    background: rgba(255, 120, 120, 0.6);
+}
 
+.bar.active {
+    background: yellow;
+}
 
+.bar.swap {
+    background: orange;
+}
 
-.bar.write {background: violet;}
+.bar.shift {
+    background: orange;
+}
+
+.bar.key {
+    background: goldenrod;
+}
+
+.bar.smallest {
+    background: yellow;
+}
+
+.bar.sorted {
+    background: green;
+}
+
+/* Merge Sort Colors */
+.bar.write {
+    background: violet;
+}
+
 .bar.range {
-    background: rgba(255, 255, 0, 0.2);
+    background: rgba(255, 255, 0, 0.25);
 }
-
-.left {
-    background: pink;     /* blue-ish */
-}
-
-.right {
-    background: rgba(255, 120, 120, 0.6);    /* red-ish */
-}
-
-.bar.key { background: goldenrod; }
-.bar.smallest { background: yellow; }
-.bar.active { background: yellow;}
-.bar.sorted {background: green;}
-.bar.swap{background: orange;}
-.bar.shift{background: orange;}

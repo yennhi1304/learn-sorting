@@ -9,10 +9,11 @@
 
 <body>
 
-    <!-- SIDEBAR (unchanged) -->
+    <!-- SIDEBAR -->
     <div class="sidebar">
         <h2>Sorting Visualizer</h2>
 
+        <!-- Algorithm Select -->
         <div class="control-group">
             <label for="algo">Algorithm:</label>
             <select id="algo">
@@ -24,32 +25,33 @@
             </select>
         </div>
 
+        <!-- Array Size -->
         <div class="control-group">
             <label for="size">Array Size:</label>
             <input type="number" id="size" min="5" max="200" value="10">
         </div>
 
+        <!-- Speed -->
         <div class="control-group">
             <label for="speed">Speed:</label>
             <input type="range" id="speed" min="0" max="1000" value="500">
         </div>
 
+        <!-- Generate -->
         <div class="control-group">
-            <label for="generate">Generate Array:</label>
-
+            <label>Generate Array</label>
             <div class="generate-row">
                 <select id="generate">
                     <option value="random">Random</option>
                     <option value="ascending">Ascending</option>
                     <option value="descending">Descending</option>
-                    <option value="nearly">Nearly sorted</option>
+                    <option value="nearly">Nearly Sorted</option>
                 </select>
-
                 <button id="generateBtn" class="generate-btn">Generate</button>
             </div>
         </div>
 
-
+        <!-- Compare Mode -->
         <div class="control-group toggle-container">
             <label>Comparison Mode</label>
             <label class="switch">
@@ -58,57 +60,49 @@
             </label>
         </div>
 
+        <!-- MODE BUTTONS -->
+        <button id="autoBtn" class="sort-btn active">Auto Mode</button>
+
+        <!-- Step Mode Buttons -->
         <button id="sortBtn" class="sort-btn">Sort</button>
+        <button id="nextBtn" class="sort-btn" style="display:none;">Next</button>
+        <button id="backBtn" class="sort-btn" style="display:none;">Back</button>
+
+        <button id="resetBtn" class="sort-btn red">Reset</button>
     </div>
-
-
 
     <!-- MAIN AREA -->
     <div class="main">
-
-
-        <!-- NORMAL SINGLE BOARD -->
         <div id="mono-board"></div>
 
-        <!-- COMPARISON MODE LAYOUT -->
+        <!-- COMPARISON -->
         <div id="dual-board">
 
-            <!-- BOARD A SECTION -->
             <div class="board-section">
-                <div class="board-controls">
-                    <label>Algorithm A:</label>
-                    <select id="algoA">
-                        <option value="bubble">Bubble Sort</option>
-                        <option value="insertion">Insertion Sort</option>
-                        <option value="selection">Selection Sort</option>
-                        <option value="merge">Merge Sort</option>
-                        <option value="quick">Quick Sort</option>
-                    </select>
-                    <button id="sortA">Sort A</button>
-                </div>
-
+                <label>Algorithm A:</label>
+                <select id="algoA">
+                    <option value="bubble">Bubble</option>
+                    <option value="insertion">Insertion</option>
+                    <option value="selection">Selection</option>
+                    <option value="merge">Merge Sort</option>
+                    <option value="quick">Quick Sort</option>
+                </select>
                 <div class="board" id="boardA"></div>
             </div>
 
-            <!-- BOARD B SECTION -->
             <div class="board-section">
-                <div class="board-controls">
-                    <label>Algorithm B:</label>
-                    <select id="algoB">
-                        <option value="bubble">Bubble Sort</option>
-                        <option value="insertion">Insertion Sort Sort</option>
-                        <option value="selection">Selection Sort</option>
-                        <option value="merge">Merge Sort</option>
-                        <option value="quick">Quick Sort</option>
-                    </select>
-                    <button id="sortB">Sort B</button>
-                </div>
-
+                <label>Algorithm B:</label>
+                <select id="algoB">
+                    <option value="bubble">Bubble</option>
+                    <option value="insertion">Insertion</option>
+                    <option value="selection">Selection</option>
+                    <option value="merge">Merge Sort</option>
+                    <option value="quick">Quick Sort</option>
+                </select>
                 <div class="board" id="boardB"></div>
             </div>
 
         </div>
-
     </div>
 
     <script type="module" src="script.js"></script>
