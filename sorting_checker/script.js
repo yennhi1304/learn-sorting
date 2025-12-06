@@ -1,226 +1,272 @@
- // sorting checker elements: buttons and textfields
-  const jsBtn    = document.getElementById("jsBtn");
-  const cppBtn   = document.getElementById("cppBtn");
-  const codeArea = document.getElementById("code");
-  const checkBtn = document.getElementById("checkBtn");
-  const result   = document.getElementById("result");
+// sorting checker elements: buttons and textfields
+const jsBtn    = document.getElementById("jsBtn");
+const cppBtn   = document.getElementById("cppBtn");
+const codeArea = document.getElementById("code");
+const checkBtn = document.getElementById("checkBtn");
+const result   = document.getElementById("result");
 
-  // There are 2 types of mode for users
-  // Users can choose their prefered language: css or js
-  // Initially, the current mode is js
-  let mode = "js";
+let mode = "js";
 
-  // ====== Init default code ======
+// --------------------------------------------
+// MODE SWITCHING
+// --------------------------------------------
+function setMode(newMode) {
+  mode = newMode;
 
-  // 1. Function setMode: let users change the current mode
-        // Change the color of the button when user chose it (active type (css))
-        // Change codeArea.value when users switch their states
-        // Clear result text area (no need to use it at that time -> clear)
-    // End function 1
-  function setMode(newMode) {
-    mode = newMode;
+  jsBtn.classList.toggle("active", mode === "js");
+  cppBtn.classList.toggle("active", mode === "cpp");
 
-    jsBtn.classList.toggle("active", mode === "js");
-    cppBtn.classList.toggle("active", mode === "cpp");
-
-    if (mode === "js") {
-      codeArea.value =
+  if (mode === "js") {
+    codeArea.value =
 `function mySort(arr) {
   // JavaScript sorting code (ascending)
   return arr;
 }`;
-    } else {
-      codeArea.value =
+  } else {
+    codeArea.value =
 `vector<int> mySort(vector<int> arr) {
   // C++-style sorting code (ascending)
   return arr;
 }`;
-    }
-    result.textContent = "";
   }
 
+  result.textContent = "";
+}
+
+setMode("js");
+jsBtn.addEventListener("click", () => setMode("js"));
+cppBtn.addEventListener("click", () => setMode("cpp"));
 
 
-
-  // set initial content
-  // change the current state when users click on 2 buttons
-
-
-  setMode("js");
-
-  jsBtn.addEventListener("click", () => setMode("js"));
-  cppBtn.addEventListener("click", () => setMode("cpp"));
-
-
-
-  // 2. A function to compare the difference between the user's array with the correct array
-  // and show the difference index, expected and got element
-  function showDiff(userArr, correctArr) {
-    let lines = [];
-    for (let i = 0; i < correctArr.length; i++) {
-      if (userArr[i] !== correctArr[i]) {
-        lines.push(
-          "Index " + i +
-          ": expected " + correctArr[i] +
-          ", got " + userArr[i]
-        );
-      }
+// --------------------------------------------
+// SHOW ARRAY DIFFERENCE
+// --------------------------------------------
+function showDiff(userArr, correctArr) {
+  let lines = [];
+  for (let i = 0; i < correctArr.length; i++) {
+    if (userArr[i] !== correctArr[i]) {
+      lines.push(
+        `Index ${i}: expected ${correctArr[i]}, got ${userArr[i]}`
+      );
     }
+  }
+  return lines.join("\n");
+}
 
-    // combine all elements in lines into a string, then put \n between them
-    return lines.join("\n");
+
+// --------------------------------------------
+// SAFE JS PARSER
+// --------------------------------------------
+function parseJsFunction(codeText) {
+  try {
+    // Try standard function form
+    const f1 = eval("(" + codeText + ")");
+    if (typeof f1 === "function") return f1;
+  } catch {}
+
+  try {
+    // Try named function form
+    eval(codeText);
+    if (typeof mySort === "function") return mySort;
+  } catch {}
+
+  throw new Error("Cannot parse JavaScript function. Make sure it's valid JS.");
+}
+
+
+// --------------------------------------------
+// IMPROVED C++ BODY EXTRACTION USING BRACE COUNTER
+// --------------------------------------------
+function extractCppBody(text) {
+  const start = text.indexOf("mySort");
+  if (start < 0) throw new Error("Function mySort not found.");
+
+  const firstBrace = text.indexOf("{", start);
+  if (firstBrace < 0) throw new Error("Opening brace not found.");
+
+  let depth = 1;
+  let i = firstBrace + 1;
+
+  while (i < text.length && depth > 0) {
+    if (text[i] === "{") depth++;
+    else if (text[i] === "}") depth--;
+    i++;
   }
 
+  if (depth !== 0) throw new Error("Braces not balanced in function.");
+
+  return text.slice(firstBrace + 1, i - 1);
+}
 
 
-  // Very simple "C++ to JS" simulator for:
-  function simulateCppSort(codeText, inputArray) {
-    const text = codeText.replace(/\r/g, "");
+// --------------------------------------------
+// IMPROVED SIMULATED C++ → JS CONVERTER
+// --------------------------------------------
+function simulateCppSort(codeText, inputArray) {
+  const body = extractCppBody(codeText);
 
-    // Find the body of mySort
-    const match = text.match(/mySort\s*\([^)]*\)\s*{([\s\S]*)}/);
-    // If match returns null
-    if (!match) {
-      throw new Error("Could not find function body of mySort.");
-    }
+  let jsBody = body
+    .replace(/vector<int>/g, "")
+    .replace(/int\s+([A-Za-z_]\w*)/g, "let $1")
+    .replace(/arr\.size\s*\(\s*\)/g, "arr.length")
+    .replace(/std::/g, "");
 
-    let body = match[1]; // The first captured group of this match
+  const jsFunctionText =
+`return (function(arr) {
+  function swap(i, j) {
+    const t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+  }
+  ${jsBody}
+  return arr;
+})(arr);`;
 
-    // Very basic replacements:
-    // - vector<int>  -> (remove, handled by wrapper)
-    // - int x;       -> let x;
-    // - arr.size()   -> arr.length
-    // - std::        -> (remove namespace)
-    body = body
-      .replace(/vector<int>/g, "")
-      .replace(/int\s+([A-Za-z_]\w*)/g, "let $1")
-      .replace(/arr\.size\s*\(\s*\)/g, "arr.length")
-      .replace(/std::/g, "");
-
-    // Wrap into a JS function that operates on 'arr'
-    const jsFunctionText =
-      "return (function(arr) {\n" +
-      "  function swap(i, j) {\n" +
-      "    const t = arr[i];\n" +
-      "    arr[i] = arr[j];\n" +
-      "    arr[j] = t;\n" +
-      "  }\n" +
-      body + "\n" +
-      "})(arr);";
-
-    // Create a function: (arr) => { ...translated C++ body... }
-    // new Function: turn this text into a new function and run it
+  try {
     const runner = new Function("arr", jsFunctionText);
-    return runner(inputArray);
+    return runner(createSafeArray(inputArray.slice()), input);
+  } catch (err) {
+    throw new Error("C++ simulation failed: " + err.message);
   }
+}
 
-  // ====== Main checker ======
-  function checkCode() {
-    result.textContent = "Running tests...";
 
-    const tests = [
-      [5, 3, 8, 1, 2],
-      [10, 9, 8, 7],
-      [2, 5, 1, 4, 3],
-      [],
-      [100, -1, 50, 0]
-    ];
+// --------------------------------------------
+// MAIN CHECKER
+// --------------------------------------------
+function checkCode() {
+  result.textContent = "Running tests...";
 
-    const codeText = codeArea.value;
+  const tests = [
+    [5, 3, 8, 1, 2],
+    [10, 9, 8, 7],
+    [2, 5, 1, 4, 3],
+    [],
+    [100, -1, 50, 0]
+  ];
 
-    // ----- JavaScript mode -----
-    if (mode === "js") {
-      let userSort;
-      try {
-        // codeText should define function mySort(arr) { ... }
-        userSort = eval("(" + codeText + ")");
-      } catch (e) {
-        result.textContent = "❌ JavaScript syntax error:\n" + e.message;
-        return;
-      }
+  const codeText = codeArea.value;
 
-      for (const input of tests) {
-        const arrCopy = input.slice();
-        let out;
-        try {
-          out = userSort(arrCopy);
-        } catch (e) {
-          result.textContent =
-            "❌ Runtime error on input [" + input + "]:\n" + e.message;
-          return;
-        }
+  // -------------------------
+  // JS MODE
+  // -------------------------
+  if (mode === "js") {
+    let userSort;
 
-        const correct = input.slice().sort((a, b) => a - b);
-
-        if (!Array.isArray(out)) {
-          result.textContent =
-            "❌ Your function did not return an array for input [" + input + "].";
-          return;
-        }
-
-        if (out.length !== correct.length) {
-          result.textContent =
-            "❌ Array length changed for input [" + input + "].\n" +
-            "Your output: [" + out + "]";
-          return;
-        }
-
-        let allGood = out.every((v, i) => v === correct[i]);
-        if (!allGood) {
-          result.textContent =
-            "❌ Wrong result for input [" + input + "].\n\n" +
-            "Your output:   [" + out + "]\n" +
-            "Correct output:[" + correct + "]\n\n" +
-            showDiff(out, correct);
-          return;
-        }
-      }
-      
-      result.textContent = "✅ All tests passed!";
+    try {
+      userSort = parseJsFunction(codeText);
+    } catch (e) {
+      result.textContent = "❌ JavaScript error:\n" + e.message;
       return;
     }
 
-    // ----- Simulated C++ mode -----
-    if (mode === "cpp") {
-      for (const input of tests) {
-        const arrCopy = input.slice();
-        let out;
-        try {
-          out = simulateCppSort(codeText, arrCopy);
-        } catch (e) {
-          result.textContent =
-            "❌ C++ simulation error on input [" + input + "]:\n" + e.message;
-          return;
-        }
+    for (const input of tests) {
+      const arrCopy = createSafeArray(input.slice(), input);
 
-        const correct = input.slice().sort((a, b) => a - b);
+      let out;
 
-        if (!Array.isArray(out)) {
-          result.textContent =
-            "❌ Simulated mySort did not return an array for input [" + input + "].";
-          return;
-        }
-
-        if (out.length !== correct.length) {
-          result.textContent =
-            "❌ Array length changed for input [" + input + "].\n" +
-            "Your output: [" + out + "]";
-          return;
-        }
-
-        let allGood = out.every((v, i) => v === correct[i]);
-        if (!allGood) {
-          result.textContent =
-            "❌ Wrong result for input [" + input + "].\n\n" +
-            "Your output:   [" + out + "]\n" +
-            "Correct output:[" + correct + "]\n\n" +
-            showDiff(out, correct);
-          return;
-        }
+      try {
+        out = userSort(arrCopy);
+      } catch (e) {
+        result.textContent =
+          `❌ Runtime error on [${input}]:\n${e.message}`;
+        return;
       }
 
-      result.textContent = "✅ All tests passed!";
+      const correct = input.slice().sort((a, b) => a - b);
+
+      if (!Array.isArray(out)) {
+        result.textContent = `❌ Your function did not return an array.\nInput: [${input}]`;
+        return;
+      }
+
+      if (out.length !== correct.length) {
+        result.textContent =
+          `❌ Array length mismatch.\nYour output: [${out}]`;
+        return;
+      }
+
+      const allGood = out.every((v, i) => v === correct[i]);
+      if (!allGood) {
+        result.textContent =
+          `❌ Wrong result for [${input}].\n\nYour: [${out}]\nCorrect: [${correct}]\n\n${showDiff(out, correct)}`;
+        return;
+      }
     }
+
+    result.textContent = "✅ All tests passed!";
+    return;
   }
 
-  checkBtn.addEventListener("click", checkCode);
+
+  // -------------------------
+  // C++ MODE
+  // -------------------------
+  if (mode === "cpp") {
+    for (const input of tests) {
+      let out;
+
+      try {
+        out = simulateCppSort(codeText, input.slice());
+      } catch (e) {
+        result.textContent =
+          `❌ C++ simulation error on [${input}]:\n${e.message}`;
+        return;
+      }
+
+      const correct = input.slice().sort((a, b) => a - b);
+
+      if (!Array.isArray(out)) {
+        result.textContent =
+          `❌ Simulated mySort did not return an array.\nInput: [${input}]`;
+        return;
+      }
+
+      if (out.length !== correct.length) {
+        result.textContent =
+          `❌ Array size mismatch.\nYour output: [${out}]`;
+        return;
+      }
+
+      const allGood = out.every((v, i) => v === correct[i]);
+      if (!allGood) {
+        result.textContent =
+          `❌ Wrong result for [${input}].\n\nYour: [${out}]\nCorrect: [${correct}]\n\n${showDiff(out, correct)}`;
+        return;
+      }
+    }
+
+    result.textContent = "✅ All C++ tests passed!";
+  }
+}
+
+checkBtn.addEventListener("click", checkCode);
+function createSafeArray(arr, testInputName = "") {
+  return new Proxy(arr, {
+    get(target, prop) {
+      if (typeof prop === "string" && /^\d+$/.test(prop)) {
+        const index = Number(prop);
+        if (index < 0 || index >= target.length) {
+          throw new Error(
+            `Out-of-bounds access: arr[${index}] does not exist (length = ${target.length})`
+            + (testInputName ? ` | Input: [${testInputName}]` : "")
+          );
+        }
+      }
+      return target[prop];
+    },
+    set(target, prop, value) {
+      if (typeof prop === "string" && /^\d+$/.test(prop)) {
+        const index = Number(prop);
+        if (index < 0 || index >= target.length) {
+          throw new Error(
+            `Out-of-bounds write: arr[${index}] does not exist (length = ${target.length})`
+            + (testInputName ? ` | Input: [${testInputName}]` : "")
+          );
+        }
+      }
+      target[prop] = value;
+      return true;
+    }
+  });
+}

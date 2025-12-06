@@ -4,6 +4,7 @@
 }
 body {
   font-family: Arial, sans-serif;
+
 }
 
 /* Floating Bubble */
@@ -48,7 +49,7 @@ body {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.28);
   display: none;
   flex-direction: column;
-  overflow-x: hidden;
+  overflow: hidden;
   z-index: 9999;
 }
 
@@ -63,6 +64,7 @@ body {
   font-weight: bold;
   display: grid;
   grid-template-columns: 1fr 50px;
+  
 }
 
 .left {
@@ -104,12 +106,14 @@ body {
 }
 
 
+
 .Tony {
   background-color: var(--green);
   object-fit: cover;
   height: 430px;
   animation: vanish 1.2s ease-in forwards;
   animation-delay: 1.2s;
+  
 }
 
 @keyframes vanish {
@@ -190,7 +194,8 @@ body {
 }
 
 .chat-input input {
-  
+  background: white;
+  color: black;
   outline: none;
   border: none;
   background-color: transparent;
@@ -240,8 +245,10 @@ body {
 }
 
 .code-wrapper.fullscreen pre {
-  max-height: 60vh;
+  max-height: 100%;
   overflow-y: auto;
+  max-width: 100%;
+  
 }
 
 

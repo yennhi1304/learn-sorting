@@ -34,7 +34,7 @@ chatBubble.onclick = () => {
 
 const expandBtn = document.getElementById("expandBtn");
 
-let isFullscreen = false;
+
 
 
 
@@ -118,18 +118,19 @@ function formatMessage(text) {
   return escapeHtml(text).replace(/\n/g, "<br>");
 }
 
-const code = document.querySelector(".code-wrapper");
 
 expandBtn.onclick = () => {
-  isFullscreen = !isFullscreen;
   const allCodes = document.querySelectorAll(".code-wrapper");
 
-  if (isFullscreen) {
+  // Check the actual state of the chat window
+  const isFullscreen = chatWindow.classList.contains("fullscreen");
+
+  if (!isFullscreen) {
     chatWindow.classList.add("fullscreen");
     messages.classList.add("fullscreen");
     send.classList.add("fullscreen");
     allCodes.forEach(c => c.classList.add("fullscreen"));
-    expandBtn.textContent = "_"; // minimize icon
+    expandBtn.textContent = "_";  // minimize icon
   } else {
     chatWindow.classList.remove("fullscreen");
     messages.classList.remove("fullscreen");
@@ -137,9 +138,17 @@ expandBtn.onclick = () => {
     allCodes.forEach(c => c.classList.remove("fullscreen"));
     expandBtn.textContent = "⛶"; // expand icon
   }
-
-
 };
+
+// Observe the messages container for new nodes
+const observer = new MutationObserver(() => {
+  if (chatWindow.classList.contains("fullscreen")) {
+    document.querySelectorAll(".code-wrapper")
+      .forEach(c => c.classList.add("fullscreen"));
+  }
+});
+
+observer.observe(messages, { childList: true, subtree: true });
 
 
 function escapeHtml(str) {
