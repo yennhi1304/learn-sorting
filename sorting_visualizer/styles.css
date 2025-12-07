@@ -292,3 +292,7 @@ button:disabled {
 .bar.write {
     background: violet;
 }
+
+.partition {
+    background-color: rgba(255, 165, 0, 0.5); /* orange highlight */
+}

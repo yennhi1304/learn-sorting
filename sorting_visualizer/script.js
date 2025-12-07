@@ -3,7 +3,7 @@ import { arrayGenerators } from "./js/arrayGenerators.js";
 import { state } from "./js/state.js";
 import { runDualSort, runSingleSort } from "./js/sortHandlers.js";
 import { MAX_DELAY, MIN_DELAY } from "./js/constants.js";
-import { playAnimation, playAnimationAuto, playAnimationInstant } from "./js/animationEngine.js";
+import { playAnimationAuto, playAnimationInstant } from "./js/animationEngine.js";
 
 function clearBarStyles(barDivs) {
     for (let bar of barDivs) {
@@ -68,9 +68,8 @@ generateBtn.addEventListener("click", () => {
     state.maxValue = Math.max(...arr);
     state.baseArray = arr;
 
-    console.log(state.mode);
 
-    if (state.mode == "mono") {
+    if (state.compareMode == "mono") {
         renderBoard(arr, monoBoard);
 
     } else {
@@ -85,23 +84,71 @@ generateBtn.addEventListener("click", () => {
 
 // ----------------------- COMPARE MODE -------------------------
 compareBtn.addEventListener("change", () => {
-    toggleMainArea(compareBtn, monoBoard, dualBoard);
+    if (compareBtn.checked) {
+        // go to DUAL AUTO MODE only
+        state.compareMode = "dual";
+        state.autoMode = true;
+
+        // disable step mode button
+        autoBtn.classList.add("active");
+        autoBtn.disabled = true;
+
+        // hide step buttons
+        nextBtn.style.display = "none";
+        backBtn.style.display = "none";
+
+        monoBoard.style.display = "none";
+        dualBoard.style.display = "flex";
+
+        renderAuto();
+    } else {
+        // back to MONO AUTO MODE
+        state.compareMode = "mono";
+
+        // enable step mode button again
+        autoBtn.disabled = false;
+
+        monoBoard.style.display = "flex";
+        dualBoard.style.display = "none";
+
+        renderAuto();
+    }
 });
+
 
 // ----------------------- AUTO / STEP MODE TOGGLE ---------------
 autoBtn.addEventListener("click", () => {
-    const isAuto = autoBtn.classList.toggle("active");
+    // toggle
+    state.autoMode = !state.autoMode;
 
-    if (isAuto) {
-        sortBtn.textContent = "Sort";
-        nextBtn.style.display = "none";
-        backBtn.style.display = "none";
-    } else {
-        sortBtn.textContent = "Prepare";
+    // STEP MODE
+    if (!state.autoMode) {
+        // lock comparison
+        compareBtn.disabled = true;
+
+        // ensure mono mode only
+        state.compareMode = "mono";
+        monoBoard.style.display = "flex";
+        dualBoard.style.display = "none";
+
+        // show next/back
         nextBtn.style.display = "inline-block";
         backBtn.style.display = "inline-block";
+
+        autoBtn.textContent = "Auto Mode";
+    }
+    // AUTO MODE
+    else {
+        compareBtn.disabled = false;
+
+        // hide step buttons
+        nextBtn.style.display = "none";
+        backBtn.style.display = "none";
+
+        autoBtn.textContent = "Step Mode";
     }
 });
+
 
 // ------------------------ SORT ---------------------------------
 sortBtn.addEventListener("click", async () => {
@@ -110,14 +157,13 @@ sortBtn.addEventListener("click", async () => {
         return;
     }
 
-    const isAuto = autoBtn.classList.contains("active");
 
     // AUTO MODE
-    if (isAuto) {
+    if (state.autoMode) {
         state.isSorting = true;
-        lockUI(generateBtn, sortBtn, compareBtn);
+        lockUI(generateBtn, sortBtn, compareBtn, autoBtn);
 
-        if (state.mode == "mono") {
+        if (state.compareMode == "mono") {
             const sortType = sortTypeInput.value;
             const result = runSingleSort(monoBoard, sortType);
 
@@ -136,7 +182,7 @@ sortBtn.addEventListener("click", async () => {
             await runDualSort(boardA, boardB, typeA, typeB);
         }
 
-        unlockUI(generateBtn, sortBtn, compareBtn);
+        unlockUI(generateBtn, sortBtn, compareBtn, autoBtn);
         state.isSorting = false;
         return;
     }
@@ -215,3 +261,17 @@ speedSlider.addEventListener("input", () => {
 
 // ----------------------- RESET ---------------------------------
 resetBtn.addEventListener("click", () => location.reload());
+
+
+function renderAuto() {
+    if (state.autoMode) {
+        // hide step buttons in auto mode
+        nextBtn.style.display = "none";
+        backBtn.style.display = "none";
+        autoBtn.textContent = "Step Mode";
+    } else {
+        nextBtn.style.display = "inline-block";
+        backBtn.style.display = "inline-block";
+        autoBtn.textContent = "Auto Mode";
+    }
+}
