@@ -23,7 +23,7 @@ async function runCode() {
   const lang = document.getElementById("language").value;
   const output = document.getElementById("output");
 
-  const res = await fetch("https://code-checker-dbjj.onrender.com/run", {
+  const res = await fetch("https://code-checker-ml8z.onrender.com/run", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code, lang })
