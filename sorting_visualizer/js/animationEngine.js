@@ -332,8 +332,31 @@ async function playAnimationAuto(event, barDivs, board) {
             }
             break;
         }
+        case "smaller": {
+            barDivs[event.i].classList.add("smaller");
+            break;
+        }
+        case "larger": {
+            barDivs[event.i].classList.add("larger");
+            break;
+        }
+        case "remove_sl": {
+            for (const bar of barDivs) {
+                bar.classList.remove("smaller");
+                bar.classList.remove("larger");
+            }
+            break;
+        }
+        case "get_key": {
+            barDivs[event.i].classList.add("key");
+            break;
+        }
 
-
+        case "remove_key": {
+            barDivs[event.i].classList.remove("key");
+            barDivs[event.i].classList.remove("insert");
+            break;
+        }
     }
 }
 
@@ -531,6 +554,21 @@ async function playAnimationInstant(event, barDivs, board) {
         case "clear_partition_range": {
             for (let i = event.left; i <= event.right; i++) {
                 barDivs[i].classList.remove("partition");
+            }
+            break;
+        }
+        case "smaller": {
+            barDivs[event.i].classList.add("smaller");
+            break;
+        }
+        case "larger": {
+            barDivs[event.i].classList.add("larger");
+            break;
+        }
+        case "remove_sl": {
+            for (const bar of barDivs) {
+                bar.classList.remove("smaller");
+                bar.classList.remove("larger");
             }
             break;
         }

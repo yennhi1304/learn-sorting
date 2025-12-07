@@ -294,12 +294,15 @@ function partition(arr, left, right, events) {
         events.push({ type: "compare", i: j, j: right });
 
         if (arr[j] < pivot) {
+            events.push({type: "smaller", i: j});
             i++;
 
             if (i !== j) {
                 [arr[i], arr[j]] = [arr[j], arr[i]];
                 events.push({ type: "swap", i, j });
             }
+        } else {
+            events.push({type: "larger", i: j});
         }
     }
 
@@ -309,6 +312,8 @@ function partition(arr, left, right, events) {
         [arr[pivotPos], arr[right]] = [arr[right], arr[pivotPos]];
         events.push({ type: "swap", i: pivotPos, j: right });
     }
+
+    events.push({type: "remove_sl"});
 
     // Remove pivot highlight
     events.push({ type: "remove_key", i: pivotPos });

@@ -272,9 +272,7 @@ button:disabled {
     background: orange;
 }
 
-.bar.key {
-    background: goldenrod;
-}
+
 
 .bar.smallest {
     background: yellow;
@@ -295,4 +293,13 @@ button:disabled {
 
 .partition {
     background-color: rgba(255, 165, 0, 0.5); /* orange highlight */
+}
+.bar.key {
+    background: deeppink;
+}
+.bar.smaller {
+    background: magenta;
+}
+.bar.larger {
+    background: crimson;
 }
