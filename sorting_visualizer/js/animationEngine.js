@@ -357,6 +357,11 @@ async function playAnimationAuto(event, barDivs, board) {
             barDivs[event.i].classList.remove("insert");
             break;
         }
+        case "insert_key": {
+            barDivs[event.i].classList.add("insert");
+            barDivs[event.i].classList.remove("key");
+            break;
+        }
     }
 }
 
@@ -387,7 +392,7 @@ async function playAnimationInstant(event, barDivs, board) {
 
         case "shift": {
             const bar = barDivs[event.source];
-            bar.classList.add("shift");
+            bar.classList.add("key");
 
             barDivs.splice(event.source, 1);
             barDivs.splice(event.target, 0, bar);
@@ -398,7 +403,8 @@ async function playAnimationInstant(event, barDivs, board) {
         }
 
         case "insert_key": {
-            barDivs[event.i].classList.add("key");
+            barDivs[event.i].classList.add("insert");
+            barDivs[event.i].classList.remove("key");
             break;
         }
 

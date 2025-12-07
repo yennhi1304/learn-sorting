@@ -5,6 +5,47 @@ import { runDualSort, runSingleSort } from "./js/sortHandlers.js";
 import { MAX_DELAY, MIN_DELAY } from "./js/constants.js";
 import { playAnimationAuto, playAnimationInstant } from "./js/animationEngine.js";
 
+
+const legendMap = {
+    bubble: [
+        { cls: "active", label: "Comparing" },
+        { cls: "swap", label: "Swapping" },
+        { cls: "sorted", label: "Sorted" }
+    ],
+
+    selection: [
+        { cls: "active", label: "Comparing" },
+        { cls: "smallest", label: "Current smallest" },
+        { cls: "swap", label: "Swapping" },
+        { cls: "sorted", label: "Sorted" }
+    ],
+
+    insertion: [
+        { cls: "active", label: "Comparing" },
+        { cls: "key", label: "Key value" },
+        { cls: "insert", label: "Inserted position" },
+        { cls: "sorted", label: "Sorted prefix" }
+    ],
+
+    merge: [
+        { cls: "left", label: "Left half" },
+        { cls: "right", label: "Right half" },
+        { cls: "writing", label: "Writing merged values" },
+        { cls: "write", label: "Overwriting value" },
+        { cls: "sorted", label: "Sorted" }
+    ],
+
+    quick: [
+        { cls: "partition", label: "Current partition range" },
+        { cls: "key", label: "Pivot" },
+        { cls: "smaller", label: "Smaller than pivot" },
+        { cls: "larger", label: "Larger than pivot" },
+        { cls: "swap", label: "Swapping" },
+        { cls: "sorted", label: "Placed pivot" }
+    ]
+};
+
+
 function clearBarStyles(barDivs) {
     for (let bar of barDivs) {
         bar.classList.remove("active");
@@ -37,6 +78,14 @@ const sortTypeInput = document.getElementById("algo");
 const sortTypeAInput = document.getElementById("algoA");
 const sortTypeBInput = document.getElementById("algoB");
 const speedSlider = document.getElementById("speed");
+const algoSelect = document.getElementById("algo");
+const legendPanel = document.getElementById("legendPanel");
+
+
+algoSelect.addEventListener("change", () => {
+    renderLegend(algoSelect.value);
+});
+
 
 // boards
 const monoBoard = document.getElementById("mono-board");
@@ -118,36 +167,38 @@ compareBtn.addEventListener("change", () => {
 
 // ----------------------- AUTO / STEP MODE TOGGLE ---------------
 autoBtn.addEventListener("click", () => {
-    // toggle
     state.autoMode = !state.autoMode;
 
-    // STEP MODE
     if (!state.autoMode) {
-        // lock comparison
+        // ------------ STEP MODE ------------
         compareBtn.disabled = true;
 
-        // ensure mono mode only
         state.compareMode = "mono";
         monoBoard.style.display = "flex";
         dualBoard.style.display = "none";
 
-        // show next/back
         nextBtn.style.display = "inline-block";
         backBtn.style.display = "inline-block";
 
         autoBtn.textContent = "Auto Mode";
+
+        // ⭐ SHOW LEGEND in Step Mode
+        legendPanel.style.display = "block";
     }
-    // AUTO MODE
     else {
+        // ------------ AUTO MODE ------------
         compareBtn.disabled = false;
 
-        // hide step buttons
         nextBtn.style.display = "none";
         backBtn.style.display = "none";
 
         autoBtn.textContent = "Step Mode";
+
+        // ⭐ HIDE LEGEND in Auto Mode
+        legendPanel.style.display = "none";
     }
 });
+
 
 
 // ------------------------ SORT ---------------------------------
@@ -275,3 +326,30 @@ function renderAuto() {
         autoBtn.textContent = "Auto Mode";
     }
 }
+
+
+function renderLegend(algo) {
+    const panel = document.getElementById("legendContent");
+    const list = legendMap[algo];
+
+    panel.innerHTML = "";
+
+    list.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "legend-item";
+
+        const colorBox = document.createElement("div");
+        colorBox.classList.add("legend-color", "bar", item.cls);
+
+        const label = document.createElement("span");
+        label.textContent = item.label;
+
+        row.appendChild(colorBox);
+        row.appendChild(label);
+        panel.appendChild(row);
+    });
+}
+
+
+ renderLegend(algoSelect.value);
+ legendPanel.style.display = "none";

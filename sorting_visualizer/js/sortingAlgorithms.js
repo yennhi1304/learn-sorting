@@ -144,9 +144,6 @@ function insertionSort(arr) {
             i: j + 1,
             value: keyValue
         });
-
-
-
         // ⭐ Mark prefix sorted *right after insertion*
         events.push({
             type: "sorted_range",

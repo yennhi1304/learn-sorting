@@ -268,10 +268,9 @@ button:disabled {
     background: orange;
 }
 
-.bar.shift {
-    background: orange;
+.bar.insert {
+    background: red;
 }
-
 
 
 .bar.smallest {
@@ -280,6 +279,9 @@ button:disabled {
 
 .bar.sorted {
     background: green;
+}
+.bar.active {
+    background: yellow;
 }
 
 /* Merge Sort Colors */
@@ -292,14 +294,49 @@ button:disabled {
 }
 
 .partition {
-    background-color: rgba(255, 165, 0, 0.5); /* orange highlight */
+    background-color: rgba(255, 165, 0, 0.5);
+    /* orange highlight */
 }
+
 .bar.key {
-    background: deeppink;
+    background: gold;
 }
+
 .bar.smaller {
     background: magenta;
 }
+
 .bar.larger {
     background: crimson;
+}
+
+/* =================================
+   LEGEND PANEL
+   ================================= */
+.legend {
+    background: #222;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #333;
+    color: #ddd;
+    font-size: 14px;
+}
+
+.legend h3 {
+    margin: 0 0 10px 0;
+    font-size: 16px;
+    color: #4ea8de;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
 }
