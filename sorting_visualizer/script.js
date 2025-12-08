@@ -230,6 +230,7 @@ sortBtn.addEventListener("click", async () => {
             prepared = true;
 
             await playLoopAuto();
+            unlockUI(autoBtn);
         }
         else {
             const typeA = sortTypeAInput.value;
@@ -238,7 +239,7 @@ sortBtn.addEventListener("click", async () => {
         }
 
         unlockUI(
-            generateBtn, sortBtn, compareBtn, autoBtn,
+            generateBtn, sortBtn, compareBtn,
             arraySelection, arraySizeInput, sortTypeInput,
             sortTypeAInput, sortTypeBInput
         );
@@ -296,7 +297,7 @@ nextBtn.addEventListener("click", () => {
 
     if (currentIndex >= currentEvents.length) {
         unlockUI(
-            generateBtn, sortBtn, compareBtn, autoBtn,
+            generateBtn, sortBtn, autoBtn,
             arraySelection, arraySizeInput, sortTypeInput,
             sortTypeAInput, sortTypeBInput
         );
