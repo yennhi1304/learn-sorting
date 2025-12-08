@@ -30,19 +30,20 @@ function renderBoard (arr, board) {
     })
 }
 
-function lockUI(generateBtn, sortBtn, compareToggle, autoBtn) {
-    generateBtn.disabled = true;
-    sortBtn.disabled = true;
-    compareToggle.disabled = true;
-    autoBtn.disabled = true;
+// Lock any number of UI elements
+function lockUI(...elements) {
+    elements.forEach(el => {
+        if (el) el.disabled = true;
+    });
 }
 
-function unlockUI (generateBtn, sortBtn, compareToggle) {
-    generateBtn.disabled = false;
-    sortBtn.disabled = false;
-    compareToggle.disabled = false;
-    autoBtn.disabled = false;
+// Unlock any number of UI elements
+function unlockUI(...elements) {
+    elements.forEach(el => {
+        if (el) el.disabled = false;
+    });
 }
+
 
 
 

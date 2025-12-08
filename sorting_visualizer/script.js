@@ -177,8 +177,8 @@ autoBtn.addEventListener("click", () => {
         monoBoard.style.display = "flex";
         dualBoard.style.display = "none";
 
-        nextBtn.style.display = "inline-block";
-        backBtn.style.display = "inline-block";
+        nextBtn.style.display = "block";
+        backBtn.style.display = "block";
 
         autoBtn.textContent = "Auto Mode";
 
@@ -212,7 +212,11 @@ sortBtn.addEventListener("click", async () => {
     // AUTO MODE
     if (state.autoMode) {
         state.isSorting = true;
-        lockUI(generateBtn, sortBtn, compareBtn, autoBtn);
+        lockUI(
+            generateBtn, sortBtn, compareBtn, autoBtn,
+            arraySelection, arraySizeInput, sortTypeInput,
+            sortTypeAInput, sortTypeBInput
+        );
 
         if (state.compareMode == "mono") {
             const sortType = sortTypeInput.value;
@@ -233,10 +237,16 @@ sortBtn.addEventListener("click", async () => {
             await runDualSort(boardA, boardB, typeA, typeB);
         }
 
-        unlockUI(generateBtn, sortBtn, compareBtn, autoBtn);
+        unlockUI(
+            generateBtn, sortBtn, compareBtn, autoBtn,
+            arraySelection, arraySizeInput, sortTypeInput,
+            sortTypeAInput, sortTypeBInput
+        );
+
         state.isSorting = false;
         return;
     }
+
 
     // STEP MODE: PREPARE
     const sortType = sortTypeInput.value;
@@ -245,10 +255,15 @@ sortBtn.addEventListener("click", async () => {
     currentEvents = result.events;
     currentBarDivs = result.barDivs;
     currentBoard = monoBoard;
-    console.log(currentEvents);
 
     prepared = true;
     currentIndex = 0;
+
+    lockUI(
+        generateBtn, sortBtn, compareBtn, autoBtn,
+        arraySelection, arraySizeInput, sortTypeInput,
+        sortTypeAInput, sortTypeBInput
+    );
 
     // Update UI
     nextBtn.disabled = false;
@@ -278,6 +293,14 @@ nextBtn.addEventListener("click", () => {
 
     backBtn.disabled = currentIndex === 0;
     nextBtn.disabled = currentIndex >= currentEvents.length;
+
+    if (currentIndex >= currentEvents.length) {
+        unlockUI(
+            generateBtn, sortBtn, compareBtn, autoBtn,
+            arraySelection, arraySizeInput, sortTypeInput,
+            sortTypeAInput, sortTypeBInput
+        );
+    }
 });
 
 // ----------------------- STEP BACK ------------------------------
@@ -351,5 +374,5 @@ function renderLegend(algo) {
 }
 
 
- renderLegend(algoSelect.value);
- legendPanel.style.display = "none";
+renderLegend(algoSelect.value);
+legendPanel.style.display = "none";
