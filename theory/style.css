@@ -311,3 +311,29 @@ body.dark .lesson-content li {
   text-align: center;
   text-shadow: 0 3px 8px rgba(0,0,0,0.45);
 }
+
+
+.complexity-panel {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.complexity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.complexity-controls button {
+  padding: 4px 10px;
+}
+
+.complexity-canvas {
+  width: 100% !important;
+  max-width: 500px;
+  height: 250px !important;
+}

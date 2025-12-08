@@ -1,0 +1,37 @@
+#bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 350px;
+    /* same as containerHeight */
+    background: #222;
+    padding: 10px;
+}
+
+.bar {
+    width: 8px;
+    background: steelblue;
+    display: inline-block;
+    border-radius: 2px;
+    transition: transform 0.25s ease, background 0.25s ease;
+    position: relative;
+}
+
+.bar.compare {
+    background: yellow;
+}
+
+.bar.swap {
+    background: red;
+}
+
+.bar.boundary {
+    background: purple !important;
+}
+
+.bar.key {
+    background: goldenrod;
+}
+.bar.smallest {
+    background: magenta;
+}

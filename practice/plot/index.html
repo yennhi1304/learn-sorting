@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<canvas id="chart" width="600" height="400"></canvas>
+
+<br>
+
+<input type="number" id="inputX" placeholder="x value">
+<input type="number" id="inputY" placeholder="y value">
+<button id="addPointBtn">Add Point</button>
+
+<script>
+// -------------------------
+// Create base parabola data
+// -------------------------
+const xs = [];
+const ys = [];
+
+for (let x = -10; x <= 10; x++) {
+  xs.push(x);
+  ys.push(x * x);
+}
+
+// -------------------------
+// Create the chart
+// -------------------------
+const ctx = document.getElementById("chart");
+
+const chart = new Chart(ctx, {
+  type: "line",
+  data: {
+    labels: xs,
+    datasets: [
+      {
+        label: "y = x²",
+        data: ys,               // 21 values
+        borderColor: "red",
+        borderWidth: 3,
+        tension: 0,
+        pointRadius: 0
+      },
+      {
+        label: "Added Points",
+        data: [],               // dynamic point list
+        pointRadius: 8,
+        pointBackgroundColor: "blue",
+        showLine: false
+      }
+    ]
+  },
+  options: {
+    scales: {
+      x: {
+        title: { display: true, text: "x-axis" }
+      },
+      y: {
+        title: { display: true, text: "y-axis" }
+      }
+    }
+  }
+});
+
+// -------------------------------------
+// Add point when button is clicked
+// -------------------------------------
+document.getElementById("addPointBtn").onclick = () => {
+  const x = parseFloat(document.getElementById("inputX").value);
+  const y = parseFloat(document.getElementById("inputY").value);
+
+  if (isNaN(x) || isNaN(y)) {
+    alert("Please enter valid numbers!");
+    return;
+  }
+
+  // Push new point into dataset #2
+  chart.data.datasets[1].data.push({ x, y });
+
+  // Update chart visually
+  chart.update();
+};
+</script>
+
+</body>
+</html>
