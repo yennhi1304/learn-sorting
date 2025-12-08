@@ -10,7 +10,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* wheel + right panel scroll only */
+   /* wheel + right panel scroll only */
+   overflow: hidden;
 }
 
 /* ===== NAVBAR ===== */
@@ -334,6 +335,18 @@ body.dark .lesson-content li {
 
 .complexity-canvas {
   width: 100% !important;
-  max-width: 500px;
-  height: 250px !important;
+  /* max-width: 500px; */
+  /* height: 250px !important; */
 }
+
+/* Keep slice raised when selected */
+.slice.selected path {
+  transform: translateY(-1.5px);
+  filter: drop-shadow(0 6px 12px rgba(15,23,42,0.45));
+}
+
+
+.complexity-canvas {
+  pointer-events: auto !important;
+}
+

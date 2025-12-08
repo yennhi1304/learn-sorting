@@ -113,7 +113,7 @@ const lessons = {
       </div>
       <!-- interactive complexity panel inside lesson -->
     <div class="section-block">
-      <h3>Try it yourself: Selection Sort complexity</h3>
+      <h3>Complexity Plot</h3>
 
       <div class="complexity-panel" data-algo="selectionSort">
         <div class="complexity-controls">
@@ -194,7 +194,7 @@ const lessons = {
 
     <!-- interactive complexity panel inside lesson -->
     <div class="section-block">
-      <h3>Try it yourself: Bubble Sort complexity</h3>
+      <h3>Complexity Plot</h3>
 
       <div class="complexity-panel" data-algo="bubbleSort">
         <div class="complexity-controls">
@@ -281,7 +281,7 @@ const lessons = {
         <li><b>Worst-case:</b> O(n²)</li>
       </ul>
       <div class="section-block">
-      <h3>Try it yourself: Insertion Sort complexity</h3>
+      <h3>Complexity Plot</h3>
 
       <div class="complexity-panel" data-algo="insertionSort">
         <div class="complexity-controls">
@@ -377,7 +377,7 @@ const lessons = {
         </ul>
       </div>
       <div class="section-block">
-      <h3>Try it yourself: Quick Sort complexity</h3>
+      <h3>Complexity Plot</h3>
 
       <div class="complexity-panel" data-algo="quickSort">
         <div class="complexity-controls">
@@ -451,7 +451,7 @@ const lessons = {
       </ul>
 
       <div class="section-block">
-      <h3>Try it yourself: Merge Sort complexity</h3>
+      <h3>Complexity Plot</h3>
 
       <div class="complexity-panel" data-algo="mergeSort">
         <div class="complexity-controls">
@@ -485,20 +485,26 @@ const lessonBox = document.getElementById("lessonContent");
 
 document.querySelectorAll(".slice").forEach((slice) => {
   slice.addEventListener("click", () => {
+
+    // Remove selected class from all slices
+    document.querySelectorAll(".slice").forEach(s => s.classList.remove("selected"));
+
+    // Mark this slice as selected
+    slice.classList.add("selected");
+
+    // (existing code)
     const key = slice.dataset.key;
     const lesson = lessons[key];
-
     if (!lesson || !lessonBox) return;
 
     lessonBox.innerHTML = `
       <h2>${lesson.title}</h2>
       ${lesson.html}
     `;
-
-
     initComplexityPanel(key);
   });
 });
+
 
 
 /* ================= COMPLEXITY CHART LOGIC ================= */
@@ -620,6 +626,7 @@ function countOpsMergeSort(arr) {
     let result = [];
     let i = 0, j = 0;
 
+    // count comparisons in merge
     while (i < left.length && j < right.length) {
       ops++; // comparison
       if (left[i] < right[j]) {
@@ -629,14 +636,21 @@ function countOpsMergeSort(arr) {
       }
     }
 
+    ops++; // finishing concat
     return result.concat(left.slice(i)).concat(right.slice(j));
   }
 
   function mergeSort(a) {
     if (a.length <= 1) return a;
 
+    ops++; // count the split
     let mid = Math.floor(a.length / 2);
+
+    // recursion overhead (this boosts n log n shape)
+    ops++;  
     let left = mergeSort(a.slice(0, mid));
+
+    ops++;  
     let right = mergeSort(a.slice(mid));
 
     return merge(left, right);
@@ -645,6 +659,7 @@ function countOpsMergeSort(arr) {
   mergeSort(arr);
   return ops;
 }
+
 
 // Map of algorithm keys → counting functions
 const complexityRunners = {
@@ -748,7 +763,7 @@ if (lesson.complexityCurves?.includes("Olog")) {
     pointRadius: 0
   };
   for (let n = 10; n <= 500; n += 10)
-    olog.data.push({ x: n, y: n * Math.log2(n) * 20 });
+    olog.data.push({ x: n, y: n * Math.log2(n)});
   datasets.push(olog);
 }
 
@@ -767,16 +782,17 @@ if (lesson.complexityCurves?.includes("On")) {
 }
 
 
-  activeComplexityChart = new Chart(ctx, {
-    type: "line",
-    data: { datasets },
-    options: {
-      scales: {
-        x: { type: "linear", min: 0, max: 500 },
-        y: {}
-      }
-    }
-  });
+activeComplexityChart = new Chart(ctx, {
+  type: "line",
+  data: { datasets },
+  options: {
+    scales: {
+      x: { type: "linear", min: 0, max: 500 },
+      y: { beginAtZero: true },
+    },
+  }
+});
+
 
 
 
@@ -798,7 +814,7 @@ if (lesson.complexityCurves?.includes("On")) {
 
   opsSpan.textContent = ops;
 
-  activeComplexityChart.data.datasets[0].data.push({ x: n, y: ops });
+  activeComplexityChart.data.datasets[0].data.push({ x: n, y: ops});
   activeComplexityChart.update();
 });
 
