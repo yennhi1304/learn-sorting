@@ -6,16 +6,20 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+from fastapi.responses import Response
 @app.options("/run")
 def preflight():
-    return {}
-
-@app.post("/run")
-def run_code(payload: dict):
-    return judge(payload.get("lang"), payload.get("code"))
+    return Response(
+        status_code=200,
+        headers={
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        }
+    )
