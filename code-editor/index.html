@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multi-Language Code Editor</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ACE Editor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+
+  <!-- Skulpt (Python in browser) -->
+  <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="title">Code Sandbox</div>
+
+    <div class="controls">
+      <label for="language">Language:</label>
+      <select id="language">
+        <option value="python">Python</option>
+        <option value="javascript">JavaScript</option>
+      </select>
+
+      <button id="runBtn">Run ▶</button>
+      <button id="clearBtn">Clear Output</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="editor-section">
+      <div id="editor"></div>
+    </section>
+
+    <section class="output-section">
+      <div class="output-header">Output</div>
+      <pre id="output"></pre>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
