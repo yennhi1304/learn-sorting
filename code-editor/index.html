@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Multi-Language Code Editor</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="../chatbot/style.css" />
 
   <!-- ACE Editor -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
@@ -12,6 +14,7 @@
   <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt.min.js"></script>
   <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
 </head>
+
 <body>
   <header class="topbar">
     <div class="title">Code Sandbox</div>
@@ -39,6 +42,36 @@
     </section>
   </main>
 
+  <div id="chatBubble"><img src="../chatbot/images/chatbot.gif"></div>
+
+  <!-- Chat Window -->
+  <div id="chatWindow">
+    <div class="chat-header">
+      <div class="left">Tony</div>
+      <div class="right">
+        <button id="clearChat">&#8634;</button>
+        <button id="expandBtn" class="expand-icon">⛶</button>
+      </div>
+    </div>
+    <div><img class="Tony" src="../chatbot/images/hichatbot.gif"></div>
+
+
+    <div id="messages"></div>
+
+    <div class="input-container">
+      <div class="chat-input">
+        <input id="input" placeholder="Type a message...">
+        <button id="send">➤</button>
+      </div>
+    </div>
+
+  </div>
+
+
+
+
   <script src="script.js"></script>
+  <script src="../chatbot/script.js"></script>
 </body>
+
 </html>
