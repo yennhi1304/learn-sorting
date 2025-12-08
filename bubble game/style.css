@@ -1,19 +1,60 @@
  body {
      background: url('images/background.png') bottom;
      background-repeat: no-repeat;
-     background-size: 100vw 120vh;;
+     background-size: 100vw 120vh;
+     ;
      color: white;
      font-family: "Segoe UI", sans-serif;
      display: flex;
      justify-content: center;
+     overflow: hidden;
  }
 
- .game-container {
+ /* Overlay full-screen */
+ #modeOverlay {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100vw;
+     height: 100vh;
+     background: rgba(0, 0, 0, 0.6);
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     z-index: 100;
+ }
+
+ .overlay-box {
+     background: white;
+     color: black;
+     padding: 30px 50px;
+     border-radius: 10px;
+     text-align: center;
+     font-size: 22px;
+ }
+
+ button {
+     margin: 10px;
+     padding: 10px 20px;
+     font-size: 18px;
+     cursor: pointer;
+ }
+
+ .autoMode {
+     background-color: #e5e7eb;
+     height: 100vh;
+     width: 100vw;
+     display: none;
+ }
+
+
+ .manualMode {
+     display: block;
      text-align: center;
  }
 
  .column {
-    margin-top: 20vh;
+     margin-top: 4vh;
      display: flex;
      flex-direction: column;
      align-items: center;
@@ -21,9 +62,25 @@
 
  }
 
+ #actionButtons {
+
+     margin: 12px 0;
+     visibility: hidden;
+     /* or opacity: 0 */
+     pointer-events: none;
+
+ }
+
+
+ #actionButtons.visible {
+     visibility: visible;
+     /* or opacity: 1 */
+     pointer-events: auto;
+ }
+
  .node {
-     width: 15%;
-     height: 15%;
+     width: 30%;
+     height: 30%;
      position: relative;
      cursor: pointer;
      transition: 0.25s ease;
@@ -77,24 +134,26 @@
      background: #2d3748;
  }
 
- .santa img{
-    width: 30vh;
+
+
+ .santa img {
+     width: 30vh;
  }
 
- .shark img{
-    margin-top: -20vh;
-    margin-left: -70vw;
-    height: 30vh;
-    position: absolute;
-    animation: float 2s infinite;
+ .shark img {
+     margin-top: -20vh;
+     margin-left: -70vw;
+     height: 30vh;
+     position: absolute;
+     animation: float 2s infinite;
  }
 
  @keyframes float {
      from {
-            transform: translateX(10vw);
-        }
+         transform: translateX(10vw);
+     }
 
-        to {
-            transform: translateX(140vw);
-        }
+     to {
+         transform: translateX(140vw);
+     }
  }

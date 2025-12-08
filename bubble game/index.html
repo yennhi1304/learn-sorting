@@ -5,26 +5,42 @@
     <meta charset="UTF-8" />
     <title>Bubble Sort Game</title>
     <link rel="stylesheet" href="style.css">
-       
+
 </head>
 
 <body>
+    <!-- OVERLAY -->
+    <div id="modeOverlay">
+        <div class="overlay-box">
+            <h2>Choose your mode</h2>
 
-    <div class="game-container">
+            <button id="manualBtn">Manual Mode</button>
+            <button id="autoBtn">Auto Mode</button>
+        </div>
+    </div>
+
+    <div class="autoMode"  id="autoMode">
+        
+    </div>
+
+    <div class="manualMode"  id="manualMode">
         <p>Select two <b>adjacent</b> bubbles to swap them.</p>
         <p id="info"></p>
-        <div id="column" class="column"></div>
-        <div id="actionButtons" style="display:none; margin: 12px 0;">
+        <div id="actionButtons">
             <button id="swapBtn">Swap</button>
             <button id="noSwapBtn">No Swap</button>
         </div>
+        
+        <div id="column" class="column"></div>
         <button id="resetBtn">Generate New 10 Bubbles</button>
         <div class="santa"><img src="images/santa.gif"></div>
-        <div class= shark><img src="images/shark.gif"></div>
+        <div class=shark><img src="images/shark.gif"></div>
     </div>
-    
 
-    <script src="script.js"></script>
+
+    <script src="js/manualMode.js"></script>
+    <script src="js/autoMode.js"></script>
+    <script src="js/overlay.js"></script>
 </body>
 
-</html>       
+</html>
