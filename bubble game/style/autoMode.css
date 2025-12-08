@@ -1,11 +1,12 @@
  body {
-    margin: 0 0;
-    overflow: hidden;
+     margin: 0 0;
+     overflow: hidden;
  }
+
  .autoMode {
-    display: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+     display: none;
+     display: grid;
+     grid-template-columns: 1fr 1fr;
      background: url('../images/background.png') center;
      background-repeat: no-repeat;
      background-size: cover;
@@ -16,11 +17,11 @@
  }
 
  .game {
-    border: solid blueviolet;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+     border: solid blueviolet;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
  }
 
  .column {
@@ -32,15 +33,20 @@
      margin-bottom: 2vh;
  }
 
-.column.win {
-  animation: fade 0.5s ease forwards;
-}
+ .column.win {
+     animation: fade 0.5s ease forwards;
+ }
 
 
-@keyframes fade {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
+ @keyframes fade {
+     from {
+         opacity: 1;
+     }
+
+     to {
+         opacity: 0;
+     }
+ }
 
 
  #actionButtons {
@@ -59,11 +65,16 @@
  }
 
  .node {
-    border: solid;
+     display: flex;
+     flex-direction: column;
+     /* image above, number below */
+     align-items: center;
+     /* horizontal centering */
+     justify-content: center;
+     /* vertical centering */
+     position: relative;
      width: 50px;
      height: 50px;
-     position: relative;
-     cursor: pointer;
      transition: 0.25s ease;
  }
 
@@ -79,16 +90,8 @@
      top: 50%;
      left: 50%;
      transform: translate(-50%, -50%);
-     font-size: 100%;
-     font-weight: bold;
-     color: white;
-     pointer-events: none;
-     text-shadow: 0 0 5px #000;
- }
+     /* perfect center */
 
- .node.selected {
-     transform: scale(1.15);
-     filter: drop-shadow(0 0 12px #58a6ff);
  }
 
  .node.correct {
@@ -98,6 +101,59 @@
  .node.wrong {
      filter: drop-shadow(0 0 12px #ff3b3b);
  }
+
+ /* highlight both bubbles before swap */
+ .bubble-active {
+     animation: bubbleGlow 0.6s ease-in-out infinite alternate;
+ }
+
+ /* movement animation */
+ .bubble-swap-A {
+     animation: bubbleGlow 0.6s ease-in-out infinite alternate,
+         bubbleMoveDown 0.6s ease-in-out forwards;
+
+ }
+
+ .bubble-swap-B {
+     animation: bubbleGlow 0.6s ease-in-out infinite alternate,
+         bubbleMoveTop 0.6s ease-in-out forwards;
+ }
+
+ /* glowing */
+ @keyframes bubbleGlow {
+     from {
+         filter: drop-shadow(0 0 4px cyan);
+         transform: scale(1.05);
+     }
+
+     to {
+         filter: drop-shadow(0 0 10px cyan);
+         transform: scale(1.12);
+     }
+ }
+
+
+ @keyframes bubbleMoveTop {
+     0% {
+         transform: translateY(0px);
+     }
+
+     100% {
+         transform: translateY(-30px);
+     }
+ }
+
+
+ @keyframes bubbleMoveDown {
+     0% {
+         transform: translateY(0px);
+     }
+
+     100% {
+         transform: translateY(30px);
+     }
+ }
+
 
  #resetBtn {
      visibility: hidden;
@@ -122,35 +178,40 @@
  }
 
  .santa {
-    visibility: visible;
+     visibility: visible;
  }
 
  .santa.win {
-    animation: fly 5s ease forwards;
+     animation: fly 5s ease forwards;
  }
 
 
 
-@keyframes fly {
-  from   { transform: translateY(0); }
-  to  { transform: translateY(-70vh); }
-}
- 
+ @keyframes fly {
+     from {
+         transform: translateY(0);
+     }
+
+     to {
+         transform: translateY(-70vh);
+     }
+ }
 
 
- .shark{
+
+ .shark {
      margin-top: -50vh;
-     margin-left: -120vw; 
+     margin-left: -120vw;
      position: absolute;
      animation: float 3s infinite;
      display: none;
  }
 
  .shark img {
-    height: 400px;
+     height: 400px;
  }
 
- 
+
 
  @keyframes float {
      from {
@@ -164,129 +225,133 @@
 
 
 
-/* ----------------------------------------------------------
+ /* ----------------------------------------------------------
    GLOBAL PAGE STYLE (VS Code dark theme)
 ----------------------------------------------------------- */
-.code {
-  margin: 0;
-  padding: 0;
-  background-color: #1e1e1e; /* VS Code background */
-  color: #d4d4d4;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  height: 100vh;
-  width: 50vw;
-}
+ .code {
+     margin: 0;
+     padding: 0;
+     background-color: #1e1e1e;
+     /* VS Code background */
+     color: #d4d4d4;
+     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+     height: 100vh;
+     width: 50vw;
+ }
 
-h1, h2 {
-  text-align: center;
-  color: #dcdcaa; /* yellowish VS Code title color */
-  font-weight: 500;
-  margin-top: 20px;
-}
+ h1,
+ h2 {
+     text-align: center;
+     color: #dcdcaa;
+     /* yellowish VS Code title color */
+     font-weight: 500;
+     margin-top: 20px;
+ }
 
-/* ----------------------------------------------------------
+ /* ----------------------------------------------------------
    CONTROLS BAR
 ----------------------------------------------------------- */
-.controls {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
+ .controls {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     gap: 15px;
 
-  background: #252526; /* VS Code sidebar color */
-  padding: 12px 20px;
-  margin: 20px auto;
-  width: 80%;
-  border: 1px solid #3c3c3c;
-  border-radius: 6px;
-}
+     background: #252526;
+     /* VS Code sidebar color */
+     padding: 12px 20px;
+     margin: 20px auto;
+     width: 80%;
+     border: 1px solid #3c3c3c;
+     border-radius: 6px;
+ }
 
-.controls label {
-  font-size: 16px;
-}
+ .controls label {
+     font-size: 16px;
+ }
 
-.controls select {
-  background-color: #1e1e1e;
-  color: #d4d4d4;
-  border: 1px solid #3c3c3c;
-  padding: 6px;
-  border-radius: 4px;
-  font-size: 14px;
-}
+ .controls select {
+     background-color: #1e1e1e;
+     color: #d4d4d4;
+     border: 1px solid #3c3c3c;
+     padding: 6px;
+     border-radius: 4px;
+     font-size: 14px;
+ }
 
-.controls select:focus {
-  outline: none;
-  border-color: #007acc; /* VS Code blue */
-}
+ .controls select:focus {
+     outline: none;
+     border-color: #007acc;
+     /* VS Code blue */
+ }
 
-#runBtn {
-  padding: 7px 15px;
-  font-size: 14px;
-  background-color: #0e639c;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
+ #runBtn {
+     padding: 7px 15px;
+     font-size: 14px;
+     background-color: #0e639c;
+     border: none;
+     border-radius: 4px;
+     color: white;
+     cursor: pointer;
+     transition: background 0.2s ease;
+ }
 
-#runBtn:hover {
-  background-color: #1177bb;
-}
+ #runBtn:hover {
+     background-color: #1177bb;
+ }
 
-/* ----------------------------------------------------------
+ /* ----------------------------------------------------------
    EDITOR AREA (Monaco container)
 ----------------------------------------------------------- */
-#editor {
-  width: 80%;
-  height: 50vh;
-  margin: 0 auto;
-  border: 1px solid #3c3c3c;
-  border-radius: 6px;
-  overflow: hidden;
-  background-color: #1e1e1e;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
-}
+ #editor {
+     width: 80%;
+     height: 50vh;
+     margin: 0 auto;
+     border: 1px solid #3c3c3c;
+     border-radius: 6px;
+     overflow: hidden;
+     background-color: #1e1e1e;
+     box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+ }
 
-/* ----------------------------------------------------------
+ /* ----------------------------------------------------------
    OUTPUT PANEL
 ----------------------------------------------------------- */
-h2 {
-  margin-top: 35px;
-}
+ h2 {
+     margin-top: 35px;
+ }
 
-#output {
-  width: 80%;
-  min-height: 10vh;
-  background: #1e1e1e;
-  border: 1px solid #3c3c3c;
-  border-radius: 6px;
-  padding: 15px;
-  margin: 0 auto 40px auto;
-  color: #9cdcfe; /* bright VS Code cyan color */
-  font-size: 14px;
-  font-family: "Consolas", "Courier New", monospace; /* code-like */
-  white-space: pre-wrap;
-  box-shadow: 0 0 8px rgba(0,0,0,0.4);
-}
+ #output {
+     width: 80%;
+     min-height: 10vh;
+     background: #1e1e1e;
+     border: 1px solid #3c3c3c;
+     border-radius: 6px;
+     padding: 15px;
+     margin: 0 auto 40px auto;
+     color: #9cdcfe;
+     /* bright VS Code cyan color */
+     font-size: 14px;
+     font-family: "Consolas", "Courier New", monospace;
+     /* code-like */
+     white-space: pre-wrap;
+     box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+ }
 
-/* Scrollbar styling (VS Code-like) */
-::-webkit-scrollbar {
-  width: 10px;
-}
+ /* Scrollbar styling (VS Code-like) */
+ ::-webkit-scrollbar {
+     width: 10px;
+ }
 
-::-webkit-scrollbar-track {
-  background: #1e1e1e;
-}
+ ::-webkit-scrollbar-track {
+     background: #1e1e1e;
+ }
 
-::-webkit-scrollbar-thumb {
-  background: #3c3c3c;
-  border-radius: 5px;
-}
+ ::-webkit-scrollbar-thumb {
+     background: #3c3c3c;
+     border-radius: 5px;
+ }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #4c4c4c;
-}
-
-
-
+ ::-webkit-scrollbar-thumb:hover {
+     background: #4c4c4c;
+ }

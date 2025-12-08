@@ -2,7 +2,7 @@ let arr = [];
 let selected = null;
 let i = 0;
 let j = 0;
-let lock = true;
+let lock = false;
 
 const column = document.getElementById("column");
 const resetBtn = document.getElementById("resetBtn");
