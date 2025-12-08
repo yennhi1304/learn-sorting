@@ -2,6 +2,7 @@
 const toggleCheckbox = document.querySelector(".switch input");
 const nav = document.querySelector(".navbar");
 
+
 if (toggleCheckbox) {
   toggleCheckbox.addEventListener("change", () => {
     const on = toggleCheckbox.checked;
@@ -124,6 +125,12 @@ const lessons = {
           <button class="complexity-clear">Clear</button>
         </div>
 
+        <div class="input-modes">
+  <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
+  <label><input type="radio" name="inputMode" value="rand"> Random</label>
+  <label><input type="radio" name="inputMode" value="desc"> Descending</label>
+</div>
+
         <p>Operations: <span class="complexity-ops">0</span></p>
 
         <canvas class="complexity-canvas"></canvas>
@@ -134,7 +141,7 @@ const lessons = {
 
   bubbleSort: {
     title: "Bubble Sort",
-    complexityCurves: ["O2"],
+    complexityCurves: ["O2", "On"],
     html: `
     <div class="section-block">
       <p>
@@ -198,6 +205,11 @@ const lessons = {
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
         </div>
+        <div class="input-modes">
+  <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
+  <label><input type="radio" name="inputMode" value="rand"> Random</label>
+  <label><input type="radio" name="inputMode" value="desc"> Descending</label>
+</div>
 
         <p>Operations: <span class="complexity-ops">0</span></p>
 
@@ -210,7 +222,7 @@ const lessons = {
 
   insertionSort: {
     title: "Insertion Sort",
-    complexityCurves: ["O2"],
+    complexityCurves: ["O2", "On"],
     html: `
       <p>
         The Insertion Sort algorithm uses one part of the array to hold the sorted values, 
@@ -271,7 +283,7 @@ const lessons = {
       <div class="section-block">
       <h3>Try it yourself: Insertion Sort complexity</h3>
 
-      <div class="complexity-panel" data-algo="selectionSort">
+      <div class="complexity-panel" data-algo="insertionSort">
         <div class="complexity-controls">
           <label>Array size:</label>
           <input type="range" class="complexity-slider" min="10" max="500" value="50">
@@ -280,6 +292,11 @@ const lessons = {
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
         </div>
+        <div class="input-modes">
+  <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
+  <label><input type="radio" name="inputMode" value="rand"> Random</label>
+  <label><input type="radio" name="inputMode" value="desc"> Descending</label>
+</div>
 
         <p>Operations: <span class="complexity-ops">0</span></p>
 
@@ -371,6 +388,11 @@ const lessons = {
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
         </div>
+        <div class="input-modes">
+  <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
+  <label><input type="radio" name="inputMode" value="rand"> Random</label>
+  <label><input type="radio" name="inputMode" value="desc"> Descending</label>
+</div>
 
         <p>Operations: <span class="complexity-ops">0</span></p>
 
@@ -428,12 +450,29 @@ const lessons = {
         <li><b>Worst-case:</b> O(n log n)</li>
       </ul>
 
-      <img
-        src="images/merge/complexity.png"
-        class="full-img"
-        alt="Merge Sort time complexity"
-        data-caption="Merge Sort Time Complexity: O(n log n)"
-      >
+      <div class="section-block">
+      <h3>Try it yourself: Merge Sort complexity</h3>
+
+      <div class="complexity-panel" data-algo="mergeSort">
+        <div class="complexity-controls">
+          <label>Array size:</label>
+          <input type="range" class="complexity-slider" min="10" max="500" value="50">
+          <span class="complexity-slider-value">50</span>
+
+          <button class="complexity-run">Run</button>
+          <button class="complexity-clear">Clear</button>
+        </div>
+        <div class="input-modes">
+  <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
+  <label><input type="radio" name="inputMode" value="rand"> Random</label>
+  <label><input type="radio" name="inputMode" value="desc"> Descending</label>
+</div>
+
+        <p>Operations: <span class="complexity-ops">0</span></p>
+
+        <canvas class="complexity-canvas"></canvas>
+      </div>
+    </div>
     </div>
   `
   }
@@ -539,35 +578,37 @@ function countOpsInsertionSort(arr) {
 function countOpsQuickSort(arr) {
   let ops = 0;
 
-  function partition(left, right) {
-    let pivot = arr[right];
-    let i = left - 1;
+  function quick(a, low, high) {
+    if (low >= high) return;
 
-    for (let j = left; j < right; j++) {
-      ops++; // comparison
-      if (arr[j] < pivot) {
+    const p = partition(a, low, high);
+    quick(a, low, p - 1);
+    quick(a, p + 1, high);
+  }
+
+  function partition(a, low, high) {
+    let pivot = a[high];
+    let i = low;
+
+    for (let j = low; j < high; j++) {
+      ops++; // comparison with pivot
+      if (a[j] <= pivot) {
+        ops++; // swap animation
+        [a[i], a[j]] = [a[j], a[i]];
         i++;
-        ops++; // swap
-        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
     }
 
-    ops++; // swap pivot
-    [arr[i + 1], arr[right]] = [arr[right], arr[i + 1]];
-    return i + 1;
+    ops++; // final pivot swap
+    [a[i], a[high]] = [a[high], a[i]];
+    return i;
   }
 
-  function quick(left, right) {
-    if (left < right) {
-      let pi = partition(left, right);
-      quick(left, pi - 1);
-      quick(pi + 1, right);
-    }
-  }
-
-  quick(0, arr.length - 1);
+  quick(arr, 0, arr.length - 1);
   return ops;
 }
+
+
 
 // ===============================
 // MERGE SORT OPS
@@ -615,6 +656,27 @@ const complexityRunners = {
   mergeSort: countOpsMergeSort,
 };
 
+function buildArrayByMode(n, mode) {
+  // Use 1..n to avoid duplicates
+  let arr = Array.from({ length: n }, (_, i) => i + 1);
+
+  if (mode === "rand") {
+    // Shuffle
+    for (let i = arr.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  if (mode === "asc") return arr;   // already sorted
+  if (mode === "desc") return arr.reverse();
+
+  return arr;
+}
+
+
+
 // Initialize complexity chart for the current lesson (if panel exists)
 function initComplexityPanel(algoKey) {
   if (!lessonBox) return;
@@ -642,50 +704,69 @@ function initComplexityPanel(algoKey) {
 
   const ctx = canvas.getContext("2d");
 
-  // destroy old chart
+  // destroy previous chart
   if (activeComplexityChart) {
     activeComplexityChart.destroy();
     activeComplexityChart = null;
   }
 
-  // dynamic datasets
+  // base dataset
   const datasets = [
     {
       label: "Test Points",
       data: [],
       parsing: false,
       showLine: false,
-      pointRadius: 5,
+      pointRadius: 3,
+      pointHoverRadius: 4,
       backgroundColor: "blue",
       borderColor: "blue",
     }
   ];
 
-  if (lesson.complexityCurves?.includes("O2")) {
-    datasets.push({
-      label: "O(n²)",
-      data: [],
-      parsing: false,
-      borderColor: "red",
-      fill: false,
-      pointRadius: 0,
-      pointHoverRadius: 0
-    });
-  }
+  // Add theoretical curves depending on lesson settings
+if (lesson.complexityCurves?.includes("O2")) {
+  const o2 = {
+    label: "O(n²)",
+    data: [],
+    parsing: false,
+    borderColor: "red",
+    borderDash: [6, 6],
+    pointRadius: 0
+  };
+  for (let n = 10; n <= 500; n += 10) o2.data.push({ x: n, y: n * n });
+  datasets.push(o2);
+}
 
-  if (lesson.complexityCurves?.includes("Olog")) {
-    datasets.push({
-      label: "O(n log n)",
-      data: [],
-      parsing: false,
-      borderColor: "green",
-      fill: false,
-      pointRadius: 0,
-      pointHoverRadius: 0
-    });
-  }
+if (lesson.complexityCurves?.includes("Olog")) {
+  const olog = {
+    label: "O(n log n)",
+    data: [],
+    parsing: false,
+    borderColor: "green",
+    borderDash: [6, 6],
+    pointRadius: 0
+  };
+  for (let n = 10; n <= 500; n += 10)
+    olog.data.push({ x: n, y: n * Math.log2(n) * 20 });
+  datasets.push(olog);
+}
 
-  // create chart AFTER ctx exists
+if (lesson.complexityCurves?.includes("On")) {
+  const on = {
+    label: "O(n)",
+    data: [],
+    parsing: false,
+    borderColor: "orange",
+    borderDash: [6, 6],
+    pointRadius: 0
+  };
+  for (let n = 10; n <= 500; n += 10)
+    on.data.push({ x: n, y: n });
+  datasets.push(on);
+}
+
+
   activeComplexityChart = new Chart(ctx, {
     type: "line",
     data: { datasets },
@@ -697,38 +778,40 @@ function initComplexityPanel(algoKey) {
     }
   });
 
-  // add reference curves
-  for (let n = 10; n <= 500; n += 10) {
-    const o2 = activeComplexityChart.data.datasets.find(d => d.label === "O(n²)");
-    if (o2) o2.data.push({ x: n, y: n * n });
 
-    const olog = activeComplexityChart.data.datasets.find(d => d.label === "O(n log n)");
-    if (olog) olog.data.push({ x: n, y: n * Math.log2(n) * 20 });
-  }
 
-  activeComplexityChart.update();
-
-  // run
+  // ===============================
+  // RUN BUTTON
+  // ===============================
   runBtn.addEventListener("click", () => {
-    const n = Number(slider.value);
-    const runAlgo = complexityRunners[algoKey];
-    if (!runAlgo) return;
+  const n = Number(slider.value);
+  const runAlgo = complexityRunners[algoKey];
+  if (!runAlgo) return;
 
-    const arr = Array.from({ length: n }, () => Math.floor(Math.random() * 100));
-    const ops = runAlgo([...arr]);
+  // Read selected mode
+  const mode = panel.querySelector("input[name='inputMode']:checked")?.value || "rand";
 
-    opsSpan.textContent = ops;
+  // Build array based on mode
+  const arr = buildArrayByMode(n, mode);
 
-    activeComplexityChart.data.datasets[0].data.push({ x: n, y: ops });
-    activeComplexityChart.update();
-  });
+  const ops = runAlgo([...arr]); // count operations
 
-  // clear
+  opsSpan.textContent = ops;
+
+  activeComplexityChart.data.datasets[0].data.push({ x: n, y: ops });
+  activeComplexityChart.update();
+});
+
+
+  // ===============================
+  // CLEAR BUTTON
+  // ===============================
   clearBtn.addEventListener("click", () => {
     opsSpan.textContent = "0";
     activeComplexityChart.data.datasets[0].data = [];
     activeComplexityChart.update();
   });
 }
+
 
 
