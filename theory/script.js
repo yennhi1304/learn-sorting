@@ -788,7 +788,9 @@ activeComplexityChart = new Chart(ctx, {
   options: {
     scales: {
       x: { type: "linear", min: 0, max: 500 },
-      y: { beginAtZero: true },
+      y: { beginAtZero: true,
+          suggestedMax: 250000,
+       },
     },
   }
 });
