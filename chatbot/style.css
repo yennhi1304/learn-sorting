@@ -72,11 +72,12 @@ body {
 }
 
 .right {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  
+  display: flex;
+  gap: 10px;          /* spacing between buttons */
+  align-items: center;
+  justify-content: flex-end;
 }
+
 
 .right button { 
   padding: 2px 2px ;
@@ -104,6 +105,21 @@ body {
   font-weight:800;
   font-size: 15px;
 }
+
+.close-icon {
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--black-green);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.close-icon:hover {
+  transform: scale(1.15);
+}
+
 
 
 

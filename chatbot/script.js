@@ -36,6 +36,10 @@ send.addEventListener("click", () => sendMessage());
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") sendMessage();
 });
+document.getElementById("closeChat").onclick = () => {
+  chatWindow.style.display = "none";
+};
+
 
 // -----------------------------
 // TYPING INDICATOR
