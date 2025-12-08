@@ -114,28 +114,36 @@ try:
 
 except Exception:
     tb = traceback.format_exc()
-    message = tb.strip().split("\\n")[-1]
+    raw_message = tb.strip().split("\n")[-1]
 
-    if "IndexError" in message:
-        message = "Index out of range"
+    # Friendly clear cause
+    if "IndexError" in raw_message:
+        friendly = "Index out of range"
+    else:
+        friendly = raw_message
 
+    # Extract error location
     m = re.search(r'student\\.py", line (\\d+)', tb)
     line = int(m.group(1)) if m else None
 
+    # Extract line snippet
     m2 = re.search(r'File ".*student\\.py", line \\d+\\n\\s*(.*)', tb)
     snippet = m2.group(1).strip() if m2 else None
 
-    print(json.dumps({{
+    print(json.dumps({
         "status": "error",
-        "diagnostics": {{
-            "message": message,
-            "line": line,
-            "column": None,
+        "diagnostics": {
+            "source": "sort_judge",
             "severity": "error",
-            "snippet": snippet
-        }},
+            "message": friendly,
+            "original": raw_message,
+            "line": line,
+            "column": 1 if snippet else None,
+            "snippet": snippet,
+        },
         "traceback": tb
-    }}))
+    }))
+
 """
 
     with tempfile.TemporaryDirectory() as tmpdir:
