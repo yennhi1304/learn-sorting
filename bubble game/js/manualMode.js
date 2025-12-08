@@ -1,9 +1,7 @@
 let arr = [];
 let selected = null;
-
-// bubble-sort position trackers
-let i = 0;        // Number of completed passes
-let j = 4;        // Current comparison index (start bottom)
+let i = 0;
+let j = 0;
 let lock = false;
 
 const column = document.getElementById("column");
@@ -15,39 +13,31 @@ function generateArray() {
     for (let k = 0; k < 5; k++) {
         arr.push(Math.floor(Math.random() * 90) + 5);
     }
-
     i = 0;
     j = arr.length - 1;
     selected = null;
     lock = false;
-
     updateInfo();
     render();
 }
 
 function updateInfo() {
-    info.textContent = `Pass ${i + 1}: Compare indices ${j} and ${j - 1}`;
+    info.textContent = `Pass ${i + 1}: Compare indices ${4 - j} and ${5 - j}`;
 }
 
 function render() {
     column.innerHTML = "";
-
     arr.forEach((num, idx) => {
         const div = document.createElement("div");
         div.className = "node";
         div.dataset.index = idx;
-
         const img = document.createElement("img");
         img.src = "images/bubble.png";
-
         const span = document.createElement("span");
         span.textContent = num;
-
         div.appendChild(img);
         div.appendChild(span);
-
         div.onclick = () => selectNode(div);
-
         column.appendChild(div);
     });
 }
@@ -60,72 +50,47 @@ function clearHighlights() {
 
 function selectNode(div) {
     if (lock) return;
-
     const idx = Number(div.dataset.index);
     const correctA = j;
     const correctB = j - 1;
-
-    // first selection
     if (selected === null) {
         selected = idx;
         clearHighlights();
         div.classList.add("selected");
         return;
     }
-
-    // clicking the same bubble again
     if (selected === idx) {
         clearHighlights();
         selected = null;
         return;
     }
-
-    // second selection → check adjacent pair
-    const pair1 = (selected === correctA && idx === correctB);
-    const pair2 = (selected === correctB && idx === correctA);
-
-    if (!pair1 && !pair2) {
-        doLose();
+    const valid =
+        (selected === correctA && idx === correctB) ||
+        (selected === correctB && idx === correctA);
+    if (!valid) {
+        doLose("wrong-pair");
         return;
     }
-
-    // save pair (order-independent)
     pendingA = correctA;
     pendingB = correctB;
-
-    // highlight BOTH bubbles
     clearHighlights();
     const nodes = document.querySelectorAll(".node");
     nodes[pendingA].classList.add("selected");
     nodes[pendingB].classList.add("selected");
-
-    // show action buttons
-
     actionButtons.classList.add("visible");
-
-
 }
-
 
 function doCorrectSwap(a, b) {
     lock = true;
-
     clearHighlights();
-
     const nodes = document.querySelectorAll(".node");
     nodes[a].classList.add("correct");
     nodes[b].classList.add("correct");
-
     setTimeout(() => {
-        if (arr[a] < arr[b]) {
-            // NO SWAP needed in bubble sort going bottom-up
-        } else {
-            // swap
+        if (arr[b] < arr[a]) {
             [arr[a], arr[b]] = [arr[b], arr[a]];
         }
-
         nextStep();
-
     }, 600);
 }
 
@@ -133,72 +98,83 @@ function nextStep() {
     render();
     lock = false;
     selected = null;
-
+    if (isSorted(arr) || i == 4) {
+        info.textContent = "🎉 YOU WIN!";
+        column.style.display = "none";
+        
+        return;
+    }
     j--;
-
-    // one full pass completed
     if (j <= i) {
         i++;
         j = arr.length - 1;
     }
-
-    // check if sorted
-    if (i >= arr.length - 1) {
-        info.textContent = "🎉 YOU WIN!";
-        return;
-    }
-
     updateInfo();
 }
 
-function doLose() {
+function isSorted(a) {
+    for (let k = a.length - 1; k > 0; k--) {
+        if (a[k] > a[k - 1]) return false;
+    }
+    return true;
+}
+
+function doLose(type) {
     lock = true;
-    info.textContent = "❌ YOU LOSE — Wrong pair selected!";
-    const nodes = document.querySelectorAll(".node");
-    nodes.forEach(n => n.classList.add("wrong"));
-    resetBtn.style.display = "block";
+    let message = "";
+    switch (type) {
+        case "wrong-pair":
+            message = "❌ YOU LOSE — Incorrect bubbles selected!";
+            break;
+        case "swap-needed":
+            message = "❌ YOU LOSE — A swap was required but you chose no swap!";
+            break;
+        case "no-swap-needed":
+            message = "❌ YOU LOSE — No swap was needed but you swapped!";
+            break;
+        default:
+            message = "❌ YOU LOSE — Try again!";
+    }
+    info.textContent = message;
+    document.querySelectorAll(".node").forEach(n => n.classList.add("wrong"));
+    document.querySelector(".shark").style.display = "block";
+    setTimeout(() => {
+        document.querySelector(".santa").style.visibility = "hidden";
+    }, 800);
+
+    resetBtn.style.visibility = "visible";
+    setTimeout(() => {
+        document.querySelector(".shark").style.display = "none";
+    }, 2000);
 }
 
 resetBtn.onclick = () => {
-    generateArray(),
-        resetBtn.style.display = "none";
-        actionButtons.classList.remove("visible");
+    generateArray();
+    document.querySelector(".santa").style.visibility = "visible";
+    resetBtn.style.visibility = "hidden";
+    actionButtons.classList.remove("visible");
 };
 
 generateArray();
+
 swapBtn.onclick = () => {
     if (lock) return;
-
     const needSwap = arr[pendingA] > arr[pendingB];
-
     if (!needSwap) {
-        // swap was wrong
-        doLose();
+        doLose("no-swap-needed");
         return;
     }
-
-    // perform correct swap
     doCorrectSwap(pendingA, pendingB);
     actionButtons.classList.remove("visible");
-
 };
 
 noSwapBtn.onclick = () => {
     if (lock) return;
-
     const needSwap = arr[pendingA] > arr[pendingB];
-
     if (needSwap) {
-        // user refused swap wrongly
-        doLose();
+        doLose("swap-needed");
         return;
     }
-
-    // correct choice: no swap
-    doCorrectSwap(pendingA, pendingB, false);
+    doCorrectSwap(pendingA, pendingB);
     actionButtons.classList.remove("visible");
-
-
 };
-
-

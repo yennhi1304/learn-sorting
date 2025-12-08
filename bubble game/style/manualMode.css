@@ -1,8 +1,9 @@
  body {
-     background: url('images/background.png') bottom;
+     background: url('../images/background.png') bottom;
      background-repeat: no-repeat;
      background-size: 100vw 120vh;
-     ;
+     height: 100vh; 
+     width: 100vw;
      color: white;
      font-family: "Segoe UI", sans-serif;
      display: flex;
@@ -54,7 +55,7 @@
  }
 
  .column {
-     margin-top: 4vh;
+     margin-top: 2vh;
      display: flex;
      flex-direction: column;
      align-items: center;
@@ -62,11 +63,11 @@
 
  }
 
+
  #actionButtons {
 
      margin: 12px 0;
      visibility: hidden;
-     /* or opacity: 0 */
      pointer-events: none;
 
  }
@@ -119,7 +120,7 @@
  }
 
  #resetBtn {
-     display: none;
+     visibility: hidden;
      padding: 10px 16px;
      margin-top: 10px;
      background: #1f2937;
@@ -140,13 +141,23 @@
      width: 30vh;
  }
 
- .shark img {
-     margin-top: -20vh;
-     margin-left: -70vw;
-     height: 30vh;
-     position: absolute;
-     animation: float 2s infinite;
+ .santa {
+    visibility: visible;
  }
+
+ .shark{
+     margin-top: -50vh;
+     margin-left: -120vw; 
+     position: absolute;
+     animation: float 3s infinite;
+     display: none;
+ }
+
+ .shark img {
+    height: 400px;
+ }
+
+ 
 
  @keyframes float {
      from {
@@ -154,6 +165,6 @@
      }
 
      to {
-         transform: translateX(140vw);
+         transform: translateX(250vw);
      }
  }
