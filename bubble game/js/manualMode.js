@@ -2,7 +2,7 @@ let arr = [];
 let selected = null;
 let i = 0;
 let j = 0;
-let lock = false;
+let lock = true;
 
 const column = document.getElementById("column");
 const resetBtn = document.getElementById("resetBtn");
@@ -100,8 +100,11 @@ function nextStep() {
     selected = null;
     if (isSorted(arr) || i == 4) {
         info.textContent = "🎉 YOU WIN!";
-        column.style.display = "none";
-        
+        document.getElementById("column").classList.add("win");
+        document.querySelector(".santa").classList.add("win");
+        setTimeout(() => {
+            document.getElementById("column").src = "images/santaWin.gif";
+        },5000)
         return;
     }
     j--;

@@ -1,22 +1,166 @@
-.autoMode {
+ body {
+    margin: 0 0;
+    overflow: hidden;
+ }
+ .autoMode {
     display: none;
     display: grid;
     grid-template-columns: 1fr 1fr;
+     background: url('../images/background.png') center;
+     background-repeat: no-repeat;
+     background-size: cover;
+     justify-content: center;
+     color: white;
+     font-family: "Segoe UI", sans-serif;
+     overflow: hidden;
+ }
+
+ .game {
+    border: solid blueviolet;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .column {
+     margin-top: 30vh;
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     gap: 1%;
+     margin-bottom: 2vh;
+ }
+
+.column.win {
+  animation: fade 0.5s ease forwards;
 }
 
-.game {
-    border: solid blue;
+
+@keyframes fade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
-.code {
-    border: solid red;
 
+ #actionButtons {
+
+     margin: 12px 0;
+     visibility: hidden;
+     pointer-events: none;
+
+ }
+
+
+ #actionButtons.visible {
+     visibility: visible;
+     /* or opacity: 1 */
+     pointer-events: auto;
+ }
+
+ .node {
+    border: solid;
+     width: 50px;
+     height: 50px;
+     position: relative;
+     cursor: pointer;
+     transition: 0.25s ease;
+ }
+
+ .node img {
+     width: 100%;
+     height: 100%;
+     object-fit: contain;
+     pointer-events: none;
+ }
+
+ .node span {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%, -50%);
+     font-size: 100%;
+     font-weight: bold;
+     color: white;
+     pointer-events: none;
+     text-shadow: 0 0 5px #000;
+ }
+
+ .node.selected {
+     transform: scale(1.15);
+     filter: drop-shadow(0 0 12px #58a6ff);
+ }
+
+ .node.correct {
+     filter: drop-shadow(0 0 12px #4caf50);
+ }
+
+ .node.wrong {
+     filter: drop-shadow(0 0 12px #ff3b3b);
+ }
+
+ #resetBtn {
+     visibility: hidden;
+     padding: 10px 16px;
+     margin-top: 10px;
+     background: #1f2937;
+     border: 1px solid #374151;
+     color: #e5e7eb;
+     border-radius: 8px;
+     cursor: pointer;
+     transition: 0.2s ease;
+ }
+
+ #resetBtn:hover {
+     background: #2d3748;
+ }
+
+
+
+ .santa img {
+     width: 30vh;
+ }
+
+ .santa {
+    visibility: visible;
+ }
+
+ .santa.win {
+    animation: fly 5s ease forwards;
+ }
+
+
+
+@keyframes fly {
+  from   { transform: translateY(0); }
+  to  { transform: translateY(-70vh); }
 }
+ 
 
-img {
-    height: 200px;
-}
 
+ .shark{
+     margin-top: -50vh;
+     margin-left: -120vw; 
+     position: absolute;
+     animation: float 3s infinite;
+     display: none;
+ }
+
+ .shark img {
+    height: 400px;
+ }
+
+ 
+
+ @keyframes float {
+     from {
+         transform: translateX(10vw);
+     }
+
+     to {
+         transform: translateX(250vw);
+     }
+ }
 
 
 

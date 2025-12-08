@@ -60,8 +60,17 @@
      flex-direction: column;
      align-items: center;
      gap: 1%;
-
  }
+
+.column.win {
+  animation: fade 0.5s ease forwards;
+}
+
+
+@keyframes fade {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
 
 
  #actionButtons {
@@ -144,6 +153,20 @@
  .santa {
     visibility: visible;
  }
+
+ .santa.win {
+    animation: fly 5s ease forwards;
+ }
+
+
+
+@keyframes fly {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-90vh); }
+
+}
+ 
+
 
  .shark{
      margin-top: -50vh;
