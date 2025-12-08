@@ -1,226 +1,171 @@
- // sorting checker elements: buttons and textfields
-  const jsBtn    = document.getElementById("jsBtn");
-  const cppBtn   = document.getElementById("cppBtn");
-  const codeArea = document.getElementById("code");
-  const checkBtn = document.getElementById("checkBtn");
-  const result   = document.getElementById("result");
+const jsPlaceholder = `// ==============================================
+//   Bubble Sort Practice (JavaScript Version)
+// ==============================================
+//
+// Your task:
+// 1. Study the bubbleSort() function below.
+// 2. Modify it if needed.
+// 3. Press RUN or CHECK SORT to test your function.
+// ----------------------------------------------
 
-  // There are 2 types of mode for users
-  // Users can choose their prefered language: css or js
-  // Initially, the current mode is js
-  let mode = "js";
+function bubbleSort(arr) {
+    arr = [...arr]; // clone input for safety
+    let n = arr.length;
 
-  // ====== Init default code ======
+    for (let i = 0; i < n - 1; i++) {
+        for (let j = 0; j < n - i - 1; j++) {
 
-  // 1. Function setMode: let users change the current mode
-        // Change the color of the button when user chose it (active type (css))
-        // Change codeArea.value when users switch their states
-        // Clear result text area (no need to use it at that time -> clear)
-    // End function 1
-  function setMode(newMode) {
-    mode = newMode;
+            // Compare adjacent elements
+            if (arr[j] > arr[j + 1]) {
 
-    jsBtn.classList.toggle("active", mode === "js");
-    cppBtn.classList.toggle("active", mode === "cpp");
+                // Swap
+                let temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+    return arr;
+}
 
-    if (mode === "js") {
-      codeArea.value =
-`function mySort(arr) {
-  // JavaScript sorting code (ascending)
-  return arr;
-}`;
+// Example test (you may remove this)
+// It will run when you press RUN (not Check Sort)
+console.log("Testing:", bubbleSort([5, 4, 3, 2, 1]));
+
+// Now press RUN ▶
+`;
+const pythonPlaceholder = `# ==============================================
+#   Bubble Sort Practice (Python Version)
+# ==============================================
+#
+# Your task:
+# 1. Study the bubbleSort() function below.
+# 2. Modify it if needed.
+# 3. Press RUN or CHECK SORT to test your function.
+# ----------------------------------------------
+
+def bubbleSort(arr):
+    arr = arr[:]  # copy input
+    n = len(arr)
+
+    for i in range(n - 1):
+        for j in range(n - i - 1):
+
+            # Compare adjacent elements
+            if arr[j] > arr[j + 1]:
+
+                # Swap
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+    return arr
+
+# Example test (runs only when you press RUN)
+print("Testing:", bubbleSort([5, 4, 3, 2, 1]))
+
+# Now press RUN ▶
+`;
+
+
+// ================= ACE SETUP =================
+const editor = ace.edit("editor");
+editor.setTheme("ace/theme/monokai");
+editor.session.setMode("ace/mode/python");
+editor.setValue(
+pythonPlaceholder,
+  -1 // cursor at start
+);
+
+editor.setShowPrintMargin(false);
+
+const languageSelect = document.getElementById("language");
+const runBtn = document.getElementById("runBtn");
+const clearBtn = document.getElementById("clearBtn");
+const outputEl = document.getElementById("output");
+
+// ================= HELPERS =================
+function clearOutput() {
+  outputEl.textContent = "";
+}
+
+function appendOutput(text) {
+  outputEl.textContent += text;
+}
+
+// ================= PYTHON (SKULPT) =================
+function builtinRead(x) {
+  if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined) {
+    throw "File not found: '" + x + "'";
+  }
+  return Sk.builtinFiles["files"][x];
+}
+
+function runPython(code) {
+  clearOutput();
+
+  Sk.configure({
+    output: appendOutput,
+    read: builtinRead,
+    __future__: Sk.python3
+  });
+
+  // asyncToPromise lets us catch errors in async execution
+  Sk.misceval
+    .asyncToPromise(() => Sk.importMainWithBody("<stdin>", false, code, true))
+    .then(() => {
+      // success, nothing extra
+    })
+    .catch(err => {
+      appendOutput("\n[Python Error] " + err.toString() + "\n");
+    });
+}
+
+// ================= JAVASCRIPT =================
+function runJavaScript(code) {
+  clearOutput();
+
+  // Local console proxy to capture console.log output
+  const localConsole = {
+    log: (...args) => {
+      appendOutput(args.join(" ") + "\n");
+    }
+  };
+
+  try {
+    // Wrap in Function so we can inject our own console
+    const fn = new Function("console", code);
+    const result = fn(localConsole);
+
+    // If user returns something explicitly, show it
+    if (result !== undefined) {
+      appendOutput(String(result) + "\n");
+    }
+  } catch (err) {
+    appendOutput("[JS Error] " + err.toString() + "\n");
+  }
+}
+
+// ================= EVENT HANDLERS =================
+runBtn.addEventListener("click", () => {
+  const code = editor.getValue();
+  const lang = languageSelect.value;
+
+  if (lang === "python") {
+    runPython(code);
+  } else if (lang === "javascript") {
+    runJavaScript(code);
+  }
+});
+
+clearBtn.addEventListener("click", clearOutput);
+
+languageSelect.addEventListener("change", () => {
+    const lang = languageSelect.value;
+
+    if (lang === "python") {
+        editor.session.setMode("ace/mode/python");
+        editor.setValue(pythonPlaceholder, -1);
     } else {
-      codeArea.value =
-`vector<int> mySort(vector<int> arr) {
-  // C++-style sorting code (ascending)
-  return arr;
-}`;
+        editor.session.setMode("ace/mode/javascript");
+        editor.setValue(jsPlaceholder, -1);
     }
-    result.textContent = "";
-  }
-
-
-
-
-  // set initial content
-  // change the current state when users click on 2 buttons
-
-
-  setMode("js");
-
-  jsBtn.addEventListener("click", () => setMode("js"));
-  cppBtn.addEventListener("click", () => setMode("cpp"));
-
-
-
-  // 2. A function to compare the difference between the user's array with the correct array
-  // and show the difference index, expected and got element
-  function showDiff(userArr, correctArr) {
-    let lines = [];
-    for (let i = 0; i < correctArr.length; i++) {
-      if (userArr[i] !== correctArr[i]) {
-        lines.push(
-          "Index " + i +
-          ": expected " + correctArr[i] +
-          ", got " + userArr[i]
-        );
-      }
-    }
-
-    // combine all elements in lines into a string, then put \n between them
-    return lines.join("\n");
-  }
-
-
-
-  // Very simple "C++ to JS" simulator for:
-  function simulateCppSort(codeText, inputArray) {
-    const text = codeText.replace(/\r/g, "");
-
-    // Find the body of mySort
-    const match = text.match(/mySort\s*\([^)]*\)\s*{([\s\S]*)}/);
-    // If match returns null
-    if (!match) {
-      throw new Error("Could not find function body of mySort.");
-    }
-
-    let body = match[1]; // The first captured group of this match
-
-    // Very basic replacements:
-    // - vector<int>  -> (remove, handled by wrapper)
-    // - int x;       -> let x;
-    // - arr.size()   -> arr.length
-    // - std::        -> (remove namespace)
-    body = body
-      .replace(/vector<int>/g, "")
-      .replace(/int\s+([A-Za-z_]\w*)/g, "let $1")
-      .replace(/arr\.size\s*\(\s*\)/g, "arr.length")
-      .replace(/std::/g, "");
-
-    // Wrap into a JS function that operates on 'arr'
-    const jsFunctionText =
-      "return (function(arr) {\n" +
-      "  function swap(i, j) {\n" +
-      "    const t = arr[i];\n" +
-      "    arr[i] = arr[j];\n" +
-      "    arr[j] = t;\n" +
-      "  }\n" +
-      body + "\n" +
-      "})(arr);";
-
-    // Create a function: (arr) => { ...translated C++ body... }
-    // new Function: turn this text into a new function and run it
-    const runner = new Function("arr", jsFunctionText);
-    return runner(inputArray);
-  }
-
-  // ====== Main checker ======
-  function checkCode() {
-    result.textContent = "Running tests...";
-
-    const tests = [
-      [5, 3, 8, 1, 2],
-      [10, 9, 8, 7],
-      [2, 5, 1, 4, 3],
-      [],
-      [100, -1, 50, 0]
-    ];
-
-    const codeText = codeArea.value;
-
-    // ----- JavaScript mode -----
-    if (mode === "js") {
-      let userSort;
-      try {
-        // codeText should define function mySort(arr) { ... }
-        userSort = eval("(" + codeText + ")");
-      } catch (e) {
-        result.textContent = "❌ JavaScript syntax error:\n" + e.message;
-        return;
-      }
-
-      for (const input of tests) {
-        const arrCopy = input.slice();
-        let out;
-        try {
-          out = userSort(arrCopy);
-        } catch (e) {
-          result.textContent =
-            "❌ Runtime error on input [" + input + "]:\n" + e.message;
-          return;
-        }
-
-        const correct = input.slice().sort((a, b) => a - b);
-
-        if (!Array.isArray(out)) {
-          result.textContent =
-            "❌ Your function did not return an array for input [" + input + "].";
-          return;
-        }
-
-        if (out.length !== correct.length) {
-          result.textContent =
-            "❌ Array length changed for input [" + input + "].\n" +
-            "Your output: [" + out + "]";
-          return;
-        }
-
-        let allGood = out.every((v, i) => v === correct[i]);
-        if (!allGood) {
-          result.textContent =
-            "❌ Wrong result for input [" + input + "].\n\n" +
-            "Your output:   [" + out + "]\n" +
-            "Correct output:[" + correct + "]\n\n" +
-            showDiff(out, correct);
-          return;
-        }
-      }
-      
-      result.textContent = "✅ All tests passed!";
-      return;
-    }
-
-    // ----- Simulated C++ mode -----
-    if (mode === "cpp") {
-      for (const input of tests) {
-        const arrCopy = input.slice();
-        let out;
-        try {
-          out = simulateCppSort(codeText, arrCopy);
-        } catch (e) {
-          result.textContent =
-            "❌ C++ simulation error on input [" + input + "]:\n" + e.message;
-          return;
-        }
-
-        const correct = input.slice().sort((a, b) => a - b);
-
-        if (!Array.isArray(out)) {
-          result.textContent =
-            "❌ Simulated mySort did not return an array for input [" + input + "].";
-          return;
-        }
-
-        if (out.length !== correct.length) {
-          result.textContent =
-            "❌ Array length changed for input [" + input + "].\n" +
-            "Your output: [" + out + "]";
-          return;
-        }
-
-        let allGood = out.every((v, i) => v === correct[i]);
-        if (!allGood) {
-          result.textContent =
-            "❌ Wrong result for input [" + input + "].\n\n" +
-            "Your output:   [" + out + "]\n" +
-            "Correct output:[" + correct + "]\n\n" +
-            showDiff(out, correct);
-          return;
-        }
-      }
-
-      result.textContent = "✅ All tests passed!";
-    }
-  }
-
-  checkBtn.addEventListener("click", checkCode);
+});
