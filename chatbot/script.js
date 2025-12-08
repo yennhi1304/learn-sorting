@@ -5,10 +5,10 @@ const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const send = document.getElementById("send");
 
-
 let codeIdCounter = 0;
-let chatHistory = loadChat(); // this is your JS array of objects
-// When page loads, render existing history into the UI
+let chatHistory = loadChat();
+
+// Load past chat history
 chatHistory.forEach(m => {
   messages.innerHTML += `
     <div class="${m.sender}">
@@ -18,51 +18,71 @@ chatHistory.forEach(m => {
 });
 messages.scrollTop = messages.scrollHeight;
 
-// toggle chatbot window
-
+// Toggle window
 chatBubble.onclick = () => {
   chatWindow.style.display =
     chatWindow.style.display === "flex" ? "none" : "flex";
+
   if (localStorage.getItem("hidden") === null) {
     localStorage.setItem("hidden", "true");
-  }
-  else {
+  } else {
     document.querySelector(".Tony").style.display = "none";
   }
-
 };
 
 const expandBtn = document.getElementById("expandBtn");
 
-
-
-
-
-
-// handle sending message
-send.addEventListener("click", async () => {
-  sendMessage();
-});
-
-// allow Enter key
+send.addEventListener("click", () => sendMessage());
 input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") sendMessage();
 });
 
+// -----------------------------
+// TYPING INDICATOR
+// -----------------------------
+let typingElement = null;
+
+function showTyping() {
+  if (typingElement) return;
+
+  typingElement = document.createElement("div");
+  typingElement.className = "bot typing-indicator";
+  typingElement.innerHTML = `
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  `;
+
+  messages.appendChild(typingElement);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function hideTyping() {
+  if (typingElement) {
+    typingElement.remove();
+    typingElement = null;
+  }
+}
+
+// -----------------------------
+// SEND MESSAGE
+// -----------------------------
 async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
 
-  // Show user message
+  // Display user message
   messages.innerHTML += `<div class="user">${escapeHtml(text)}</div>`;
-  input.value = "";
   messages.scrollTop = messages.scrollHeight;
 
-  // Save user message
   chatHistory.push({ sender: "user", text });
   saveChat();
 
-  // ---- SEND TO BACKEND ----
+  input.value = "";
+
+  // Show typing animation
+  showTyping();
+
   const API_URL = "https://learn-sorting.onrender.com/chat";
 
   const res = await fetch(API_URL, {
@@ -71,58 +91,74 @@ async function sendMessage() {
     body: JSON.stringify({ message: text })
   });
 
-  const data = await res.json();   // ✔ NOW res EXISTS
+  const data = await res.json();
 
-  // Try navigation
+  hideTyping();
+
+  // Navigation logic
   try {
     const action = JSON.parse(data.reply);
     if (action.action && action.url) {
       window.location.href = action.url;
       return;
     }
-  } catch (e) {}
+  } catch (err) {}
 
-  // ---- SHOW BOT REPLY ----
+  // Display bot reply
   messages.innerHTML += `
     <div class="bot">${formatMessage(data.reply)}</div>
   `;
   messages.scrollTop = messages.scrollHeight;
 
-  // Save bot reply
   chatHistory.push({ sender: "bot", text: data.reply });
   saveChat();
 }
 
-
-
+// -----------------------------
+// MESSAGE PARSER
+// -----------------------------
 function formatMessage(text) {
+  let html = text;
 
-  // If message contains code block fences
-  if (text.includes("```")) {
-    return text.replace(/```([\s\S]*?)```/g, (match, codeText) => {
-      const id = "codeblock_" + codeIdCounter++;
-      const escaped = escapeHtml(codeText.trim());
+  // Extract code blocks
+  const codeBlocks = [];
+  html = html.replace(/```([\s\S]*?)```/g, (match, codeText) => {
+    const id = "codeblock_" + codeIdCounter++;
+    const escaped = escapeHtml(codeText.trim());
 
-      return (
-        `<div class="code-wrapper">` +
-          `<button class="copy-btn" onclick="copyCode('${id}')">Copy</button>` +
-          `<pre class="code">` +
-            `<code id="${id}">${escaped}</code>` +
-          `</pre>` +
-        `</div>`
-      );
-    });
-  }
+    const codeHtml = `
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode('${id}')">Copy</button>
+        <pre class="code"><code id="${id}">${escaped}</code></pre>
+      </div>
+    `;
 
-  // Normal text
-  return escapeHtml(text).replace(/\n/g, "<br>");
+    codeBlocks.push(codeHtml);
+
+    return `__CODEBLOCK_${codeBlocks.length - 1}__`;
+  });
+
+  // Render markdown
+  html = marked.parse(html);
+
+  // Replace placeholders
+  codeBlocks.forEach((blockHtml, i) => {
+    html = html.replace(`__CODEBLOCK_${i}__`, blockHtml);
+  });
+
+  // Fallback replacement
+  codeBlocks.forEach((blockHtml, i) => {
+    html = html.replace(`CODEBLOCK_${i}`, blockHtml);
+  });
+
+  return html;
 }
 
-
+// -----------------------------
+// Fullscreen button
+// -----------------------------
 expandBtn.onclick = () => {
   const allCodes = document.querySelectorAll(".code-wrapper");
-
-  // Check the actual state of the chat window
   const isFullscreen = chatWindow.classList.contains("fullscreen");
 
   if (!isFullscreen) {
@@ -130,37 +166,33 @@ expandBtn.onclick = () => {
     messages.classList.add("fullscreen");
     send.classList.add("fullscreen");
     allCodes.forEach(c => c.classList.add("fullscreen"));
-    expandBtn.textContent = "_";  // minimize icon
+    expandBtn.textContent = "_";
   } else {
     chatWindow.classList.remove("fullscreen");
     messages.classList.remove("fullscreen");
     send.classList.remove("fullscreen");
     allCodes.forEach(c => c.classList.remove("fullscreen"));
-    expandBtn.textContent = "⛶"; // expand icon
+    expandBtn.textContent = "⛶";
   }
 };
 
-// Observe the messages container for new nodes
+// Auto-apply fullscreen class to new messages
 const observer = new MutationObserver(() => {
   if (chatWindow.classList.contains("fullscreen")) {
     document.querySelectorAll(".code-wrapper")
       .forEach(c => c.classList.add("fullscreen"));
   }
 });
-
 observer.observe(messages, { childList: true, subtree: true });
 
-
+// -----------------------------
+// Utility functions
+// -----------------------------
 function escapeHtml(str) {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+  return str.replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
 }
-
-
-
-/*copy button*/
 
 function copyCode(id) {
   const codeText = document.getElementById(id).innerText.trim();
@@ -175,29 +207,21 @@ function saveChat() {
 function loadChat() {
   const raw = localStorage.getItem("chat-history");
   if (!raw) return [];
-
   try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch (e) {
-    console.error("Bad chat-history in localStorage:", e);
+    return JSON.parse(raw);
+  } catch {
     return [];
   }
 }
 
-
-
-/*Clear chat*/
+// Clear chat
 document.getElementById("clearChat").onclick = () => {
   if (!confirm("Clear all chat messages?")) return;
 
-  // Remove all stored messages
   localStorage.removeItem("chat-history");
   localStorage.removeItem("hidden");
-  // Clear messages from UI
-  messages.innerHTML = "";
 
-  // Reset array in memory
+  messages.innerHTML = "";
   chatHistory = [];
 
   alert("Chat cleared!");
