@@ -136,13 +136,13 @@ path {
 }
 
 .lesson-content h3 {
-  font-size: 22px;
+  font-size: 30px;
   margin: 24px 0 8px;
 }
 
 .lesson-content p,
 .lesson-content li {
-  font-size: 17px;
+  font-size: 25px;
   line-height: 1.6;
   color: #374151;
 }
@@ -349,4 +349,111 @@ body.dark .lesson-content li {
 .complexity-canvas {
   pointer-events: auto !important;
 }
+/* ===== PURE IMAGE SLIDER (NO TEXT) ===== */
+.gfg-slider-box {
+  margin-top: 25px;
+  padding: 20px;
+  background: white;
+  border-radius: 14px;
+  border-left: 6px solid #2bb673;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
 
+/* IMAGE + TRANSITION */
+.gfg-slider-img {
+  max-width: 100%;
+  border-radius: 12px;
+  display: block;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 1;
+}
+
+.gfg-slider-img.fade-out {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.gfg-slider-img.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* MAIN IMAGE WRAPPER */
+.gfg-slider-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.gfg-slider-main img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* ============================== */
+/* NEW LAYOUT FOR CONTROLS – FIX */
+/* ============================== */
+
+/* IMAGE BOX */
+.gfg-slider-box {
+  margin-top: 25px;
+  padding: 20px;
+  background: white;
+  border-radius: 14px;
+  border-left: 6px solid #2bb673;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* IMAGE + TRANSITION */
+.gfg-slider-img {
+  max-width: 100%;
+  border-radius: 12px;
+  display: block;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.gfg-slider-img.fade-out {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.gfg-slider-img.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* SLIDER LAYOUT */
+.gfg-slider-controls {
+  display: flex;
+  justify-content: center;     /* ⬅ 3 nút nằm giữa */
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  position: relative;
+  padding: 6px 40px 6px 40px;
+}
+
+/* BUTTON STYLE — giữ nguyên */
+.gfg-slider-controls button {
+  background: #2bb673;
+  border: none;
+  padding: 6px 12px;
+  font-size: 20px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.gfg-slider-controls button:hover {
+  background: #23995f;
+}
+
+/* PAGE NUMBER — tách riêng BÊN PHẢI, không ăn theo center */
+.gfg-page-number {
+  position: absolute;
+  right: 12px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #2bb673;
+}
