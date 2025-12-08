@@ -1,9 +1,9 @@
-# judge.py
 import subprocess
 import tempfile
 import json
 from pathlib import Path
 import re
+import inspect
 
 TESTS = [
     [5, 3, 8, 1, 2],
@@ -19,53 +19,91 @@ def correct(x):
 
 
 # ============================================================
-# PYTHON JUDGE  (VS Code–Style Error Output)
+# PYTHON JUDGE
 # ============================================================
 def judge_python(code: str):
 
     harness = f"""
 import json
 import traceback
-from student import my_sort
+import student
+import inspect
 
 TESTS = {TESTS}
 
-try:
-    results = []
-    for t in TESTS:
-        out = my_sort(list(t))
-        results.append(out)
+# Collect user functions
+candidates = {{}}
+for name, obj in student.__dict__.items():
+    if inspect.isfunction(obj) and not name.startswith("__"):
+        candidates[name] = obj
 
-    print(json.dumps({{"results": results}}))
+if not candidates:
+    print(json.dumps({{
+        "status": "error",
+        "diagnostics": {{
+            "message": "No callable user functions found.",
+            "line": None,
+            "column": None,
+            "severity": "error",
+            "snippet": None
+        }}
+    }}))
+    raise SystemExit
+
+def run_func(fn):
+    local_results = []
+    for t in TESTS:
+        out = fn(list(t))
+        local_results.append(out)
+    return local_results
+
+chosen = None
+results = None
+
+try:
+    for name, fn in candidates.items():
+        try:
+            trial = run_func(fn)
+        except Exception:
+            continue
+        results = trial
+        chosen = name
+        break
+
+    if results is None:
+        print(json.dumps({{
+            "status": "error",
+            "diagnostics": {{
+                "message": "All user functions failed to execute successfully.",
+                "line": None,
+                "column": None,
+                "severity": "error",
+                "snippet": None
+            }}
+        }}))
+        raise SystemExit
+
+    print(json.dumps({{"results": results, "chosen_function": chosen}}))
 
 except Exception:
     tb = traceback.format_exc()
-
-    import re
-    line = None
-    col = None
-    snippet = None
-
-    # Extract line number
-    m = re.search(r'student\\\\.py", line (\\\\d+)', tb)
-    if m:
-        line = int(m.group(1))
-
-    # Extract snippet + caret column
-    m2 = re.search(r'File "student\\\\.py", line \\\\d+\\n(.*)\\n(\\s*\\^)', tb)
-    if m2:
-        snippet = m2.group(1)
-        caret = m2.group(2)
-        col = len(caret)
-
     message = tb.strip().split("\\n")[-1]
+
+    if "IndexError" in message:
+        message = "Index out of range"
+
+    m = re.search(r'student\\.py", line (\\d+)', tb)
+    line = int(m.group(1)) if m else None
+
+    m2 = re.search(r'File ".*student\\.py", line \\d+\\n\\s*(.*)', tb)
+    snippet = m2.group(1).strip() if m2 else None
 
     print(json.dumps({{
         "status": "error",
         "diagnostics": {{
             "message": message,
             "line": line,
-            "column": col,
+            "column": None,
             "severity": "error",
             "snippet": snippet
         }},
@@ -73,12 +111,8 @@ except Exception:
     }}))
 """
 
-    # --------------------------------------------------------
-    # Execute Python student code in temp folder
-    # --------------------------------------------------------
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
-
         (tmp / "student.py").write_text(code)
         (tmp / "run.py").write_text(harness)
 
@@ -96,12 +130,11 @@ except Exception:
         try:
             data = json.loads(proc.stdout)
         except:
-            return {"status": "error", "diagnostics": {"message": "Invalid output"}}
+            return {"status": "error", "diagnostics": {"message": "Invalid JSON output"}}
 
         if data.get("status") == "error":
             return data
 
-        # Compare results
         for inp, out in zip(TESTS, data["results"]):
             exp = correct(inp)
             if out != exp:
@@ -109,14 +142,15 @@ except Exception:
                     "status": "wrong",
                     "input": inp,
                     "output": out,
-                    "expected": exp
+                    "expected": exp,
+                    "chosen_function": data.get("chosen_function")
                 }
 
-        return {"status": "ok"}
+        return {"status": "ok", "chosen_function": data.get("chosen_function")}
 
 
 # ============================================================
-# C++ JUDGE (VS Code–Style Error Output)
+# C++ JUDGE
 # ============================================================
 CPP_TEMPLATE = """
 #include <bits/stdc++.h>
@@ -124,6 +158,7 @@ using namespace std;
 
 {user_code}
 
+// must return vector<int>
 int main() {{
     vector<vector<int>> tests = {tests};
     for (auto &t : tests) {{
@@ -140,14 +175,8 @@ def judge_cpp(code: str):
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tmp = Path(tmpdir)
+        (tmp / "main.cpp").write_text(CPP_TEMPLATE.format(user_code=code, tests=TESTS))
 
-        (tmp / "main.cpp").write_text(
-            CPP_TEMPLATE.format(user_code=code, tests=TESTS)
-        )
-
-        # ----------------------------------------------------
-        # COMPILE
-        # ----------------------------------------------------
         comp = subprocess.run(
             ["g++", "-std=c++17", "main.cpp", "-o", "prog"],
             cwd=tmp,
@@ -156,15 +185,13 @@ def judge_cpp(code: str):
         )
 
         if comp.returncode != 0:
-            # Try extract line + column
             m = re.search(r'main\\.cpp:(\\d+):(\\d+): (.*)', comp.stderr)
             if m:
                 line = int(m.group(1))
                 col = int(m.group(2))
                 msg = m.group(3)
             else:
-                line = None
-                col = None
+                line = col = None
                 msg = comp.stderr.strip()
 
             return {
@@ -178,9 +205,6 @@ def judge_cpp(code: str):
                 }
             }
 
-        # ----------------------------------------------------
-        # RUN PROGRAM
-        # ----------------------------------------------------
         try:
             run = subprocess.run(
                 ["./prog"],
@@ -193,17 +217,10 @@ def judge_cpp(code: str):
             return {"status": "error", "diagnostics": {"message": "Time Limit Exceeded"}}
 
         if run.returncode != 0:
-            return {
-                "status": "error",
-                "diagnostics": {"message": run.stderr, "severity": "error"}
-            }
+            return {"status": "error", "diagnostics": {"message": run.stderr}}
 
-        lines = run.stdout.strip().split("\n")
-        results = []
-
-        for line in lines:
-            parts = list(map(int, line.split()))
-            results.append(parts[1:])  # skip vector size
+        lines = run.stdout.strip().split("\\n")
+        results = [list(map(int, line.split()))[1:] for line in lines]
 
         for inp, out in zip(TESTS, results):
             exp = correct(inp)
