@@ -1,27 +1,70 @@
 import { state } from "./state.js";
 import { algorithmMap } from "./sortingAlgorithms.js";
-import { playAnimation } from "./animationEngine.js";
+import { playAnimation, playAnimationAuto } from "./animationEngine.js";
 import { renderBoard } from "./UIcontroller.js";
 
 
 
-async function runSingleSort(monoboard, sortType) {
-    // copy from the base array
-    let arr = [...state.baseArray];
-    // rerender board
-    renderBoard(arr, monoboard);
-    // get bar divs
-    const barDivs = Array.from(monoboard.children);
-    // make a list of events
-    const events = algorithmMap[sortType](arr);
+function collapseSortedEvents(events) {
+    let i = events.length - 1;
 
-    // play animation
-    for (const event of events) {
-        await playAnimation(event, barDivs, monoboard);
+    while (i >= 0 && (events[i].type === "sorted" || events[i].type === "permanent_sorted")) {
+        i--;
     }
+
+    // If no change, return original
+    if (i === events.length - 1) return events;
+
+    // Extract sorted indices
+    const sortedIndices = [];
+    for (let j = i + 1; j < events.length; j++) {
+        sortedIndices.push(events[j].i);
+    }
+
+    // Build new event list
+    const trimmed = events.slice(0, i + 1);
+
+      // Add one synthetic event
+    trimmed.push({
+        type: "mark_all_sorted",
+        indices: sortedIndices
+    });
+
+
+    return trimmed;
+
 }
 
+
+
+function runSingleSort(monoboard, sortType) {
+
+    // copy base array
+    let arr = [...state.baseArray];
+
+    // rerender board
+    renderBoard(arr, monoboard);
+
+    // get bars
+    const barDivs = Array.from(monoboard.children);
+
+    // build events
+    let events = algorithmMap[sortType](arr);
+
+    events = collapseSortedEvents(events);
+    console.log(events);
+
+    // return without autoplay!!
+    return {
+        events,
+        barDivs,
+        board: monoboard
+    };
+}
+
+
 async function runDualSort(boardA, boardB, sortTypeA, sortTypeB) {
+    console.log("running dual sort");
     let arrA = [...state.baseArray];
     let arrB = [...state.baseArray];
 
@@ -36,14 +79,14 @@ async function runDualSort(boardA, boardB, sortTypeA, sortTypeB) {
 
     async function animateA() {
         for (const event of eventsA) { 
-            await playAnimation(event, barDivsA, boardA)
+            await playAnimationAuto(event, barDivsA, boardA)
         }
         
     }
 
    async function animateB() {
         for (const event of eventsB) {
-            await playAnimation(event, barDivsB, boardB)
+            await playAnimationAuto(event, barDivsB, boardB)
         }
             
     }

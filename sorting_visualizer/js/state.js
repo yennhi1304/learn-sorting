@@ -1,5 +1,6 @@
 export const state = {
-    mode: "mono",
+    compareMode: "mono",
+    autoMode: true,
     baseArray: [],
 
     mono: {
@@ -14,4 +15,5 @@ export const state = {
     isSorting: false,
 
     delay: 300,
+    maxValue: -1,
 };
