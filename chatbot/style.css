@@ -308,3 +308,101 @@ code {
   font-family: Consolas, monospace;
   font-size: 14px;
 }
+
+
+/* ===============================
+   MARKDOWN SPACING FIXES
+   Applies only inside BOT messages
+   =============================== */
+
+.bot h1,
+.bot h2,
+.bot h3,
+.bot h4,
+.bot h5,
+.bot h6 {
+  margin-top: 6px !important;
+  margin-bottom: 6px !important;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #00767a;  /* match your theme */
+}
+
+/* Optional smaller sizes */
+.bot h1 { font-size: 18px; }
+.bot h2 { font-size: 17px; }
+.bot h3 { font-size: 16px; }
+
+/* Paragraph spacing */
+.bot p {
+  margin: 4px 0 !important;
+}
+
+/* Bullet list spacing */
+.bot ul,
+.bot ol {
+  margin: 6px 0 !important;
+  padding-left: 18px !important;
+}
+
+.bot li {
+  margin: 2px 0 !important;
+}
+
+/* Markdown blockquote */
+.bot blockquote {
+  margin: 6px 0;
+  padding: 6px 10px;
+  border-left: 4px solid #00767a;
+  background: #e8f7f5;
+  color: #003f41;
+  border-radius: 4px;
+}
+
+/* Horizontal rule */
+.bot hr {
+  border: none;
+  height: 1px;
+  background: #cccccc;
+  margin: 8px 0;
+}
+
+
+/* TYPING INDICATOR */
+.typing-indicator {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #f6f6f6;
+  padding: 6px 10px;
+  border-radius: 8px;
+  margin: 6px 0;
+  width: fit-content;
+}
+
+.typing-indicator .dot {
+  width: 7px;
+  height: 7px;
+  background: #999;
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite ease-in-out;
+}
+
+.typing-indicator .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-indicator .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

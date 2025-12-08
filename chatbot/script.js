@@ -49,6 +49,31 @@ input.addEventListener("keydown", (e) => {
   if (e.key === "Enter") sendMessage();
 });
 
+let typingElement = null;
+
+function showTyping() {
+  if (typingElement) return; // already visible
+
+  typingElement = document.createElement("div");
+  typingElement.className = "bot typing-indicator";
+  typingElement.innerHTML = `
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  `;
+
+  messages.appendChild(typingElement);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function hideTyping() {
+  if (typingElement) {
+    typingElement.remove();
+    typingElement = null;
+  }
+}
+
+
 async function sendMessage() {
   const text = input.value.trim();
   if (!text) return;
@@ -58,11 +83,12 @@ async function sendMessage() {
   input.value = "";
   messages.scrollTop = messages.scrollHeight;
 
-  // Save user message
   chatHistory.push({ sender: "user", text });
   saveChat();
 
-  // ---- SEND TO BACKEND ----
+  // 🔥 Show typing indicator
+  showTyping();
+
   const API_URL = "https://learn-sorting.onrender.com/chat";
 
   const res = await fetch(API_URL, {
@@ -71,7 +97,10 @@ async function sendMessage() {
     body: JSON.stringify({ message: text })
   });
 
-  const data = await res.json();   // ✔ NOW res EXISTS
+  const data = await res.json();
+
+  // 🔥 Hide typing animation
+  hideTyping();
 
   // Try navigation
   try {
@@ -80,43 +109,60 @@ async function sendMessage() {
       window.location.href = action.url;
       return;
     }
-  } catch (e) {}
+  } catch (e) { }
 
-  // ---- SHOW BOT REPLY ----
+  // Show bot reply
   messages.innerHTML += `
     <div class="bot">${formatMessage(data.reply)}</div>
   `;
   messages.scrollTop = messages.scrollHeight;
 
-  // Save bot reply
   chatHistory.push({ sender: "bot", text: data.reply });
   saveChat();
 }
 
 
 
+
 function formatMessage(text) {
 
-  // If message contains code block fences
-  if (text.includes("```")) {
-    return text.replace(/```([\s\S]*?)```/g, (match, codeText) => {
-      const id = "codeblock_" + codeIdCounter++;
-      const escaped = escapeHtml(codeText.trim());
+  let html = text;
 
-      return (
-        `<div class="code-wrapper">` +
-          `<button class="copy-btn" onclick="copyCode('${id}')">Copy</button>` +
-          `<pre class="code">` +
-            `<code id="${id}">${escaped}</code>` +
-          `</pre>` +
-        `</div>`
-      );
-    });
-  }
+  // 1. Extract code blocks and replace with placeholders
+  const codeBlocks = [];
+  html = html.replace(/```([\s\S]*?)```/g, (match, codeText) => {
+    const id = "codeblock_" + codeIdCounter++;
+    const escaped = escapeHtml(codeText.trim());
 
-  // Normal text
-  return escapeHtml(text).replace(/\n/g, "<br>");
+    const codeHtml =
+      `<div class="code-wrapper">` +
+      `<button class="copy-btn" onclick="copyCode('${id}')">Copy</button>` +
+      `<pre class="code"><code id="${id}">${escaped}</code></pre>` +
+      `</div>`;
+
+    codeBlocks.push(codeHtml);
+
+    return `__CODEBLOCK_${codeBlocks.length - 1}__`;
+  });
+
+  // 2. Render markdown normally
+  html = marked.parse(html);
+
+  // 3. Replace placeholders (normal)
+  codeBlocks.forEach((blockHtml, i) => {
+    html = html.replace(`__CODEBLOCK_${i}__`, blockHtml);
+  });
+
+  // 4. Replace fallback placeholders (model-generated)
+  codeBlocks.forEach((blockHtml, i) => {
+    html = html.replace(`CODEBLOCK_${i}`, blockHtml);
+  });
+
+  return html;
 }
+
+
+
 
 const code = document.querySelector(".code-wrapper");
 
