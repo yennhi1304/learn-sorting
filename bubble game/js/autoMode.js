@@ -1,9 +1,4 @@
-let arr = [];
-let selected = null;
-let i = 0;
-let j = arr.length - 1;
-let lock = false;
-let autoMode = true;
+const startBtn = document.getElementById("checkBtn");
 
 let pendingA = null;
 let pendingB = null;
@@ -11,14 +6,31 @@ let pendingB = null;
 const column = document.getElementById("column");
 const resetBtn = document.getElementById("resetBtn");
 
+let arr = [];
+let selected = null;
+let i = 0;
+let j = arr.length - 1;
+let lock = false;
+let autoMode = false;
+generateArray();
 
-if (autoMode) {
-    generateArray();
+startBtn.addEventListener("click", async () => {
+    await runCheck(); 
+
+    if (autoMode) {
+        console.log(autoMode);
+        generateArray();
+    } else {
+        doLose();
+    }
+});
+
+
+async function runCheck() {
+    autoMode = await checkCode();
+    console.log("autoMode =", autoMode);
 }
 
-else {
-    doLose();
-}
 
 function generateArray() {
     arr = [];
@@ -60,8 +72,9 @@ function nextStep() {
     lock = false;
     selected = null;
 
+
     // Check if already sorted or no more passes
-    if (isSorted(arr) || i > arr.length - 1) {
+    if (isSorted(arr) || i >= arr.length - 1) {
         document.querySelectorAll(".node").forEach(n => n.classList.add("correct"));
         setTimeout(() => {
             document.getElementById("column").classList.add("win");
@@ -69,18 +82,19 @@ function nextStep() {
             setTimeout(() => {
                 document.getElementById("santaclaus").src = "images/santaWin.gif";
             }, 5000);
-             
+
         }, 2000);
+
         return;
 
     }
 
+    console.log("helo" + i);
     // If we reached the bottom of this pass, shrink the unsorted boundary
     if (j <= i) {
-        i++;                      // one new bubble is sorted
+        i++;                  // one new bubble is sorted
         j = arr.length - 1;       // restart from bottom
     }
-
 
     if (!autoMode) return;
 
@@ -97,8 +111,12 @@ function nextStep() {
 
 
     //  ALWAYS highlight both bubbles during comparison
-    A.classList.add("bubble-active");
-    B.classList.add("bubble-active");
+    if (i < arr.length - 1) {
+        console.log(i);
+        A.classList.add("bubble-active");
+        B.classList.add("bubble-active");
+    }
+
     // Safety check
     if (!A || !B) {
         // if something goes wrong, move to next pair
@@ -154,7 +172,7 @@ function doLose() {
     setTimeout(() => {
         document.querySelector(".shark").style.display = "none";
     }, 2000);
-    
+
 }
 
 resetBtn.onclick = () => {
