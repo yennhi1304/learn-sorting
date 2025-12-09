@@ -1,16 +1,3 @@
-/* ================= DARK MODE TOGGLE ================= */
-const toggleCheckbox = document.querySelector(".switch input");
-const nav = document.querySelector(".navbar");
-
-
-if (toggleCheckbox) {
-  toggleCheckbox.addEventListener("change", () => {
-    const on = toggleCheckbox.checked;
-    document.body.classList.toggle("dark", on);
-    nav.classList.toggle("dark", on);
-  });
-}
-
 /* ================= WHEEL SLICE HOVER LAYERING ================= */
 const sliceLayer = document.getElementById("slice-layer");
 
@@ -99,11 +86,12 @@ const lessons = {
       <div class="complexity-panel" data-algo="selectionSort">
         <div class="complexity-controls">
           <label>Array size:</label>
-          <input type="range" class="complexity-slider" min="10" max="500" value="50">
+          <input type="range" class="complexity-slider" min="0" max="50" value="25">
           <span class="complexity-slider-value">50</span>
 
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
+          <button class="complexity-run10">Run ×10</button>
         </div>
 
         <div class="input-modes">
@@ -112,7 +100,7 @@ const lessons = {
   <label><input type="radio" name="inputMode" value="desc"> Descending</label>
 </div>
 
-        <p>Operations: <span class="complexity-ops">0</span></p>
+        <p class ="operation_count">Operations: <span class="complexity-ops">0</span></p>
 
         <canvas class="complexity-canvas"></canvas>
       </div>
@@ -160,11 +148,12 @@ const lessons = {
       <div class="complexity-panel" data-algo="bubbleSort">
         <div class="complexity-controls">
           <label>Array size:</label>
-          <input type="range" class="complexity-slider" min="10" max="500" value="50">
+          <input type="range" class="complexity-slider" min="0" max="50" value="25">
           <span class="complexity-slider-value">50</span>
 
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
+          <button class="complexity-run10">Run ×10</button>
         </div>
         <div class="input-modes">
   <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
@@ -172,7 +161,7 @@ const lessons = {
   <label><input type="radio" name="inputMode" value="desc"> Descending</label>
 </div>
 
-        <p>Operations: <span class="complexity-ops">0</span></p>
+        <p class="operation_count">Operations: <span class="complexity-ops">0</span></p>
 
         <canvas class="complexity-canvas"></canvas>
       </div>
@@ -212,11 +201,12 @@ const lessons = {
       <div class="complexity-panel" data-algo="insertionSort">
         <div class="complexity-controls">
           <label>Array size:</label>
-          <input type="range" class="complexity-slider" min="10" max="500" value="50">
+          <input type="range" class="complexity-slider" min="0" max="50" value="25">
           <span class="complexity-slider-value">50</span>
 
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
+          <button class="complexity-run10">Run ×10</button>
         </div>
         <div class="input-modes">
   <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
@@ -224,7 +214,7 @@ const lessons = {
   <label><input type="radio" name="inputMode" value="desc"> Descending</label>
 </div>
 
-        <p>Operations: <span class="complexity-ops">0</span></p>
+        <p class = "operation_count">Operations: <span class="complexity-ops">0</span></p>
 
         <canvas class="complexity-canvas"></canvas>
       </div>
@@ -270,11 +260,12 @@ const lessons = {
       <div class="complexity-panel" data-algo="quickSort">
         <div class="complexity-controls">
           <label>Array size:</label>
-          <input type="range" class="complexity-slider" min="10" max="500" value="50">
+          <input type="range" class="complexity-slider" min="0" max="50" value="25">
           <span class="complexity-slider-value">50</span>
 
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
+          <button class="complexity-run10">Run ×10</button>
         </div>
         <div class="input-modes">
   <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
@@ -282,7 +273,7 @@ const lessons = {
   <label><input type="radio" name="inputMode" value="desc"> Descending</label>
 </div>
 
-        <p>Operations: <span class="complexity-ops">0</span></p>
+        <p class="operation_count">Operations: <span class="complexity-ops">0</span></p>
 
         <canvas class="complexity-canvas"></canvas>
       </div>
@@ -337,11 +328,12 @@ const lessons = {
       <div class="complexity-panel" data-algo="mergeSort">
         <div class="complexity-controls">
           <label>Array size:</label>
-          <input type="range" class="complexity-slider" min="10" max="500" value="50">
+          <input type="range" class="complexity-slider" min="0" max="50" value="25">
           <span class="complexity-slider-value">50</span>
 
           <button class="complexity-run">Run</button>
           <button class="complexity-clear">Clear</button>
+          <button class="complexity-run10">Run ×10</button>
         </div>
         <div class="input-modes">
   <label><input type="radio" name="inputMode" value="asc" checked> Ascending</label>
@@ -349,7 +341,7 @@ const lessons = {
   <label><input type="radio" name="inputMode" value="desc"> Descending</label>
 </div>
 
-        <p>Operations: <span class="complexity-ops">0</span></p>
+        <p class = "operation_count">Operations: <span class="complexity-ops">0</span></p>
 
         <canvas class="complexity-canvas"></canvas>
       </div>
@@ -446,7 +438,7 @@ function mountSlider(algoKey) {
       index++;
       if (index > total) index = 1;
       updateImage();
-    }, 5000); // đổi 5000 → 10000 nếu muốn 10 giây
+    }, 5000);
   }
 
   function stopAutoPlay() {
@@ -629,10 +621,10 @@ function countOpsMergeSort(arr) {
     let mid = Math.floor(a.length / 2);
 
     // recursion overhead (this boosts n log n shape)
-    ops++;  
+    ops++;
     let left = mergeSort(a.slice(0, mid));
 
-    ops++;  
+    ops++;
     let right = mergeSort(a.slice(mid));
 
     return merge(left, right);
@@ -685,11 +677,11 @@ function initComplexityPanel(algoKey) {
   const sliderValue = panel.querySelector(".complexity-slider-value");
   const runBtn = panel.querySelector(".complexity-run");
   const clearBtn = panel.querySelector(".complexity-clear");
-  const opsSpan = panel.querySelector(".complexity-ops");
+  const opsCount = panel.querySelector(".operation_count");
   const canvas = panel.querySelector(".complexity-canvas");
   const lesson = lessons[algoKey];
 
-  if (!slider || !sliderValue || !runBtn || !clearBtn || !opsSpan || !canvas) {
+  if (!slider || !sliderValue || !runBtn || !clearBtn || !canvas) {
     return;
   }
 
@@ -721,61 +713,165 @@ function initComplexityPanel(algoKey) {
     }
   ];
 
-  // Add theoretical curves depending on lesson settings
-if (lesson.complexityCurves?.includes("O2")) {
-  const o2 = {
-    label: "O(n²)",
-    data: [],
-    parsing: false,
-    borderColor: "red",
-    borderDash: [6, 6],
-    pointRadius: 0
-  };
-  for (let n = 10; n <= 500; n += 10) o2.data.push({ x: n, y: n * n });
-  datasets.push(o2);
-}
+  // =======================================================
+  // ADD THEORETICAL CURVES + COLLECT MAX VALUES
+  // =======================================================
 
-if (lesson.complexityCurves?.includes("Olog")) {
-  const olog = {
-    label: "O(n log n)",
-    data: [],
-    parsing: false,
-    borderColor: "green",
-    borderDash: [6, 6],
-    pointRadius: 0
-  };
-  for (let n = 10; n <= 500; n += 10)
-    olog.data.push({ x: n, y: n * Math.log2(n)});
-  datasets.push(olog);
-}
-
-if (lesson.complexityCurves?.includes("On")) {
-  const on = {
-    label: "O(n)",
-    data: [],
-    parsing: false,
-    borderColor: "orange",
-    borderDash: [6, 6],
-    pointRadius: 0
-  };
-  for (let n = 10; n <= 500; n += 10)
-    on.data.push({ x: n, y: n });
-  datasets.push(on);
-}
-
-
-activeComplexityChart = new Chart(ctx, {
-  type: "line",
-  data: { datasets },
-  options: {
-    scales: {
-      x: { type: "linear", min: 0, max: 500 },
-      y: { beginAtZero: true,
-          suggestedMax: 250000,
-       },
-    },
+  if (lesson.complexityCurves?.includes("O2")) {
+    const o2 = {
+      label: "O(n²)",
+      data: [],
+      parsing: false,
+      borderColor: "red",
+      borderDash: [6, 6],
+      pointRadius: 0
+    };
+    for (let n = 1; n <= 50; n++) {
+      o2.data.push({ x: n, y: n * n });
+    }
+    datasets.push(o2);
   }
-});
+
+  if (lesson.complexityCurves?.includes("Olog")) {
+    const olog = {
+      label: "O(n log n)",
+      data: [],
+      parsing: false,
+      borderColor: "green",
+      borderDash: [6, 6],
+      pointRadius: 0
+    };
+    for (let n = 1; n <= 50; n++) {
+      olog.data.push({ x: n, y: n * Math.log2(n) });
+    }
+    datasets.push(olog);
+  }
+
+  if (lesson.complexityCurves?.includes("On")) {
+    const on = {
+      label: "O(n)",
+      data: [],
+      parsing: false,
+      borderColor: "orange",
+      borderDash: [6, 6],
+      pointRadius: 0
+    };
+    for (let n = 1; n <= 50; n++) {
+      on.data.push({ x: n, y: n });
+    }
+    datasets.push(on);
+  }
+
+
+  let yMax = 0;
+
+  if (lesson.complexityCurves?.includes("O2")) {
+    yMax = Math.max(yMax, 2500);       // max n² for n=50
+  }
+  if (lesson.complexityCurves?.includes("Olog")) {
+    yMax = Math.max(yMax, 300);        // max n log n for n=50
+  }
+  if (lesson.complexityCurves?.includes("On")) {
+    yMax = Math.max(yMax, 50);         // max n for n=50
+  }
+
+  // Add padding so curves aren't flush against top
+  yMax = Math.ceil(yMax * 1.2);
+
+  // Round Y max to a “nice” number
+  yMax = Math.ceil(yMax / 100) * 100;
+
+  // Pick a good tick size
+  let tickSize = Math.ceil(yMax / 6 / 100) * 100;
+
+
+  const run10Btn = panel.querySelector(".complexity-run10");
+
+  if (run10Btn) {
+    run10Btn.addEventListener("click", () => {
+      runRandomTests(10);
+    });
+  }
+
+
+
+
+
+  activeComplexityChart = new Chart(ctx, {
+    type: "line",
+    data: { datasets },
+    options: {
+      scales: {
+
+        // ================= X AXIS =================
+        x: {
+          type: "linear",
+          beginAtZero: true,
+          min: 0,
+          max: 50,
+          ticks: {
+            stepSize: 5
+          },
+          title: {
+            display: true,
+            text: "Input Size (n)",
+            font: { size: 14, weight: "bold" }
+          }
+        },
+
+        // ================= Y AXIS =================
+        y: {
+          beginAtZero: true,
+          min: 0,
+          max: yMax,          // ← automatically chosen!
+          ticks: {
+            stepSize: tickSize
+          },
+          title: {
+            display: true,
+            text: "Operation Count",
+            font: { size: 14, weight: "bold" }
+          }
+        }
+      }
+    }
+  });
+
+ async function runRandomTests() {
+  const runAlgo = complexityRunners[algoKey];
+  if (!runAlgo) return;
+
+  const mode = panel.querySelector("input[name='inputMode']:checked")?.value || "rand";
+
+  let opsList = [];
+
+  for (let i = 0; i < 10; i++) {
+
+    const size = Math.floor(Math.random() * 46) + 5;
+    const arr = buildArrayByMode(size, mode);
+    const ops = runAlgo([...arr]);
+
+    opsList.push(ops);
+
+    activeComplexityChart.data.datasets[0].data.push({
+      x: size,
+      y: ops
+    });
+
+    activeComplexityChart.update();
+
+    await new Promise(r => setTimeout(r, 15));
+  }
+
+  // Compute average
+  const avg = Math.round(
+    opsList.reduce((sum, v) => sum + v, 0) / opsList.length
+  );
+
+  // Update text label
+  opsCount.textContent = `Average operations: ${avg}`;
+}
+
 
 
 
@@ -784,30 +880,35 @@ activeComplexityChart = new Chart(ctx, {
   // RUN BUTTON
   // ===============================
   runBtn.addEventListener("click", () => {
-  const n = Number(slider.value);
-  const runAlgo = complexityRunners[algoKey];
-  if (!runAlgo) return;
+    const n = Number(slider.value);
+    const runAlgo = complexityRunners[algoKey];
+    if (!runAlgo) return;
 
-  // Read selected mode
-  const mode = panel.querySelector("input[name='inputMode']:checked")?.value || "rand";
+    const mode = panel.querySelector("input[name='inputMode']:checked")?.value || "rand";
 
-  // Build array based on mode
-  const arr = buildArrayByMode(n, mode);
+    const arr = buildArrayByMode(n, mode);
 
-  const ops = runAlgo([...arr]); // count operations
+    const ops = runAlgo([...arr]); 
 
-  opsSpan.textContent = ops;
+    // FIXED (restore correct label)
+    opsCount.textContent = `Operations: ${ops}`;
 
-  activeComplexityChart.data.datasets[0].data.push({ x: n, y: ops});
-  activeComplexityChart.update();
+    // Record result in chart
+    activeComplexityChart.data.datasets[0].data.push({
+        x: n,
+        y: ops
+    });
+
+    activeComplexityChart.update();
 });
+
 
 
   // ===============================
   // CLEAR BUTTON
   // ===============================
   clearBtn.addEventListener("click", () => {
-    opsSpan.textContent = "0";
+    opsCount.textContent = "Average: 0";
     activeComplexityChart.data.datasets[0].data = [];
     activeComplexityChart.update();
   });
