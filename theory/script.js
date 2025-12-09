@@ -78,29 +78,10 @@ const lessons = {
           <li>Repeat.</li>
         </ul>
       </div>
-
+    <h3>Example</h3>
       <div class="section-block">
-        <h3>First scan</h3>
-        <div class="image-row">
-          <img src="images/selection/step1.png" class="zoom-img" alt="Select first element as minimum">
-          <img src="images/selection/step2.png" class="zoom-img" alt="Compare minimum with remaining elements">
-          <img src="images/selection/step3.png" class="zoom-img" alt="Swap first with minimum">
-        </div>
-      </div>
+      <div class="gfg-slider"></div>
 
-      <div class="section-block">
-        <h3>Iterations</h3>
-        <div class="image-row">
-          <img src="images/selection/iter1.png" class="zoom-img" alt="First iteration">
-          <img src="images/selection/iter2.png" class="zoom-img" alt="Second iteration">
-          <img src="images/selection/iter3.png" class="zoom-img" alt="Third iteration">
-        </div>
-      </div>
-
-      <div class="section-block">
-        <div class="image-row">
-          <img src="images/selection/iter4.png" class="zoom-img" alt="Fourth iteration">
-        </div>
       </div>
 
       <div class="section-block">
@@ -157,30 +138,10 @@ const lessons = {
         <li>Repeat the whole pass as many times as there are values.</li>
       </ul>
     </div>
-
+    <h3>Example</h3>
     <div class="section-block">
-      <h3>Example passes</h3>
-      <div class="image-row">
-        <img src="images/bubble/b_step0.png" class="zoom-img" alt="Step 0 – Compare the Adjacent Elements">
-      </div>
-    </div>
+      <div class="gfg-slider"></div>
 
-    <div class="section-block">
-      <div class="image-row">
-        <img src="images/bubble/b_step1.png" class="zoom-img" alt="Step 1 – Put the largest element at the end">
-      </div>
-    </div>
-
-    <div class="section-block">
-      <div class="image-row">
-        <img src="images/bubble/b_step2.png" class="zoom-img" alt="Step 2 – Compare the adjacent elements">
-      </div>
-    </div>
-
-    <div class="section-block">
-      <div class="image-row">
-        <img src="images/bubble/b_step3.png" class="zoom-img" alt="Step 3 – The array is sorted if all elements are kept in the right order">
-      </div>
     </div>
 
     <div class="section-block">
@@ -228,51 +189,16 @@ const lessons = {
         The Insertion Sort algorithm uses one part of the array to hold the sorted values, 
         and the other part of the array to hold the values that are not sorted yet.
       </p>
-
-      <h3>Initial Array</h3>
+      <h3>How it works</h3>
+      <ul>
+        <li>Take the first value from the unsorted part of the array.</li>
+        <li>Move the value into the correct place in the sorted part of the array.</li>
+        <li>Go through the unsorted part of the array again as many times as there are values.</li>
+      </ul>
+      <h3>Example</h3>
       <div class="section-block">
-        <div class="image-row">
-          <img src="images/insertion/initial.png" 
-               class="zoom-img" 
-               alt="Initial array">
-        </div>
-      </div>
-
-      <h3>Step 1</h3>
-      <div class="section-block">
-        <div class="image-row">
-          <img src="images/insertion/step1.png" 
-               class="zoom-img" 
-               alt="If the first element is greater than key, then key is placed in front of the first element.">
-        </div>
-      </div>
-
-      <h3>Step 2</h3>
-      <div class="section-block">
-        <div class="image-row">
-          <img src="images/insertion/step2.png" 
-               class="zoom-img" 
-               alt="Place 1 at the beginning">
-        </div>
-      </div>
-
-      <h3>Step 3</h3>
-      <div class="section-block">
-        <div class="image-row">
-          <img src="images/insertion/step3.png" 
-               class="zoom-img" 
-               alt="Place 4 behind 1">
-        </div>
-      </div>
-
-      <h3>Step 4</h3>
-      <div class="section-block">
-        <div class="image-row">
-          <img src="images/insertion/step4.png" 
-               class="zoom-img" 
-               alt="Place 3 behind 1 and the array is sorted">
-        </div>
-      </div>
+      <div class="gfg-slider"></div>
+    </div>
 
       <h3>Time Complexity</h3>
       <ul>
@@ -324,49 +250,11 @@ const lessons = {
         <li>Swap the pivot element so that it lands in its correct sorted location.</li>
         <li>Repeat the same process recursively on left and right sub-arrays.</li>
       </ul>
-
+    <h3>Example</h3>
       <div class="section-block">
-        <h3>Choose Pivot</h3>
-        <div class="image-row">
-          <img src="images/quick/step1.png" class="zoom-img" alt="Select a pivot element.">
-        </div>
-      </div>
+      <div class="gfg-slider"></div>
 
-      <div class="section-block">
-        <h3>Partition Process</h3>
-        <div class="image-row">
-          <img src="images/quick/step2.png" class="zoom-img" alt="Put all the smaller elements on the left and greater on the right of pivot element.">
-        </div>
-
-        <div class="image-row">
-          <img src="images/quick/step3.png" class="zoom-img" alt="Comparison of pivot element with element beginning from the first index.">
-        </div>
-
-        <div class="image-row">
-          <img src="images/quick/step4.png" class="zoom-img" alt="If the element is greater than the pivot element, a second pointer is set for that element.">
-        </div>
-
-        <div class="image-row">
-          <img src="images/quick/step5.png" class="zoom-img" alt="Pivot is compared with other elements.">
-        </div>
-
-        <div class="image-row">
-          <img src="images/quick/step6.png" class="zoom-img" alt="The process is repeated to set the next greater element as the second pointer.">
-        </div>
-        <div class="image-row">
-          <img src="images/quick/step7.png" class="zoom-img" alt="The process goes on until the second last element is reached">
-        </div>
-        <div class="image-row">
-          <img src="images/quick/step8.png" class="zoom-img" alt="Finally, the pivot element is swapped with the second pointer">
-        </div>
-      </div>
-
-      <div class="section-block">
-        <h3>Recursive Partitioning</h3>
-        <div class="image-row">
-          <img src="images/quick/recursion.png" class="zoom-img" alt="Recursive placement of pivot elements">
-        </div>
-      </div>
+    </div>
 
       <div class="section-block">
         <h3>Time Complexity</h3>
@@ -429,17 +317,10 @@ const lessons = {
       <li>Merge two sub-arrays together by always putting the lowest value first.</li>
       <li>Keep merging until there are no sub-arrays left.</li>
     </ol>
-
+    <h3>Example</h3>
     <div class="section-block">
-      <h3>Merge Sort example</h3>
-      <div class="image-row">
-        <img
-          src="images/merge/example.png"
-          class="zoom-img"
-          alt="Merge Sort example"
-          data-caption="Merge Sort example"
-        >
-      </div>
+      <div class="gfg-slider"></div>
+
     </div>
 
     <div class="section-block">
@@ -479,6 +360,106 @@ const lessons = {
 
 };
 
+/* ================= IMAGE SLIDER (GFG STYLE) ================= */
+
+const sliderImages = {
+  selectionSort: 6,
+  bubbleSort: 3,
+  insertionSort: 5,
+  mergeSort: 4,
+  quickSort: 6,
+};
+
+// map key → correct folder name
+const folderMap = {
+  selectionSort: "selection",
+  bubbleSort: "bubble",
+  insertionSort: "insertion",
+  mergeSort: "merge",
+  quickSort: "quick",
+};
+
+function mountSlider(algoKey) {
+  const container = document.querySelector(".gfg-slider");
+  if (!container) return;
+
+  const total = sliderImages[algoKey];
+  if (!total) return;
+
+  const folder = folderMap[algoKey];
+  let index = 1;
+  let autoPlay = null; // timer
+
+  container.innerHTML = `
+    <div class="gfg-slider-main">
+      <img class="gfg-slider-img" src="images/${folder}/${index}.webp">
+    </div>
+
+
+
+  <div class="gfg-slider-controls">
+      <button class="gfg-prev">❮</button>
+      <button class="gfg-play">⏯</button>
+      <button class="gfg-next">❯</button>
+
+      <span class="gfg-page-number">${index}/${total}</span>
+  </div>
+
+
+  `;
+
+  const img = container.querySelector(".gfg-slider-img");
+  const prev = container.querySelector(".gfg-prev");
+  const next = container.querySelector(".gfg-next");
+  const playBtn = container.querySelector(".gfg-play");
+  const pageNum = container.querySelector(".gfg-page-number");
+
+  function updateImage() {
+    img.classList.add("fade-out");
+
+    setTimeout(() => {
+      img.src = `images/${folder}/${index}.webp`;
+      img.classList.remove("fade-out");
+      img.classList.add("fade-in");
+
+      setTimeout(() => img.classList.remove("fade-in"), 400);
+    }, 300);
+
+    pageNum.textContent = `${index}/${total}`;
+  }
+
+  prev.onclick = () => {
+    index--;
+    if (index < 1) index = total;
+    updateImage();
+  };
+
+  next.onclick = () => {
+    index++;
+    if (index > total) index = 1;
+    updateImage();
+  };
+
+  function startAutoPlay() {
+    playBtn.textContent = "⏸";
+    autoPlay = setInterval(() => {
+      index++;
+      if (index > total) index = 1;
+      updateImage();
+    }, 5000); // đổi 5000 → 10000 nếu muốn 10 giây
+  }
+
+  function stopAutoPlay() {
+    playBtn.textContent = "⏵";
+    clearInterval(autoPlay);
+    autoPlay = null;
+  }
+
+  playBtn.onclick = () => {
+    if (autoPlay) stopAutoPlay();
+    else startAutoPlay();
+  };
+}
 
 /* ================= LOAD LESSON ON SLICE CLICK ================= */
 const lessonBox = document.getElementById("lessonContent");
@@ -501,6 +482,7 @@ document.querySelectorAll(".slice").forEach((slice) => {
       <h2>${lesson.title}</h2>
       ${lesson.html}
     `;
+    mountSlider(key);
     initComplexityPanel(key);
   });
 });
