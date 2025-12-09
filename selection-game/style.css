@@ -205,3 +205,17 @@ body {
 #resetBtn:hover {
   background: #555;
 }
+
+#santa img{
+  margin-top: 10vh;
+  height: 120px;
+}
+
+#santa-children {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
+
+#line img {
+  height: 20vh;
+}

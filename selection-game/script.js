@@ -275,11 +275,15 @@ checkBtn.addEventListener("click", async () => {
 
 
 
-
 function setGameArray(newArr) {
+  // numbers stay the same, but rendering will use images
   arr = [...newArr];
-  i = arr.length;      
-  gameOver = true;           // ⬅ IMPORTANT
+
+  i = arr.length;
+  gameOver = true;
+
   message.textContent = "🎉 Code correct! Blocks sorted automatically!";
-  render();
+
+  renderImages(); // ⬅ use new render for images
 }
+

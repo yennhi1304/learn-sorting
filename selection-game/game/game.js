@@ -1,40 +1,43 @@
 let arr = [];
-const correct = [...arr].sort((a, b) => a - b);
 let i = 0;
 let draggedIndex = null;
-let gameOver = false;   // ⬅ NEW
+let gameOver = false;
 
-
-
-const lineDiv = document.getElementById("line");
+const board = document.getElementById("line");
 const message = document.getElementById("message");
 
-function render() {
-  lineDiv.innerHTML = "";
+// ====================== GENERATE ======================
+function generateArray() {
+  arr = [1, 2, 3, 4, 5];
+  arr.sort(() => Math.random() - 0.5);
 
-  for (let index = 0; index < arr.length; index++) {
-    const slot = document.createElement("div");
-    slot.className = "slot";
-    slot.dataset.index = index;
+  i = 0;
+  draggedIndex = null;
+  gameOver = false;
 
-    if (index === i) slot.classList.add("highlight-slot");
-
-    const c = document.createElement("div");
-    c.className = "customer";
-    c.textContent = arr[index] + " cm";
-    c.draggable = !gameOver;
-
-
-    c.addEventListener("dragstart", () => (draggedIndex = index));
-
-    slot.addEventListener("dragover", (e) => e.preventDefault());
-    slot.addEventListener("drop", () => handleDrop(index));
-
-    slot.appendChild(c);
-    lineDiv.appendChild(slot);
-  }
+  message.textContent = "";
+  renderImages();
 }
 
+// ====================== RENDER ========================
+function renderImages() {
+  board.innerHTML = "";
+
+  arr.forEach((num, idx) => {
+    const block = document.createElement("div");
+    block.classList.add("block");
+    block.setAttribute("draggable", true);
+    block.dataset.index = idx;
+
+    const img = document.createElement("img");
+    img.src = `images/${num}.png`;
+
+    block.appendChild(img);
+    board.appendChild(block);
+  });
+}
+
+// ====================== MIN INDEX =====================
 function indexOfMin(start) {
   let min = start;
   for (let j = start + 1; j < arr.length; j++) {
@@ -43,10 +46,10 @@ function indexOfMin(start) {
   return min;
 }
 
+// ====================== DROP HANDLING =================
 function handleDrop(dropIndex) {
-
   if (gameOver) {
-    message.textContent = "✔ Sorting complete! Press Reset to play again.";
+    message.textContent = "✔ Sorting complete! Reset to play again.";
     return;
   }
 
@@ -58,38 +61,37 @@ function handleDrop(dropIndex) {
   const minIndex = indexOfMin(i);
 
   if (draggedIndex !== minIndex) {
-    message.textContent = "❌ That's not the smallest!";
+    message.textContent = "❌ Wrong block! Drag the smallest image.";
     return;
   }
 
   [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
-  message.textContent = `✔ Correct! ${arr[i]} placed at position ${i}`;
+
+  message.textContent = `✔ Correct! Placed image ${arr[i]}.png in slot ${i}`;
 
   i++;
 
-  // ⬅ End condition
   if (i >= arr.length - 1) {
-    gameOver = true;  // ⬅ LOCK THE GAME
-    message.textContent += " — 🎉 Sorting complete! Press Reset to play again.";
+    gameOver = true;
+    message.textContent = "🎉 All images sorted perfectly!";
   }
 
-  render();
+  renderImages();
 }
 
-function generateArray() {
-    arr = [];
-    for (let k = 0; k < 5; k++) {
-        arr.push(Math.floor(Math.random() * 90) + 5);
-    }
+// ====================== DRAG EVENTS ===================
+board.addEventListener("dragstart", e => {
+  draggedIndex = Number(e.target.closest(".block").dataset.index);
+});
 
-    i = 0;
-    draggedIndex = null;
-    gameOver = false;
+board.addEventListener("dragover", e => {
+  e.preventDefault();
+});
 
-    message.textContent = "";
-    render();
-}
+board.addEventListener("drop", e => {
+  const dropIndex = Number(e.target.closest(".block").dataset.index);
+  handleDrop(dropIndex);
+});
 
-
-
-render();
+// ====================== INITIAL LOAD ==================
+generateArray();
