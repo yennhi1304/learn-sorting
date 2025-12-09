@@ -1,31 +1,47 @@
- body {
-     background: url('../images/background.png') bottom;
-     background-repeat: no-repeat;
-     background-size: 100vw 120vh;
-     height: 100vh;
-     width: 100vw;
-     color: white;
-     font-family: "Segoe UI", sans-serif;
-     display: flex;
-     justify-content: center;
-     overflow: hidden;
- }
+/* =========================================
+   GLOBAL (BODY + GENERAL BUTTONS)
+========================================= */
+body {
+    background: url('../images/background.png') bottom no-repeat;
+    background-size: 100vw 120vh;
+    height: 100vh;
+    width: 100vw;
+    color: white;
+    font-family: "Segoe UI", sans-serif;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+}
 
+button {
+    color: white;
+    border: solid white;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.438);
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
 
+/* =========================================
+   MAIN WRAPPER
+========================================= */
+#manualMode {
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
 
-
-
- #manualMode {
-     height: 100vh;
-     width: 100vw;
-     display: grid;
-     grid-template-columns: 1fr 2fr;
-     text-align: center;
-     justify-content: center;
-     align-items: center;
- }
-
- .control-bar {
+/* =========================================
+   LEFT PANEL (CONTROL BAR)
+========================================= */
+.control-bar {
     margin-left: 100px;
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.438);
@@ -36,204 +52,166 @@
     justify-content: center;
     align-items: center;
     font-size: 20px;
- }
+}
 
- .character {
+#resetBtn {
+    visibility: hidden;
+    background: none;
+    border: solid white;
+    color: white;
+}
+
+#resetBtn:hover {
+    background: #ffffff84;
+}
+
+/* =========================================
+   RIGHT PANEL (CHARACTER AREA)
+========================================= */
+.character {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-columns: 1fr 2fr;
- }
+}
 
- .column {
-     margin-top: 30vh;
-     display: flex;
-     flex-direction: column;
-     align-items: center;
-     gap: 1%;
- }
-
- .column.win {
-     animation: fade 0.5s ease forwards;
- }
-
-
- @keyframes fade {
-     from {
-         opacity: 1;
-     }
-
-     to {
-         opacity: 0;
-     }
- }
+#actionButtons {
+    position: absolute;   /* changed */
+    visibility: hidden;
+    pointer-events: none;
+    margin-left: 22%;
+    margin-top: 25vh;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+    transform: translate(-50%, -100%); /* center above midpoint */
+}
 
 
- #actionButtons {
-    margin-left: 50px;
-     visibility: hidden;
-     pointer-events: none;
-     display: flex;
-     justify-content: center;
-     align-items: center;
- }
+#actionButtons.visible {
+    visibility: visible;
+    pointer-events: auto;
+}
 
+/* =========================================
+   BUBBLES COLUMN + STATES
+========================================= */
+.column {
+    margin-top: 30vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1%;
+}
 
- #actionButtons.visible {
-     visibility: visible;
-     pointer-events: auto;
- }
+.column.win {
+    animation: fade 0.5s ease forwards;
+}
 
- .node {
-    
-     width: 40%;
-     height: 40%;
-     position: relative;
-     cursor: pointer;
-     transition: 0.25s ease;
- }
+.node {
+    width: 25%;
+    height: 25%;
+    position: relative;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
 
- .node img {
-     width: 29%;
-     height: 29%;
-     object-fit: contain;
-     pointer-events: none;
- }
+.node img {
+    width: 29%;
+    height: 29%;
+    object-fit: contain;
+    pointer-events: none;
+}
 
- .node span {
-     position: absolute;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     font-size: 100%;
-     font-weight: bold;
-     color: white;
-     pointer-events: none;
-     text-shadow: 0 0 5px #000;
- }
-
- .node.selected {
-     transform: scale(1.12);
-     filter: drop-shadow(0 0 12px rgb(185, 208, 235));
- }
-
- .node.correct {
-     filter: drop-shadow(0 0 12px #4caf50);
- }
-
- .node.wrong {
-     filter: drop-shadow(0 0 12px #ff3b3b);
- }
-
- #resetBtn {
-     visibility: hidden;
-     padding: 10px 16px;
-     margin-top: 10px;
-     background: none;
-     border: solid white;
-     color: white;
-     border-radius: 8px;
-     cursor: pointer;
-     transition: 0.2s ease;
- }
-
- #resetBtn:hover {
-     background: #ffffff84;
- }
-
-
-
- .santa img {
-     width: 20vh;
- }
-
- .santa {
-     visibility: visible;
- }
-
- .santa.win {
-     animation: fly 5s ease forwards;
- }
-
-
-
- @keyframes fly {
-     from {
-         transform: translateY(0);
-     }
-
-     to {
-         transform: translateY(-73vh);
-     }
-
- }
-
-
-
- .shark {
-     margin-top: -50vh;
-     margin-left: -120vw;
-     position: absolute;
-     animation: float 3s infinite;
-     display: none;
- }
-
- .shark img {
-     height: 400px;
- }
-
-
-
- @keyframes float {
-     from {
-         transform: translateX(10vw);
-     }
-
-     to {
-         transform: translateX(250vw);
-     }
- }
-
- /* Snowflakes */
- .snowflake {
-     position: fixed;
-     top: -10%;
-     color: #fff;
-     font-size: 1.5em;
-     opacity: 0.85;
-     animation: fall linear infinite, sway 3s ease-in-out infinite;
-     user-select: none;
-     pointer-events: none;
-     text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
-     z-index: 1;
- }
-
- @keyframes fall {
-     to {
-         transform: translateY(110vh);
-     }
- }
-
- @keyframes sway {
-
-     0%,
-     100% {
-         margin-left: 0;
-     }
-
-     50% {
-         margin-left: 30px;
-     }
- }
-
-
- button {
+.node span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 100%;
+    font-weight: bold;
     color: white;
-    border: solid white;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.438);
-     margin: 10px;
-     padding: 10px 20px;
-     font-size: 18px;
-     cursor: pointer;
- }
+    text-shadow: 0 0 5px #000;
+    pointer-events: none;
+}
+
+.node.selected {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 12px rgb(185, 208, 235));
+}
+
+.node.correct {
+    filter: drop-shadow(0 0 12px #4caf50);
+}
+
+.node.wrong {
+    filter: drop-shadow(0 0 12px #ff3b3b);
+}
+
+/* =========================================
+   SANTA
+========================================= */
+.santa img {
+    width: 20vh;
+}
+
+.santa.win {
+    animation: fly 5s ease forwards;
+}
+
+/* =========================================
+   SHARK
+========================================= */
+.shark {
+    margin-top: -50vh;
+    margin-left: -120vw;
+    position: absolute;
+    animation: float 3s infinite;
+    display: none;
+}
+
+.shark img {
+    height: 400px;
+}
+
+/* =========================================
+   SNOWFLAKES
+========================================= */
+.snowflake {
+    position: fixed;
+    top: -10%;
+    color: #fff;
+    font-size: 1.5em;
+    opacity: 0.85;
+    animation: fall linear infinite, sway 3s ease-in-out infinite;
+    user-select: none;
+    pointer-events: none;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+@keyframes fade {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes fly {
+    from { transform: translateY(0); }
+    to { transform: translateY(-73vh); }
+}
+
+@keyframes float {
+    from { transform: translateX(10vw); }
+    to { transform: translateX(250vw); }
+}
+
+@keyframes fall {
+    to { transform: translateY(110vh); }
+}
+
+@keyframes sway {
+    0%, 100% { margin-left: 0; }
+    50% { margin-left: 30px; }
+}

@@ -100,7 +100,20 @@ function selectNode(div) {
     const nodes = document.querySelectorAll(".node");
     nodes[pendingA].classList.add("selected");
     nodes[pendingB].classList.add("selected");
+    // get DOM positions
+    const rectA = nodes[pendingA].getBoundingClientRect();
+    const rectB = nodes[pendingB].getBoundingClientRect();
+
+    // midpoint between both
+    const midX = (rectA.left + rectB.left) / 2;
+    const midY = (rectA.top + rectB.top) / 2;
+
+    // display buttons at midpoint ABOVE bubbles
+    actionButtons.style.left = midX + "px";
+    actionButtons.style.top = (midY - 60) + "px";  // offset upward from bubbles
     actionButtons.classList.add("visible");
+    actionButtons.style.pointerEvents = "auto";
+
 }
 
 function doCorrectSwap(a, b) {
@@ -126,8 +139,8 @@ function nextStep() {
         document.getElementById("column").classList.add("win");
         document.querySelector(".santa").classList.add("win");
         setTimeout(() => {
-                document.getElementById("santaclaus").src = "images/santaWin.gif";
-            }, 5000);
+            document.getElementById("santaclaus").src = "images/santaWin.gif";
+        }, 5000);
         return;
     }
     j--;
