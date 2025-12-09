@@ -243,7 +243,6 @@ const lessons = {
     <h3>Example</h3>
       <div class="section-block">
       <div class="gfg-slider"></div>
-
     </div>
 
       <div class="section-block">
@@ -391,7 +390,7 @@ function mountSlider(algoKey) {
 
   <div class="gfg-slider-controls">
       <button class="gfg-prev">❮</button>
-      <button class="gfg-play">⏯</button>
+      <button class="gfg-play">⏵</button>
       <button class="gfg-next">❯</button>
 
       <span class="gfg-page-number">${index}/${total}</span>
