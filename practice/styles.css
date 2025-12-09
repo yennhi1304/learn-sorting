@@ -1,0 +1,59 @@
+body {
+    background: #111;
+    color: white;
+    text-align: center;
+    font-family: Arial;
+}
+
+.controls {
+    margin: 20px;
+}
+
+.board-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.board {
+    width: 45%;
+}
+
+.bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 350px;
+    background: #222;
+    padding: 10px;
+}
+
+/* Your existing bar styles remain unchanged */
+.bar {
+    width: 8px;
+    background: steelblue;
+    border-radius: 2px;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.bar.smallest { background: magenta; }
+.bar.sorted {background: green;}
+.bar.key { background: goldenrod; }
+
+.bar.write {background: violet;}
+.bar.range {
+    background: rgba(255, 255, 0, 0.2);
+}
+
+.left {
+    background: pink !important;     /* blue-ish */
+}
+
+.right {
+    background: rgba(255, 120, 120, 0.6) !important;    /* red-ish */
+}
+
+.bar.active { background: yellow !important;}
+/* .range {
+    outline: 2px solid #aaa;
+} */

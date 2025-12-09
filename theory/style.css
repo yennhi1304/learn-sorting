@@ -10,7 +10,8 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   font-family: Arial, sans-serif;
-  overflow: hidden; /* wheel + right panel scroll only */
+   /* wheel + right panel scroll only */
+   overflow: hidden;
 }
 
 /* ===== NAVBAR ===== */
@@ -135,13 +136,13 @@ path {
 }
 
 .lesson-content h3 {
-  font-size: 22px;
+  font-size: 30px;
   margin: 24px 0 8px;
 }
 
 .lesson-content p,
 .lesson-content li {
-  font-size: 17px;
+  font-size: 25px;
   line-height: 1.6;
   color: #374151;
 }
@@ -311,3 +312,189 @@ body.dark .lesson-content li {
   text-align: center;
   text-shadow: 0 3px 8px rgba(0,0,0,0.45);
 }
+
+
+.complexity-panel {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.complexity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.complexity-controls button {
+  padding: 4px 10px;
+}
+
+.complexity-canvas {
+  width: 100% !important;
+  /* max-width: 500px; */
+  /* height: 250px !important; */
+}
+
+/* Keep slice raised when selected */
+.slice.selected path {
+  transform: translateY(-1.5px);
+  filter: drop-shadow(0 6px 12px rgba(15,23,42,0.45));
+}
+
+
+.complexity-canvas {
+  pointer-events: auto !important;
+}
+/* ===== PURE IMAGE SLIDER (NO TEXT) ===== */
+.gfg-slider-box {
+  margin-top: 25px;
+  padding: 20px;
+  background: white;
+  border-radius: 14px;
+  border-left: 6px solid #2bb673;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* IMAGE + TRANSITION */
+.gfg-slider-img {
+  max-width: 100%;
+  border-radius: 12px;
+  display: block;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  opacity: 1;
+}
+
+.gfg-slider-img.fade-out {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.gfg-slider-img.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* MAIN IMAGE WRAPPER */
+.gfg-slider-main {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.gfg-slider-main img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+/* ============================== */
+/* NEW LAYOUT FOR CONTROLS – FIX */
+/* ============================== */
+
+/* IMAGE BOX */
+.gfg-slider-box {
+  margin-top: 25px;
+  padding: 20px;
+  background: white;
+  border-radius: 14px;
+  border-left: 6px solid #2bb673;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* IMAGE + TRANSITION */
+.gfg-slider-img {
+  max-width: 100%;
+  border-radius: 12px;
+  display: block;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.gfg-slider-img.fade-out {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.gfg-slider-img.fade-in {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* SLIDER LAYOUT */
+.gfg-slider-controls {
+  display: flex;
+  justify-content: center;     /* ⬅ 3 nút nằm giữa */
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  position: relative;
+  padding: 6px 40px 6px 40px;
+}
+
+/* BUTTON STYLE — giữ nguyên */
+.gfg-slider-controls button {
+  background: #2bb673;
+  border: none;
+  padding: 6px 12px;
+  font-size: 20px;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.gfg-slider-controls button:hover {
+  background: #23995f;
+}
+
+/* PAGE NUMBER — tách riêng BÊN PHẢI, không ăn theo center */
+.gfg-page-number {
+  position: absolute;
+  right: 12px;
+  font-size: 25px;
+  font-weight: bold;
+  color: #2bb673;
+}
+
+.img-slider {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 20px auto;
+  overflow: hidden;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.35s ease;
+}
+
+.slider-track img {
+  width: 100%;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(15,23,42,0.28);
+  cursor: zoom-in;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.75);
+  border: none;
+  padding: 8px 14px;
+  font-size: 22px;
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  transition: 0.25s ease;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.slider-btn:hover { background: white; }
