@@ -263,11 +263,11 @@ button:disabled {
 }
 
 /* Sorting state colors */
-.bar.left {
+.bar.left_half {
     background: lightblue;
 }
 
-.bar.right {
+.bar.right_half {
     background: rgba(255, 120, 120, 0.6);
 }
 

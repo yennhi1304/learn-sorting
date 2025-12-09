@@ -246,7 +246,7 @@ async function playAnimationAuto(event, barDivs, board) {
         }
         case "left_range": {
             for (let i = event.l; i <= event.r; i++) {
-                barDivs[i].classList.add("left");
+                barDivs[i].classList.add("left_half");
             }
             break;
         }
@@ -256,29 +256,29 @@ async function playAnimationAuto(event, barDivs, board) {
         // ===========================
         case "right_range": {
             for (let i = event.l; i <= event.r; i++) {
-                barDivs[i].classList.add("right");
+                barDivs[i].classList.add("right_half");
             }
             break;
         }
         case "clear_lr": {
             for (let i = event.l; i <= event.r; i++) {
-                barDivs[i].classList.remove("left");
-                barDivs[i].classList.remove("right");
+                barDivs[i].classList.remove("left_half");
+                barDivs[i].classList.remove("right_half");
             }
             break;
         }
 
         case "divide_lr": {
             for (const bar of barDivs) {
-                bar.classList.remove("left");
-                bar.classList.remove("right");
+                bar.classList.remove("left_half");
+                bar.classList.remove("right_half");
             }
 
             for (let i = event.left; i <= event.mid; i++) {
-                barDivs[i].classList.add("left");
+                barDivs[i].classList.add("left_half");
             }
             for (let i = event.mid + 1; i <= event.right; i++) {
-                barDivs[i].classList.add("right");
+                barDivs[i].classList.add("right_half");
             }
             await sleep(state.delay);
             break;
@@ -287,8 +287,8 @@ async function playAnimationAuto(event, barDivs, board) {
         case "merge_end": {
             const { l, r } = event;
             for (let i = l; i <= r; i++) {
-                barDivs[i].classList.remove("left");
-                barDivs[i].classList.remove("right");
+                barDivs[i].classList.remove("left_half");
+                barDivs[i].classList.remove("right_half");
                 barDivs[i].classList.add("sorted");
             }
             await sleep(state.delay);
@@ -301,8 +301,8 @@ async function playAnimationAuto(event, barDivs, board) {
 
         case "writing": {
             for (const bar of barDivs) {
-                bar.classList.remove("left");
-                bar.classList.remove("right");
+                bar.classList.remove("left_half");
+                bar.classList.remove("right_half");
             }
             const { left, right } = event;
             for (let i = left; i <= right; i++) {
@@ -370,7 +370,6 @@ async function playAnimationAuto(event, barDivs, board) {
 
 
 async function playAnimationInstant(event, barDivs, board) {
-    console.log(event);
     switch (event.type) {
 
         case "compare": {
@@ -475,12 +474,12 @@ async function playAnimationInstant(event, barDivs, board) {
         }
         case "left_range": {
             for (const bar of barDivs) {
-                bar.classList.remove("left");
-                bar.classList.remove("right");
+                bar.classList.remove("left_half");
+                bar.classList.remove("right_half");
             }
             // await sleep(state.delay);
             for (let i = event.l; i <= event.r; i++) {
-                barDivs[i].classList.add("left");
+                barDivs[i].classList.add("left_half");
             }
             break;
         }
@@ -490,36 +489,36 @@ async function playAnimationInstant(event, barDivs, board) {
         // ===========================
         case "right_range": {
             for (let i = event.l; i <= event.r; i++) {
-                barDivs[i].classList.add("right");
+                barDivs[i].classList.add("right_half");
             }
             break;
         }
         case "clear_lr": {
             for (let i = event.l; i <= event.r; i++) {
-                barDivs[i].classList.remove("left");
-                barDivs[i].classList.remove("right");
+                barDivs[i].classList.remove("left_half");
+                barDivs[i].classList.remove("right_half");
             }
             break;
         }
         case "divide_lr": {
             for (const bar of barDivs) {
-                bar.classList.remove("left");
-                bar.classList.remove("right");
+                bar.classList.remove("left_half");
+                bar.classList.remove("right_half");
             }
 
             for (let i = event.left; i <= event.mid; i++) {
-                barDivs[i].classList.add("left");
+                barDivs[i].classList.add("left_half");
             }
             for (let i = event.mid + 1; i <= event.right; i++) {
-                barDivs[i].classList.add("right");
+                barDivs[i].classList.add("right_half");
             }
             break;
         }
         case "merge_end": {
             const { l, r } = event;
             for (let i = l; i <= r; i++) {
-                barDivs[i].classList.remove("left");
-                barDivs[i].classList.remove("right");
+                barDivs[i].classList.remove("left_half");
+                barDivs[i].classList.remove("right_half");
                 barDivs[i].classList.add("sorted");
             }
             await sleep(state.delay);
@@ -532,8 +531,8 @@ async function playAnimationInstant(event, barDivs, board) {
 
         case "writing": {
             for (const bar of barDivs) {
-                bar.classList.remove("left");
-                bar.classList.remove("right");
+                bar.classList.remove("left_half");
+                bar.classList.remove("right_half");
             }
             const { left, right } = event;
             for (let i = left; i <= right; i++) {
