@@ -213,8 +213,8 @@ body {
   background: white;
   color: black;
   outline: none;
-  border: none;
-  background-color: transparent;
+  border: none !important;
+  background-color: transparent !important;
 }
 
 .chat-input button { 

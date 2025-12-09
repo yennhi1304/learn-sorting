@@ -75,7 +75,17 @@ pythonPlaceholder,
   -1 // cursor at start
 );
 
+// hide the middle thin line in between
 editor.setShowPrintMargin(false);
+
+ace.require("ace/ext/language_tools");
+
+editor.setOptions({
+    enableBasicAutocompletion: true,   // keywords, built-ins
+    enableSnippets: true,              // snippet support
+    enableLiveAutocompletion: true,    // show suggestions while typing
+});
+
 
 const languageSelect = document.getElementById("language");
 const runBtn = document.getElementById("runBtn");
