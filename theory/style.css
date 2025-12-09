@@ -19,6 +19,7 @@ body {
   border: solid 1px #e5e7eb;
   background: rgba(255,255,255,0.9);
   color: #00767a;
+  font-weight: bold;
   width: 100%;
   padding: 8px 2vw;
   display: flex;
@@ -92,6 +93,7 @@ path {
 
 /* slice labels */
 .sliceText {
+  cursor: pointer;
   font-family: Arial, sans-serif;
   text-anchor: middle;
   fill: white;
@@ -341,6 +343,7 @@ body.dark .lesson-content li {
 
 /* Keep slice raised when selected */
 .slice.selected path {
+  fill: #00767a;
   transform: translateY(-1.5px);
   filter: drop-shadow(0 6px 12px rgba(15,23,42,0.45));
 }

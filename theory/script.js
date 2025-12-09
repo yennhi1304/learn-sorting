@@ -33,7 +33,7 @@ document.addEventListener("click", (e) => {
 
   if (target.classList && (target.classList.contains("zoom-img") || target.classList.contains("full-img"))) {
     viewerImg.src = target.src;
-    viewerCaption.textContent = target.alt || "";   // ⭐ ADD THIS
+    viewerCaption.textContent = target.alt || "";
     viewer.classList.add("active");
   }
 
@@ -462,6 +462,8 @@ document.querySelectorAll(".slice").forEach((slice) => {
     document.querySelectorAll(".slice").forEach(s => s.classList.remove("selected"));
 
     // Mark this slice as selected
+   
+ 
     slice.classList.add("selected");
 
     // (existing code)
@@ -836,40 +838,40 @@ function initComplexityPanel(algoKey) {
     }
   });
 
- async function runRandomTests() {
-  const runAlgo = complexityRunners[algoKey];
-  if (!runAlgo) return;
+  async function runRandomTests() {
+    const runAlgo = complexityRunners[algoKey];
+    if (!runAlgo) return;
 
-  const mode = panel.querySelector("input[name='inputMode']:checked")?.value || "rand";
+    const mode = panel.querySelector("input[name='inputMode']:checked")?.value || "rand";
 
-  let opsList = [];
+    let opsList = [];
 
-  for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
 
-    const size = Math.floor(Math.random() * 46) + 5;
-    const arr = buildArrayByMode(size, mode);
-    const ops = runAlgo([...arr]);
+      const size = Math.floor(Math.random() * 46) + 5;
+      const arr = buildArrayByMode(size, mode);
+      const ops = runAlgo([...arr]);
 
-    opsList.push(ops);
+      opsList.push(ops);
 
-    activeComplexityChart.data.datasets[0].data.push({
-      x: size,
-      y: ops
-    });
+      activeComplexityChart.data.datasets[0].data.push({
+        x: size,
+        y: ops
+      });
 
-    activeComplexityChart.update();
+      activeComplexityChart.update();
 
-    await new Promise(r => setTimeout(r, 15));
+      await new Promise(r => setTimeout(r, 15));
+    }
+
+    // Compute average
+    const avg = Math.round(
+      opsList.reduce((sum, v) => sum + v, 0) / opsList.length
+    );
+
+    // Update text label
+    opsCount.textContent = `Average operations: ${avg}`;
   }
-
-  // Compute average
-  const avg = Math.round(
-    opsList.reduce((sum, v) => sum + v, 0) / opsList.length
-  );
-
-  // Update text label
-  opsCount.textContent = `Average operations: ${avg}`;
-}
 
 
 
@@ -887,19 +889,19 @@ function initComplexityPanel(algoKey) {
 
     const arr = buildArrayByMode(n, mode);
 
-    const ops = runAlgo([...arr]); 
+    const ops = runAlgo([...arr]);
 
     // FIXED (restore correct label)
     opsCount.textContent = `Operations: ${ops}`;
 
     // Record result in chart
     activeComplexityChart.data.datasets[0].data.push({
-        x: n,
-        y: ops
+      x: n,
+      y: ops
     });
 
     activeComplexityChart.update();
-});
+  });
 
 
 
