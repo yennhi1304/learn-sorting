@@ -9,7 +9,7 @@ body {
     background: url(images/background.png) no-repeat;
     background-size: 100vw 100vh;
     background-position: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     height: 100vh;
 
 }
@@ -47,6 +47,14 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+}
+
+#slide_title {
+    font-size: 5vh;
+    font-weight: 800;
+    line-height: 1.1;
+    color: #00767a
 }
 
 @keyframes slide {
@@ -93,11 +101,11 @@ body {
 }
 
 .left {
-    left: 6vw;
+    left: 4vw;
 }
 
 .right {
-    right: 6vw;
+    right: 4vw;
 }
 
 /* TEXT AREA */

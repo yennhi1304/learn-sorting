@@ -30,6 +30,7 @@ const legendMap = {
     merge: [
         { cls: "left_half", label: "Left half" },
         { cls: "right_half", label: "Right half" },
+        {cls: "active", label: "compare"},
         { cls: "writing", label: "Writing merged values" },
         { cls: "write", label: "Overwriting value" },
         { cls: "sorted", label: "Sorted" }
@@ -40,7 +41,8 @@ const legendMap = {
         { cls: "key", label: "Pivot" },
         { cls: "smaller", label: "Smaller than pivot" },
         { cls: "larger", label: "Larger than pivot" },
-        { cls: "swap", label: "Swapping" },
+        {cls: "active", label: "Compare"},
+        { cls: "swap", label: "Swap" },
         { cls: "sorted", label: "Placed pivot" }
     ]
 };

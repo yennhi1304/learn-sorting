@@ -1,5 +1,6 @@
 const box = document.getElementById("imageBox");
 const link = document.getElementById("imageLink");
+const slideTitle = document.getElementById("slide_title");
 
 // Chatbot elements
 const chatWindow = document.getElementById("chatWindow");
@@ -7,19 +8,28 @@ const chatBubble = document.getElementById("chatBubble");
 
 
 const images = [
+    "images/learning.png",
     "images/visualizer.png",
     "images/code_editor.png",
-    "images/games.png",
     "images/chatbot.png",
-    "images/learning.png"
+    "images/games.png",
 ];
 
 const links = [
+    "./theory/index.html",
     "./sorting_visualizer/index.html",
     "./code_editor/index.html",
-    "./sorting_visualizer/index.html",
     "#",
-    "./theory/index.html",
+    "./sorting_visualizer/index.html",
+];
+
+
+const titles = [
+    "Get started with Theory",
+    "See how sorting algorithms work",
+    "Practice Implementation",
+    "Ask questions with Chatbot",
+    "Learn through Interactive Games",
 ];
 
 // When clicking the slider image
@@ -48,6 +58,8 @@ function changeImage(newIndex) {
 
     box.src = images[index];
     link.href = links[index];   // <-- updates link dynamically
+
+    slideTitle.textContent = titles[index];
 }
 
 function stopAuto() {
