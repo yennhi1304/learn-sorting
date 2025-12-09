@@ -1,3 +1,26 @@
+
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.className = 'snowflake';
+    const flakes = ['❄', '❅', '❆'];
+    snowflake.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+    snowflake.style.left = Math.random() * 100 + '%';
+    snowflake.style.animationDuration = (Math.random() * 3 + 5) + 's';
+    snowflake.style.opacity = Math.random() * 0.4 + 0.6;
+    snowflake.style.fontSize = (Math.random() * 1 + 0.8) + 'em';
+    document.body.appendChild(snowflake);
+
+    setTimeout(() => {
+        snowflake.remove();
+    }, 8000);
+}
+
+// Generate snowflakes
+setInterval(createSnowflake, 250);
+for (let i = 0; i < 15; i++) {
+    setTimeout(createSnowflake, i * 150);
+}
+
 let arr = [];
 let selected = null;
 let i = 0;
@@ -99,12 +122,12 @@ function nextStep() {
     lock = false;
     selected = null;
     if (isSorted(arr) || i == 4) {
-        info.textContent = "🎉 YOU WIN!";
+        info.textContent = "YOU WIN!";
         document.getElementById("column").classList.add("win");
         document.querySelector(".santa").classList.add("win");
         setTimeout(() => {
-            document.getElementById("column").src = "images/santaWin.gif";
-        },5000)
+                document.getElementById("santaclaus").src = "images/santaWin.gif";
+            }, 5000);
         return;
     }
     j--;
@@ -127,16 +150,16 @@ function doLose(type) {
     let message = "";
     switch (type) {
         case "wrong-pair":
-            message = "❌ YOU LOSE — Incorrect bubbles selected!";
+            message = "YOU LOSE — Incorrect bubbles selected!";
             break;
         case "swap-needed":
-            message = "❌ YOU LOSE — A swap was required but you chose no swap!";
+            message = "YOU LOSE — A swap was required but you chose no swap!";
             break;
         case "no-swap-needed":
-            message = "❌ YOU LOSE — No swap was needed but you swapped!";
+            message = "YOU LOSE — No swap was needed but you swapped!";
             break;
         default:
-            message = "❌ YOU LOSE — Try again!";
+            message = "YOU LOSE — Try again!";
     }
     info.textContent = message;
     document.querySelectorAll(".node").forEach(n => n.classList.add("wrong"));
