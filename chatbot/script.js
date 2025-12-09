@@ -1,6 +1,3 @@
-const chatBubble = document.getElementById("chatBubble");
-const chatWindow = document.getElementById("chatWindow");
-
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const send = document.getElementById("send");
@@ -230,3 +227,4 @@ document.getElementById("clearChat").onclick = () => {
 
   alert("Chat cleared!");
 };
+
