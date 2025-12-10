@@ -2,6 +2,7 @@ const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const send = document.getElementById("send");
 const page = document.querySelector('meta[name="chatbot-page"]')?.content || "unknown";
+console.log(page);
 
 
 let codeIdCounter = 0;
