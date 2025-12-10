@@ -182,50 +182,70 @@ body {
 
 
 /* Input Area */
+/* Input Area */
 .input-container {
   background: white;
   color: black;
   border: none;
-  height: 15%;
+
+  /* FIX: allow container to grow */
+  height: auto;
+
+  padding: 8px 0;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 
 .chat-input {
-  background: white;
-  color: black;
-  box-sizing: unset;
   display: grid;
-  grid-template-columns: 95fr 5fr;
-  border: solid #d2ede4;
-  width: 85%;
-  height: 50%;
+  grid-template-columns: 1fr 40px;
+  gap: 6px;
+
+  background: white;
+  border: 1px solid #d2ede4;
   border-radius: 35px;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 0;
-  align-items: center;
+
+  width: 85%;
+  padding: 6px 6px;
+
+  /* FIX: stretch with textarea */
+  height: auto;
+  align-items: flex-start;
 }
 
-.chat-input input {
-  background: white;
+.chat-input textarea {
+  width: 100%;
+  background: transparent;
   color: black;
+
+  border: none;
   outline: none;
-  border: none !important;
-  background-color: transparent !important;
+  resize: none;
+  overflow-y: hidden;
+
+  font-size: 14px;
+  line-height: 18px;
+  padding: 4px 4px 0;
+  align-self: center;
 }
 
 .chat-input button { 
-  border: none ;
-  display: block ;
-  margin-right: 3px ; 
-  background-color: #d2ede4 ;
-  height: 30px ;
-  width: 30px ;
-  border-radius: 50% ;
-  color: #00767a ;
+  border: none;
+  background-color: #d2ede4;
+
+  height: 38px;
+  width: 38px;
+
+  border-radius: 50%;
+  color: #00767a;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 4px;  /* keeps button aligned when textarea expands */
+  cursor: pointer;
 }
 
 

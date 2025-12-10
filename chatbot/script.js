@@ -31,8 +31,24 @@ const expandBtn = document.getElementById("expandBtn");
 
 send.addEventListener("click", () => sendMessage());
 input.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") sendMessage();
+  if (e.key === "Enter") {
+
+    if (e.shiftKey) {
+      // allow newline
+      return;
+    }
+
+    e.preventDefault();
+    sendMessage();
+  }
 });
+
+input.addEventListener("input", () => {
+  input.style.height = "auto";          // reset
+  input.style.height = input.scrollHeight + "px"; // expand
+});
+
+
 document.getElementById("closeChat").onclick = () => {
   chatWindow.style.display = "none";
 };
@@ -80,6 +96,7 @@ async function sendMessage() {
   saveChat();
 
   input.value = "";
+  input.style.height = "auto";
 
   // Show typing animation
   showTyping();
