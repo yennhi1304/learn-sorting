@@ -5,8 +5,7 @@ html,
 body {
     margin: 0;
     padding: 0;
-    background: #111;
-    color: #eee;
+    color: #00767a;
     font-family: Arial, sans-serif;
 
     height: 100vh;
@@ -23,20 +22,26 @@ body {
    SIDEBAR
    ============================ */
 .sidebar {
-    width: 260px;
-    background: #1b1b1b;
+    width: 280px;
+    background: #d2ede4;
     height: 100vh;
 
     padding: 20px;
     box-sizing: border-box;
 
-    border-right: 2px solid #333;
+    border-right: 2px solid #00767a;
 
     display: flex;
     flex-direction: column;
     gap: 20px;
 
     flex-shrink: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+input[type="range"] {
+  accent-color: #00767a; /* Simple way (works on most modern browsers) */
 }
 
 /* Buttons + Inputs */
@@ -49,41 +54,41 @@ body {
 
 .generate-btn {
     padding: 6px 14px;
-    background: #4ea8de;
+    background: #00767a;
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    color: #111;
+    color: white;
     font-weight: bold;
     flex-shrink: 0;
 }
 
 .generate-btn:hover {
-    background: #72c8ff;
+    background: #61d5d9;
 }
 
 input:not([type="range"]),
 select {
     padding: 5px 10px;
     border-radius: 6px;
-    border: 1px solid #444;
-    background: #222;
-    color: #eee;
+    border: 1px solid #00767a;
+    background: white;
+    color: #00767a;
 }
 
 /* Sort button */
 .sort-btn {
     padding: 10px 20px;
-    background: #4ea8de;
+    background: #00767a;
     border: none;
     border-radius: 6px;
-    color: #111;
+    color: white;
     cursor: pointer;
     font-weight: bold;
 }
 
 .sort-btn:hover {
-    background: #72c8ff;
+    background: #61c8cc;
 }
 
 .step-controls {
@@ -129,10 +134,9 @@ button:disabled {
     left: 0;
     right: 0;
     bottom: 0;
-
-    background-color: #555;
     border-radius: 34px;
     transition: 0.3s;
+    background-color: #aaa;
 }
 
 .switch-slider:before {
@@ -142,23 +146,27 @@ button:disabled {
     width: 18px;
     left: 2px;
     bottom: 2px;
-
     background-color: white;
     border-radius: 50%;
     transition: 0.3s;
+    
+    
 }
 
 .switch input:disabled+.switch-slider {
+    background-color: white;
     cursor: not-allowed;
     opacity: 0.5;
+    
 }
 
 .switch input:disabled+.switch-slider:before {
     background-color: #aaa;
+    
 }
 
 .switch input:checked+.switch-slider {
-    background-color: #4ea8de;
+    background-color: #00767a;
 }
 
 .switch input:checked+.switch-slider:before {
@@ -172,7 +180,7 @@ button:disabled {
 .main {
     flex: 1;
     height: 100vh;
-
+    background-color: white;
     display: flex;
     flex-direction: column;
 
@@ -185,7 +193,7 @@ button:disabled {
 .title {
     text-align: center;
     margin-bottom: 10px;
-    color: #4ea8de;
+    color: #00767a;;
 
     flex-shrink: 0;
 }
@@ -201,7 +209,8 @@ button:disabled {
     min-height: 0;
     /* IMPORTANT: prevents overflow in flexbox */
 
-    background: #222;
+    background: white;
+    border: 2px solid #00767a;
     border-radius: 8px;
 
     display: flex;
@@ -257,8 +266,10 @@ button:disabled {
    ============================ */
 .bar {
     width: 8px;
-    background: steelblue;
-    border-radius: 2px;
+    background: #98f2d4;
+    border-top-left-radius:  10px;
+    border-top-right-radius:  10px;
+
     transition: background 0.25s ease;
 }
 
@@ -298,7 +309,7 @@ button:disabled {
 
 /* Merge Sort Colors */
 .bar.writing {
-    background: rgba(255, 255, 0, 0.25);
+    background: brown;
 }
 
 .bar.write {
@@ -322,18 +333,18 @@ button:disabled {
    LEGEND PANEL
    ================================= */
 .legend {
-    background: #222;
+    background: white;
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #333;
-    color: #ddd;
+    color: #00767a;
     font-size: 14px;
 }
 
 .legend h3 {
     margin: 0 0 10px 0;
     font-size: 16px;
-    color: #4ea8de;
+    color: #00767a;
 }
 
 .legend-item {
