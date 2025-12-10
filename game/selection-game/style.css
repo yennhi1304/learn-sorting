@@ -1,0 +1,223 @@
+/* Universal reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =======================
+   CHRISTMAS BACKGROUND
+   ======================= */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1e4d2b 0%, #0d2818 100%);
+  color: #eee;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* =======================
+   TOP BAR
+   ======================= */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(247, 215, 116, 0.45);
+  backdrop-filter: blur(4px);
+}
+
+.topbar .title {
+  font-weight: 600;
+  color: #f7d774;
+  text-shadow: 0 0 6px rgba(255, 240, 150, 0.6);
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls select,
+.controls button {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border: 1px solid rgba(247, 215, 116, 0.4);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: 0.2s;
+}
+
+.controls button:hover,
+.controls select:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: #f7d774;
+  box-shadow: 0 0 10px rgba(247, 215, 116, 0.6);
+}
+
+/* =======================
+   SPLIT SCREEN LAYOUT
+   ======================= */
+.split-screen {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+}
+
+/* =======================
+   LEFT PANE (EDITOR + OUTPUT)
+   ======================= */
+.left-pane {
+  flex: 1;
+  border-right: 1px solid rgba(247, 215, 116, 0.35);
+  display: flex;
+  flex-direction: column;
+
+}
+
+.editor-container {
+  flex: 1.3;
+  min-height: 0;
+}
+
+#editor {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(3px);
+}
+
+/* Output container */
+.output-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.output-header {
+  padding: 8px 12px;
+  border-bottom: 1px solid rgba(247, 215, 116, 0.35);
+  background: rgba(255, 255, 255, 0.1);
+  font-weight: 500;
+  color: #f7d774;
+}
+
+/* Output box */
+#output {
+  flex: 1;
+  margin: 0;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #dfffe2;
+  font-family: "Consolas", "Fira Code", monospace;
+  font-size: 0.9rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  border-left: 1px solid rgba(247, 215, 116, 0.2);
+}
+
+/* =======================
+   RIGHT PANE (GAME)
+   ======================= */
+.right-pane {
+
+  flex: 1;
+  padding: 20px;
+  background: rgba(17, 17, 17, 0.4);
+  backdrop-filter: blur(4px);
+  border-left: 1px solid rgba(247, 215, 116, 0.25);
+}
+
+/* Game area */
+#gameArea {
+  background: url("images/background.png");
+  margin-top: 10px;
+}
+
+#message {
+  margin-top: 15px;
+  font-size: 18px;
+  color: #1e4d2b;
+}
+
+/* Game slot styling */
+.slot {
+  width: 70px;
+  height: 70px;
+  border: 2px dashed rgba(247, 215, 116, 0.65);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(250, 250, 250, 0.9);
+  font-weight: bold;
+  color: #333;
+}
+
+/* Highlight slot */
+.highlight-slot {
+  border-color: gold;
+  background: #fff8d0;
+  box-shadow: 0 0 12px gold;
+}
+
+/* Dragging customer (kids) */
+.customer {
+  padding: 10px 14px;
+  background: #fdf0d0;
+  border: 2px solid #f7d774;
+  border-radius: 6px;
+  color: #3b2a00;
+  cursor: grab;
+  box-shadow: 0 4px 12px rgba(247, 215, 116, 0.35);
+}
+
+/* LINE (slot row) */
+#line {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 0;
+}
+
+#line img {
+  height: 20vh;
+}
+
+/* Reset button */
+#resetBtn {
+  background: #8c2f39;
+  color: #fff;
+  border: 1px solid #f7d774;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: 0.2s;
+}
+
+#resetBtn:hover {
+  background: #a63a45;
+  box-shadow: 0 0 10px rgba(247, 215, 116, 0.5);
+}
+
+/* Santa & children */
+#santa img {
+  margin-top: 10vh;
+  height: 120px;
+}
+
+#santa-children {
+  display: grid;
+  grid-template-columns: 1fr 7fr;
+}
