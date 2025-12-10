@@ -1,6 +1,8 @@
 const messages = document.getElementById("messages");
 const input = document.getElementById("input");
 const send = document.getElementById("send");
+const page = document.querySelector('meta[name="chatbot-page"]')?.content || "unknown";
+
 
 let codeIdCounter = 0;
 let chatHistory = loadChat();
@@ -103,11 +105,15 @@ async function sendMessage() {
 
   const API_URL = "https://learn-sorting.onrender.com/chat";
 
-  const res = await fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ message: text })
-  });
+const res = await fetch(API_URL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    message: text,
+    page: page      // 👈 add page context
+  })
+});
+
 
   const data = await res.json();
 
