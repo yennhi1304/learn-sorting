@@ -26,7 +26,7 @@ Array Size
 Speed slider
 Generate Array options + button
 Step Mode buttons: Sort, Back, Next
-Step Mode toggle (#autoBtn)
+Step Mode toggle
 Comparison Mode toggle
 Reset button
 Respond clearly and naturally when the user is confused about where to start or what each control does.`;
