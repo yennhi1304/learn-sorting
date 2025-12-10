@@ -31,6 +31,11 @@ Comparison Mode toggle
 Reset button
 Respond clearly and naturally when the user is confused about where to start or what each control does.`;
 
+const SYSTEM_THEORY = `If the user asks where to go next after reading theory, guide them based on their goal:
+If they want to see how the algorithm works step by step, direct them to the Sorting Visualizer.
+If they want to practice writing the algorithm themselves, direct them to the Code Editor Mode.
+Respond naturally and help them choose the most suitable next step.`;
+
 // Apply middleware ONCE
 app.use(cors());
 app.use(express.json());
