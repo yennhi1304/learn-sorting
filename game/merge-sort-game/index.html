@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Merge Sort Game – Help Santa Merge the Shelves!</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="topbar">🎄 Merge Sort – Help Santa Merge Gifts!</div>
+
+<div class="game-container">
+
+  <p class="instructions">
+    Two conveyor belts are bringing sorted gifts.  
+    Click the **smaller gift** to merge them correctly!
+  </p>
+
+  <div class="belt-row">
+
+    <!-- LEFT belt -->
+    <div class="belt-section">
+      <h3>Left Belt</h3>
+      <div id="leftBelt" class="belt"></div>
+    </div>
+
+    <!-- RIGHT belt -->
+    <div class="belt-section">
+      <h3>Right Belt</h3>
+      <div id="rightBelt" class="belt"></div>
+    </div>
+
+  </div>
+
+  <h3>Merged Output</h3>
+  <div id="mergedRow" class="merged-row"></div>
+
+  <button id="restartBtn" class="restart-btn">Restart</button>
+
+</div>
+
+<!-- Overlay popup -->
+<div id="overlay" class="overlay hidden">
+  <div class="overlay-box">
+    <h2 id="overlayTitle"></h2>
+    <p id="overlayMessage"></p>
+    <button onclick="startGame()" class="restart-btn">Play Again</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

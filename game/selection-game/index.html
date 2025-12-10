@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Selection Sort Learning Sandbox</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- ACE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.14/ace.js"></script>
+
+  <!-- Skulpt -->
+  <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt.min.js"></script>
+  <script src="https://unpkg.com/skulpt@1.2.0/dist/skulpt-stdlib.js"></script>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="title">Interactive Code + Sorting Game</div>
+
+    <div class="controls">
+      <label for="language">Language:</label>
+      <select id="language">
+        <option value="python">Python</option>
+        <option value="javascript">JavaScript</option>
+      </select>
+
+      <button id="runBtn">Run ▶</button>
+      <button id="checkBtn">Check Sort</button>
+      <button id="clearBtn">Clear Output</button>
+    </div>
+  </header>
+
+  <main class="split-screen">
+
+    <!-- LEFT SIDE: Editor + Output -->
+    <section class="left-pane">
+      <div class="editor-container">
+        <div id="editor"></div>
+      </div>
+
+      <div class="output-container">
+        <div class="output-header">Output</div>
+        <pre id="output"></pre>
+      </div>
+    </section>
+
+    <!-- RIGHT SIDE: Selection Sort Game -->
+    <section class="right-pane">
+      <h2>🏪 Selection Sort Game</h2>
+      <div id="gameArea">
+        <button id="resetBtn" onclick="generateArray()">Reset Game</button>
+        <div id="santa-children">
+          <div id="santa"><img src="images/santa.gif"></div>
+          <div id="line"></div>
+        </div>
+
+        <div id="message"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+  <script src="game/game.js"></script>
+</body>
+
+</html>

@@ -20,7 +20,7 @@ const links = [
     "./sorting_visualizer/index.html",
     "./code_editor/index.html",
     "#",
-    "./sorting_visualizer/index.html",
+    "./game/index.html",
 ];
 
 

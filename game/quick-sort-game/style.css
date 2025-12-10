@@ -1,0 +1,259 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Soft Christmas sky gradient */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1e4d2b 0%, #0d2818 100%);
+  color: white;
+}
+
+/* Page Layout */
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px;
+}
+
+/* Title */
+.title {
+  margin: 0 0 16px;
+  font-size: 28px;
+  color: #f7d774; /* gold */
+  text-shadow: 0 0 10px rgba(250, 230, 150, 0.7);
+}
+
+/* Main card */
+.card {
+  width: 980px;
+  max-width: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 26px;
+  box-shadow: 0 20px 60px rgba(10, 10, 10, 0.45);
+  padding: 20px 28px 26px;
+  position: relative;
+  border: 2px solid rgba(247, 215, 116, 0.4); /* gold border */
+  backdrop-filter: blur(6px);
+}
+
+/* Global array view */
+.array-view {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.array-view img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: contain;
+  box-shadow: 0 2px 8px rgba(247, 215, 116, 0.4); /* gold glow */
+}
+
+/* Header row: pivot + round label */
+.pivot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.round-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+.pivot-label {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ff6b6b; /* festive red */
+  text-shadow: 0 1px 6px rgba(255, 100, 100, 0.6);
+}
+
+/* Waiting Line */
+.waiting-wrapper {
+  border-radius: 20px;
+  background: linear-gradient(180deg, #e8f8ec, #d4f0de); /* soft green */
+  padding: 12px 14px 18px;
+  margin-bottom: 14px;
+  box-shadow: inset 0 0 0 1px rgba(247, 215, 116, 0.25);
+}
+
+.waiting-title {
+  font-size: 14px;
+  color: #f7d774;
+  margin-bottom: 6px;
+}
+
+/* Waiting list */
+.waiting-list {
+  min-height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+}
+.waiting-list .bubble {
+  box-shadow: 0 6px 16px rgba(247, 215, 116, 0.45);
+}
+
+/* Buckets */
+.buckets-wrapper {
+  margin-bottom: 18px;
+}
+
+.bucket-labels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px 4px;
+  font-size: 14px;
+  color: #f7d774;
+}
+
+/* Two bucket backgrounds */
+.buckets-row {
+  display: flex;
+  gap: 18px;
+}
+
+.bucket-box {
+  flex: 1;
+  height: 240px;
+  border-radius: 22px;
+  border: 2px dashed rgba(247, 215, 116, 0.7); /* gold dashed */
+  background: radial-gradient(circle at top, #164a2f, #0f291d); /* forest green */
+  box-shadow: inset 0 0 0 1px rgba(247, 215, 116, 0.28);
+}
+
+/* Physics overlay */
+#physicsArea {
+  position: relative;
+  margin-top: -240px;
+  height: 240px;
+  pointer-events: none;
+}
+
+/* Bubbles (falling elements) */
+.bubble {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 10px 25px rgba(247, 215, 116, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bubble img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Controls */
+.controls-row {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 14px;
+}
+
+.btn {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 28px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.15s ease;
+  box-shadow: 0 8px 18px rgba(247, 215, 116, 0.25);
+  color: #ffffff;
+}
+
+/* Button colors */
+.btn-left {
+  background: linear-gradient(135deg, #e74c3c, #c0392b); /* Christmas red */
+}
+
+.btn-right {
+  background: linear-gradient(135deg, #27ae60, #1e8449); /* Christmas green */
+}
+
+.btn-undo {
+  background: linear-gradient(135deg, #94a3b8, #64748b);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #f7d774, #e6c85f); /* golden */
+  color: #3a2f00;
+  min-width: 140px;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.97);
+  box-shadow: 0 3px 10px rgba(247, 215, 116, 0.35);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* Hint */
+.hint {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #e2e8f0;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 60;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  width: 420px;
+  max-width: 90%;
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 22px 24px 20px;
+  box-shadow: 0 18px 40px rgba(247, 215, 116, 0.45);
+  text-align: center;
+}
+
+.modal h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+  color: #1f2937;
+}
+
+.modal p {
+  margin: 0 0 18px;
+  color: #4b5563;
+  font-size: 15px;
+  line-height: 1.5;
+}
