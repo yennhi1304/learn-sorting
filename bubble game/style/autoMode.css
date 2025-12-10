@@ -18,7 +18,6 @@
  }
 
  .game {
-     border: solid blueviolet;
      display: flex;
      flex-direction: column;
      align-items: center;
@@ -50,14 +49,6 @@
  }
 
 
- #actionButtons {
-
-     margin: 12px 0;
-     visibility: hidden;
-     pointer-events: none;
-
- }
-
 
  #actionButtons.visible {
      visibility: visible;
@@ -74,8 +65,8 @@
      justify-content: center;
      /* vertical centering */
      position: relative;
-     width: 50px;
-     height: 50px;
+     width: 40px;
+     height: 40px;
      transition: 0.25s ease;
  }
 
@@ -175,7 +166,7 @@
 
 
  .santa img {
-     width: 20vh;
+     width: 15vh;
  }
 
  .santa {
@@ -231,95 +222,133 @@
    GLOBAL PAGE STYLE (VS Code dark theme)
 ----------------------------------------------------------- */
 
- .code {
-     z-index: 10;
-     display: grid;
-     grid-template-rows: 1fr 9fr;
-     height: 100%;
-     width: 100%;
-     background: black;
- }
+/* =========================
+   CHRISTMAS CODE EDITOR THEME
+   ========================= */
 
- /* Top bar */
- .topbar {
-     border: solid;
- }
+.code {
+    z-index: 10;
+    display: grid;
+    grid-template-rows: 1fr 9fr;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(circle at 50% 50%, #1e4d2b 0%, #0d2818 100%);
+    color: #f7d774;;
+    position: relative;
+    overflow: hidden;
+    border: solid #f7d774;
+}
 
- .topbar .title {
-     font-weight: 600;
- }
 
- .controls {
-     display: flex;
-     align-items: center;
-     gap: 8px;
- }
 
- .controls select,
- .controls button {
-     background: #3c3c3c;
-     color: #eee;
-     border: 1px solid #555;
-     padding: 4px 8px;
-     border-radius: 4px;
-     font-size: 0.9rem;
- }
+@keyframes fall {
+    to { transform: translateY(110vh); }
+}
 
- .controls button {
-     cursor: pointer;
- }
+@keyframes sway {
+    0%, 100% { margin-left: 0; }
+    50% { margin-left: 30px; }
+}
 
- .controls button:hover {
-     background: #4b4b4b;
- }
+/* ========== Top Bar ========== */
+.topbar {
+    background: rgba(255, 255, 255, 0.12);
+    border-bottom: 2px solid #f7d774; /* gold */
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(4px);
+}
 
- /* Layout: editor + output */
- .layout {
-     border: solid;
-     flex: 1;
-     display: flex;
-     flex-direction: column;
-     min-height: 0;
- }
+.topbar .title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: #f7d774;
+    text-shadow: 0 0 8px rgba(255, 225, 125, 0.8);
+}
 
- /* Editor */
- .editor-section {
-    border: solid red;
-   
-     flex: 1.5;
-     min-width: 0;
-     border-right: 1px solid #333;
- }
+/* ========== Controls ========== */
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
- #editor {
+.controls select,
+.controls button {
+    background: rgba(255, 255, 255, 0.15);
+    color: #f7d774;
+    border: 2px solid rgba(247, 215, 116, 0.4);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.controls select:hover,
+.controls button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #f7d774;
+    box-shadow: 0 0 10px rgba(247, 215, 116, 0.5);
+}
+
+/* ========== Layout (Editor + Output) ========== */
+.layout {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    min-height: 0;
+}
+
+/* ========== Editor Section ========== */
+.editor-section {
+    flex: 1.4;
+    min-width: 0;
+    border-right: 2px solid rgba(247, 215, 116, 0.4);
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
     overflow-x: auto;
-     width: 100%;
-     height: 100%;
- }
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
+}
 
- /* Output panel */
- .output-section {
-     flex: 1;
-     display: flex;
-     flex-direction: column;
-     min-width: 0;
- }
+/* ========== Output Section ========== */
+.output-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: rgba(0, 0, 0, 0.4);
+}
 
- .output-header {
-     padding: 8px 12px;
-     border-bottom: 1px solid #333;
-     background: #252526;
-     font-weight: 500;
- }
+.output-header {
+    padding: 10px 12px;
+    border-bottom: 2px solid rgba(247, 215, 116, 0.4);
+    background: rgba(255, 255, 255, 0.1);
+    font-weight: 600;
+    color: #f7d774;
+}
 
- #output {
-     flex: 1;
-     margin: 0;
-     padding: 8px 12px;
-     background: #1e1e1e;
-     color: #d4d4d4;
-     font-family: "Consolas", "Fira Code", monospace;
-     font-size: 0.9rem;
-     overflow: auto;
-     white-space: pre-wrap;
- }
+#output {
+    flex: 1;
+    margin: 0;
+    padding: 10px 15px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #dfffe2; /* soft mint green */
+    font-family: "Consolas", "Fira Code", monospace;
+    font-size: 0.9rem;
+    overflow: auto;
+    white-space: pre-wrap;
+    border-left: 2px solid rgba(247, 215, 116, 0.3);
+}
+
+/* Glow effect for code panels */
+.editor-section,
+.output-section {
+    box-shadow: inset 0 0 25px rgba(247, 215, 116, 0.08);
+}

@@ -1,0 +1,95 @@
+:root {
+  --green: #0b6b34;
+  --red: #c62828;
+  --gold: #f7d774;
+  --snow: #ffffff;
+  --dark-blue: #0a2540;
+  --light-blue: #7ec8e3;
+}
+
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', system-ui, sans-serif;
+    background: radial-gradient(circle at 50% 50%, #1e4d2b 0%, #0d2818 100%);
+  color: var(--snow);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Falling snow */
+@keyframes snow {
+  0% { transform: translateY(-10vh); opacity: 1; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
+.snowflake {
+  position: fixed;
+  top: -10px;
+  color: white;
+  font-size: 1rem;
+  animation: snow linear infinite;
+  pointer-events: none;
+}
+
+/* Header */
+.topbar {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-bottom: 3px solid var(--gold);
+  padding: 16px 20px;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--gold);
+  text-shadow: 0 0 8px #ffef8f;
+}
+
+/* Container */
+.game-menu {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 25px;
+  padding: 40px;
+}
+
+/* Cards */
+.game-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 30px 20px;
+  color: var(--snow);
+  border-radius: 14px;
+  text-align: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: transform .25s, background .25s, box-shadow .25s;
+  border: 2px solid var(--gold);
+  backdrop-filter: blur(3px);
+  user-select: none;
+  position: relative;
+}
+
+/* Christmas icons on each card */
+.game-card::before {
+  font-size: 1.4rem;
+  position: absolute;
+  top: -12px;
+  right: -12px;
+}
+
+/* Hover effect */
+.game-card:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 15px var(--gold);
+}
+
+/* Christmas tree footer */
+.footer-tree {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  opacity: 0.9;
+}
