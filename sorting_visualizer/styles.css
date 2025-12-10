@@ -249,9 +249,10 @@ button:disabled {
 
 .board {
     flex: 1;
-    background: #222;
+    background: white;
     border-radius: 8px;
-
+    border: 2px solid #00767a;
+    margin-top: 2px;
     display: flex;
     align-items: flex-end;
     gap: 2px;
