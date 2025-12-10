@@ -30,7 +30,7 @@ const legendMap = {
     merge: [
         { cls: "left_half", label: "Left half" },
         { cls: "right_half", label: "Right half" },
-        {cls: "active", label: "compare"},
+        {cls: "active", label: "Compare"},
         { cls: "writing", label: "Writing merged values" },
         { cls: "write", label: "Overwriting value" },
         { cls: "sorted", label: "Sorted" }

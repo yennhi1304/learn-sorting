@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sorting Games – Christmas Edition</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Falling Snow -->
+  <div id="snow-container"></div>
+
+  <div class="topbar">Sorting Games</div>
+
+  <div class="game-menu">
+    <div class="game-card" data-game="insertion">Insertion Sort</div>
+    <div class="game-card" data-game="selection">Selection Sort</div>
+    <div class="game-card" data-game="merge">Merge Sort</div>
+    <div class="game-card" data-game="bubble">Bubble Sort</div>
+    <div class="game-card" data-game="quick">Quick Sort</div>
+  </div>
+
+  <img class="footer-tree" src="christmas_tree.png">
+
+  <!-- STORY OVERLAY -->
+  <div id="storyOverlay" class="story-overlay">
+    <div class="story-box">
+      <h2 id="storyTitle"></h2>
+      <p id="storyText"></p>
+
+      <button id="playBtn" class="play-btn">Help Santa Claus!</button>
+      <button id="closeOverlay" class="close-btn">Close</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

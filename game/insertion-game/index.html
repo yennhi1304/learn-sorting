@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insertion Sort Card Game – Christmas Edition 🎄</title>
+
+<style>
+
+body {
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+  background: radial-gradient(circle at top, #1e4d2b, #0d2818);
+  margin: 0;
+  padding: 20px;
+  color: #fefefe;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #f7d774;
+  text-shadow: 0 0 10px rgba(247,215,116,0.8);
+}
+
+.section {
+  margin: 20px auto;
+  max-width: 1100px;
+}
+
+.section h2 {
+  margin: 0 0 6px;
+  font-size: 18px;
+  color: #ffedb2;
+}
+
+.section p {
+  margin: 0 0 10px;
+  font-size: 14px;
+  color: #d4e7d4;
+}
+
+/* Card container rows */
+.card-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  min-height: 110px;
+  padding: 10px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(247,215,116,0.3);
+  backdrop-filter: blur(4px);
+}
+
+/* Playing card */
+.card {
+  width: 70px;
+  height: 100px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #f7d774;
+  box-shadow: 0 6px 15px rgba(247,215,116,0.35);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.suit {
+  font-size: 22px;
+  align-self: flex-end;
+}
+
+.red { color: #e63946; }
+.black { color: #1a1a1a; }
+
+.disabled { opacity: 0.45; }
+
+.clickable {
+  cursor: pointer;
+  transition: 0.15s;
+}
+.clickable:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 20px rgba(247,215,116,0.4);
+}
+
+/* Current card zone */
+#current-card {
+  width: 100px;
+  height: 130px;
+  border-radius: 10px;
+  border: 2px dashed #f7d774;
+  background: rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fdecb5;
+  backdrop-filter: blur(3px);
+}
+
+/* Slots for insertion */
+.slot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px dashed #f7d774;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f7d774;
+  cursor: pointer;
+  transition: .15s;
+}
+.slot:hover {
+  background: rgba(255,225,150,0.25);
+  box-shadow: 0 0 10px rgba(255,240,180,0.6);
+}
+
+/* Overlay box */
+#overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+#overlay.hidden {
+  display: none;
+}
+
+.overlay-box {
+  background: #fffbea;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  border: 2px solid #f7d774;
+  box-shadow: 0 12px 30px rgba(247,215,116,0.35);
+  max-width: 300px;
+}
+
+/* Buttons */
+button {
+  background: linear-gradient(135deg, #e63946, #b71c1c);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: 0.2s;
+  box-shadow: 0 6px 12px rgba(255,60,60,0.35);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 18px rgba(255,200,150,0.45);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+</style>
+</head>
+
+
+<body>
+
+<h1>Insertion Sort Card Game (Christmas Edition)</h1>
+
+<!-- Unsorted cards -->
+<div class="section">
+  <h2>Unsorted cards</h2>
+  <p>Click ONLY the leftmost card to take it.</p>
+  <div id="unsorted-container" class="card-row"></div>
+</div>
+
+<!-- Current card -->
+<div class="section">
+  <h2>Current card</h2>
+  <p>Now choose where to insert it.</p>
+  <div id="current-card">No card selected</div>
+</div>
+
+<!-- Sorted cards -->
+<div class="section">
+  <h2>Your sorted row</h2>
+  <p>If you insert incorrectly, you fail.</p>
+  <div id="sorted-container" class="card-row"></div>
+</div>
+
+<div style="text-align:center;margin-top:20px;">
+  <button onclick="startGame()">Restart</button>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" class="hidden">
+  <div class="overlay-box">
+    <div id="overlay-text"></div>
+    <button onclick="startGame()">Play Again</button>
+  </div>
+</div>
+
+<div id="chatbot-container"></div>
+
+<script>
+// --------------------------------------------------
+// CARD + GAME LOGIC (unchanged)
+// --------------------------------------------------
+
+const values = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+const valueRank = {
+  A:1, "2":2, "3":3, "4":4, "5":5,
+  "6":6, "7":7, "8":8, "9":9,
+  "10":10, J:11, Q:12, K:13
+};
+
+const suits = ["♠","♣","♦","♥"];
+
+let allCards = [];
+let unsorted = [];
+let placed = [];
+let currentCard = null;
+
+// Generate 10 random cards with NO repeated rank
+function getRandom10() {
+  const ranksShuffled = [...values].sort(() => Math.random() - 0.5);
+  const pickedRanks = ranksShuffled.slice(0,10);
+  return pickedRanks.map(rank => {
+    const suit = suits[Math.floor(Math.random() * suits.length)];
+    return { value: rank, suit: suit };
+  });
+}
+
+function compareCards(a, b){
+  return valueRank[a.value] - valueRank[b.value];
+}
+
+// Insertion sort logic for correctness
+function insertionSort(arr){
+  const a = [...arr];
+  for(let i=1;i<a.length;i++){
+    const key = a[i];
+    let j = i - 1;
+    while(j >= 0 && compareCards(a[j], key) > 0){
+      a[j+1] = a[j];
+      j--;
+    }
+    a[j+1] = key;
+  }
+  return a;
+}
+
+// UI card creation
+function createCard(card){
+  const div = document.createElement("div");
+  div.className = "card";
+
+  const isRed = (card.suit === "♥" || card.suit === "♦");
+
+  div.innerHTML = `
+    <div class="value ${isRed ? "red" : "black"}">${card.value}</div>
+    <div class="suit ${isRed ? "red" : "black"}">${card.suit}</div>
+  `;
+  return div;
+}
+
+function renderUnsorted(){
+  const box = document.getElementById("unsorted-container");
+  box.innerHTML = "";
+  unsorted.forEach((card, idx) => {
+    const el = createCard(card);
+    if(idx === 0 && !currentCard){
+      el.classList.add("clickable");
+      el.addEventListener("click", ()=> {
+        currentCard = card;
+        unsorted.shift();
+        renderAll();
+      });
+    } else {
+      el.classList.add("disabled");
+    }
+    box.appendChild(el);
+  });
+}
+
+function renderCurrent(){
+  const box = document.getElementById("current-card");
+  box.innerHTML = "";
+  if(!currentCard){
+    box.textContent = "No card selected";
+    return;
+  }
+  box.appendChild(createCard(currentCard));
+}
+
+function renderSorted(){
+  const box = document.getElementById("sorted-container");
+  box.innerHTML = "";
+
+  for(let i = 0; i <= placed.length; i++){
+    const slot = document.createElement("div");
+    slot.className = "slot";
+    slot.textContent = "●";
+
+    slot.addEventListener("click", () => {
+      if(!currentCard) return;
+      insertAt(i);
+    });
+
+    box.appendChild(slot);
+
+    if(i < placed.length){
+      box.appendChild(createCard(placed[i]));
+    }
+  }
+}
+
+function insertAt(index){
+  placed.splice(index,0,currentCard);
+  currentCard = null;
+
+  const count = placed.length;
+  const prefix = allCards.slice(0, count);
+  const expected = insertionSort(prefix);
+
+  for(let i = 0; i < count; i++){
+    if(compareCards(placed[i], expected[i]) !== 0){
+      return showOverlay("Wrong position! Try again.");
+    }
+  }
+
+  renderAll();
+
+  if(placed.length === allCards.length){
+    setTimeout(()=>{
+      showOverlay("🎉 Perfect! You sorted all cards correctly!");
+    }, 300);
+  }
+}
+
+function showOverlay(msg){
+  document.getElementById("overlay-text").textContent = msg;
+  document.getElementById("overlay").classList.remove("hidden");
+}
+
+function startGame(){
+  document.getElementById("overlay").classList.add("hidden");
+  allCards = getRandom10();
+  unsorted = [...allCards];
+  placed = [];
+  currentCard = null;
+  renderAll();
+}
+
+function renderAll(){
+  renderUnsorted();
+  renderCurrent();
+  renderSorted();
+}
+
+startGame();
+</script>
+
+</body>
+</html>
