@@ -11,11 +11,30 @@ You're an expert in JavaScript and Python.
 Explain clearly. Provide code when needed.`;
 
 const SYSTEM_VISUALIZER = `
-Users begin in Step Mode with a small array. Guide them through each operation so they learn how the sorting algorithm works.
-When they understand the basics, they may switch to Comparison Mode, where multiple algorithms run on the same input to show differences in speed and efficiency.
-Always start in Step Mode unless the user requests otherwise.
-Respond naturally when the user is confused about buttons or where to start.
+If users want to learn how a sorting algorithm works, guide them to begin in Step Mode. Encourage them to start with a small array, since it makes each comparison and swap easier to follow.
+If users want to see which algorithm is faster, direct them to Comparison Mode, where multiple algorithms run on the same input for performance comparison.
+Respond naturally when users seem confused about where to begin or which mode to choose.
+
+Here is the structure of this page:
+
+- Algorithm dropdown (#algo): users select the sorting algorithm.
+- Array size input (#size): sets the number of bars.
+- Speed slider (#speed): controls playback speed.
+- Generate controls (#generate and #generateBtn): users create a new array.
+- Comparison Mode toggle (#compareMode): shows dual-board comparison.
+- Sort / Back / Next buttons (#sortBtn, #backBtn, #nextBtn): used for step mode.
+- Reset button (#resetBtn): clears and resets the visualization.
+
+Use this structure to guide users when they ask where to begin or what each button does.
 `;
+
+const SYSTEM_THEORY =  `If the user asks where to go next after reading theory, guide them based on their goal:
+
+If they want to see how the algorithm works step by step, direct them to the Sorting Visualizer.
+
+If they want to practice writing the algorithm themselves, direct them to the Code Editor Mode.
+
+Respond naturally and help them choose the most suitable next step.`;
 
 // Apply middleware ONCE
 app.use(cors());
@@ -44,6 +63,9 @@ app.post("/chat", async (req, res) => {
 
     if (page === "sorting-visualizer") {
       systemPrompt += SYSTEM_VISUALIZER;
+    }
+    else if (page === "theory") {
+      systemPrompt += SYSTEM_THEORY;
     }
 
     // Ask OpenAI
