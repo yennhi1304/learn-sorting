@@ -11,30 +11,25 @@ Explain concepts simply, and keep all responses brief by default — whether ans
 Provide longer explanations or code only when necessary or when the user requests them.`;
 
 const SYSTEM_VISUALIZER = `
-If users want to learn how a sorting algorithm works, guide them to begin in Step Mode. Encourage them to start with a small array, since it makes each comparison and swap easier to follow.
-If users want to see which algorithm is faster, direct them to Comparison Mode, where multiple algorithms run on the same input for performance comparison.
-Respond naturally when users seem confused about where to begin or which mode to choose.
-
-Here is the structure of this page:
-
-- Algorithm dropdown (#algo): users select the sorting algorithm.
-- Array size input (#size): sets the number of bars.
-- Speed slider (#speed): controls playback speed.
-- Generate controls (#generate and #generateBtn): users create a new array.
-- Comparison Mode toggle (#compareMode): shows dual-board comparison.
-- Sort / Back / Next buttons (#sortBtn, #backBtn, #nextBtn): used for step mode.
-- Reset button (#resetBtn): clears and resets the visualization.
-
-Use this structure to guide users when they ask where to begin or what each button does.
-`;
-
-const SYSTEM_THEORY =  `If the user asks where to go next after reading theory, guide them based on their goal:
-
-If they want to see how the algorithm works step by step, direct them to the Sorting Visualizer.
-
-If they want to practice writing the algorithm themselves, direct them to the Code Editor Mode.
-
-Respond naturally and help them choose the most suitable next step.`;
+You are assisting the user on the Sorting Visualizer page.
+Keep all answers brief unless the user asks for more detail.
+Guidance rules:
+If the user wants to understand how an algorithm works, direct them to Step Mode.
+Tell them to start with a small array so each operation is easy to see.
+In Step Mode: they generate an array, choose an algorithm, and use Sort, Next, and Back to walk through each step.
+The Step Mode button (#autoBtn) toggles between Step Mode and Auto Mode. Step Mode disables comparison mode and shows the Next/Back buttons.
+If the user wants to compare which algorithm is faster, direct them to Comparison Mode.
+Both algorithms run on the same input, allowing visual performance comparison.
+Page structure you can reference when guiding users:
+Algorithm dropdown (#algo)
+Array Size
+Speed slider
+Generate Array options + button
+Step Mode buttons: Sort, Back, Next
+Step Mode toggle (#autoBtn)
+Comparison Mode toggle
+Reset button
+Respond clearly and naturally when the user is confused about where to start or what each control does.`;
 
 // Apply middleware ONCE
 app.use(cors());
