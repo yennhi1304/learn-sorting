@@ -6,13 +6,23 @@ import cors from "cors";
 import OpenAI from "openai";
 
 const app = express();
+const SYSTEM_DEFAULT = `You are a sorting algorithm professor.
+You're an expert in JavaScript and Python.
+Explain clearly. Provide code when needed.`;
+
+const SYSTEM_VISUALIZER = `
+Users begin in Step Mode with a small array. Guide them through each operation so they learn how the sorting algorithm works.
+When they understand the basics, they may switch to Comparison Mode, where multiple algorithms run on the same input to show differences in speed and efficiency.
+Always start in Step Mode unless the user requests otherwise.
+Respond naturally when the user is confused about buttons or where to start.
+`;
 
 // Apply middleware ONCE
 app.use(cors());
 app.use(express.json());
 
 // Debug print
-console.log("Loaded key:", process.env.OPENAI_API_KEY);
+// console.log("Loaded key:", process.env.OPENAI_API_KEY);
 
 const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
@@ -24,34 +34,29 @@ let history = [];
 app.post("/chat", async (req, res) => {
   try {
     const userMsg = req.body.message;
+    const page = req.body.page || "unknown";
 
-    // Save user's message in memory
     history.push({ role: "user", content: userMsg });
+    if (history.length > 20) history = history.slice(-20);
 
-    // Limit memory to the last 20 messages
-    if (history.length > 20) {
-      history = history.slice(-20);
+    // Build system prompt
+    let systemPrompt = SYSTEM_DEFAULT;  // ALWAYS included
+
+    if (page === "sorting-visualizer") {
+      systemPrompt += SYSTEM_VISUALIZER;
     }
 
-    // Ask OpenAI with full memory included
+    // Ask OpenAI
     const completion = await client.chat.completions.create({
       model: "gpt-4.1-nano",
       messages: [
-        {
-          role: "system",
-          content: `
-You are a sorting algorithm professor.
-You're an expert in JavaScript and Python.
-Explain clearly. Provide code when needed.
-`
-        },
-        ...history // <-- inject conversation history here
+        { role: "system", content: systemPrompt },
+        ...history
       ]
     });
 
     const botReply = completion.choices[0].message.content;
 
-    // Save assistant reply to memory as well
     history.push({ role: "assistant", content: botReply });
 
     res.json({ reply: botReply });
