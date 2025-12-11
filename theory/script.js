@@ -71,6 +71,13 @@ const lessons = {
 
       </div>
 
+      <p>
+  Image credit:
+  <a href="https://www.geeksforgeeks.org" target="_blank" rel="noopener noreferrer">
+    geeksforgeeks.org
+  </a>
+</p>
+
       <div class="section-block">
         <h3>Time Complexity</h3>
         <ul>
@@ -132,6 +139,13 @@ const lessons = {
 
     </div>
 
+    <p>
+  Image credit:
+  <a href="https://www.geeksforgeeks.org" target="_blank" rel="noopener noreferrer">
+    geeksforgeeks.org
+  </a>
+</p>
+
     <div class="section-block">
       <h3>Time Complexity</h3>
       <ul>
@@ -188,6 +202,12 @@ const lessons = {
       <div class="section-block">
       <div class="gfg-slider"></div>
     </div>
+    <p>
+  Image credit:
+  <a href="https://www.geeksforgeeks.org" target="_blank" rel="noopener noreferrer">
+    geeksforgeeks.org
+  </a>
+</p>
 
       <h3>Time Complexity</h3>
       <ul>
@@ -244,6 +264,12 @@ const lessons = {
       <div class="section-block">
       <div class="gfg-slider"></div>
     </div>
+    <p>
+  Image credit:
+  <a href="https://www.geeksforgeeks.org" target="_blank" rel="noopener noreferrer">
+    geeksforgeeks.org
+  </a>
+</p>
 
       <div class="section-block">
         <h3>Time Complexity</h3>
@@ -312,6 +338,12 @@ const lessons = {
       <div class="gfg-slider"></div>
 
     </div>
+    <p>
+  Image credit:
+  <a href="https://www.geeksforgeeks.org" target="_blank" rel="noopener noreferrer">
+    geeksforgeeks.org
+  </a>
+</p>
 
     <div class="section-block">
       <h3>Time Complexity</h3>
